@@ -1,0 +1,23 @@
+.main-page {
+  text-align: center;
+}
+
+.section-1 {
+  height: 10rem;
+  background-color: black;
+  padding-top: 5rem;
+}
+
+.section-2 {
+  height: 30rem;
+}
+
+.search-results {
+  width: 60%;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: blue;
+  margin: 2rem auto;
+}
