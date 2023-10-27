@@ -12,7 +12,14 @@ interface SearchResultProps {
 class SearchResult extends Component<SearchResultProps> {
   render() {
     const { searchResults } = this.props;
-    console.log(searchResults);
+    if (!searchResults || searchResults.length === 0) {
+      return (
+        <section className="search-result">
+          <h2 className="search-result__title">search results:</h2>
+          <p className="search-result__message">No results found.</p>
+        </section>
+      );
+    }
     return (
       <section className="search-result">
         <h2 className="search-result__title">search results:</h2>

@@ -33,7 +33,6 @@ class SearchApp extends Component<SearchAppProps, SearchAppState> {
   search = () => {
     const { searchTerm } = this.state;
     localStorage.setItem("searchTerm", searchTerm);
-
     if (searchTerm.trim() === "") {
       axios
         .get("https://pokeapi.co/api/v2/pokemon?limit=20")
