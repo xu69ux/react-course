@@ -15,4 +15,8 @@
 
 .App {
   text-align: center;
+  background-color: var(--dark);
+  color: var(--light);
+  font-family: var(--primary-font);
+  padding: 2rem 4rem;
 }

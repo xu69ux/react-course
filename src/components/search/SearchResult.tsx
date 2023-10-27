@@ -3,6 +3,9 @@ import "../../styles/SearchResult.css";
 
 export interface ISearchResult {
   name: string;
+  id: number;
+  type: string;
+  status: string;
 }
 
 interface SearchResultProps {
@@ -24,10 +27,12 @@ class SearchResult extends Component<SearchResultProps> {
       <section className="search-result">
         <h2 className="search-result__title">search results:</h2>
         <ul className="search-result__list">
-          {searchResults.map((result, index) => (
-            <li key={index}>
-              <span>{`${index}. `}</span>
-              <span>{result.name}</span>
+          {searchResults.map((result) => (
+            <li key={result.id}>
+              <span>{`${result.id}. `}</span>
+              <span>{`name: ${result.name}`}</span>
+              {result.type && <span>{`, type: ${result.type}`}</span>}
+              {result.status && <span>{`, status: ${result.status}`}</span>}
             </li>
           ))}
         </ul>

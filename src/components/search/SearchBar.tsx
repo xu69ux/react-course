@@ -16,7 +16,7 @@ class SearchBar extends Component<SearchBarProps> {
         <input
           className="search-bar__input"
           type="text"
-          placeholder="please enter a search term..."
+          placeholder="please enter a name"
           value={searchTerm}
           onChange={onInputChange}
         />

@@ -15,17 +15,17 @@
   font-size: 2rem;
   margin-bottom: 1rem;
   margin-right: auto;
-  margin-left: 5rem;
 }
 
 .search-result__list {
   width: 100%;
   list-style: none;
-  padding: 0;
   color: var(--light);
+  text-align: left;
 }
 
 .search-result__list li {
   padding: 1rem;
   border-top: 1px solid var(--light-dark);
+  font-size: 1.5rem;
 }

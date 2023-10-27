@@ -35,16 +35,18 @@ class SearchApp extends Component<SearchAppProps, SearchAppState> {
     localStorage.setItem("searchTerm", searchTerm);
     if (searchTerm.trim() === "") {
       axios
-        .get("https://pokeapi.co/api/v2/pokemon?limit=20")
+        .get("https://rickandmortyapi.com/api/character/?page=1")
         .then((response) => {
+          console.log(response.data.results);
           this.setState({
             searchResults: response.data.results,
           });
         });
     } else {
       axios
-        .get(`https://pokeapi.co/api/v2/berry/${searchTerm}`)
+        .get(`https://rickandmortyapi.com/api/character/?name=${searchTerm}`)
         .then((response) => {
+          console.log(response.data);
           this.setState({ searchResults: response.data.results });
         });
     }
@@ -59,6 +61,7 @@ class SearchApp extends Component<SearchAppProps, SearchAppState> {
 
     return (
       <div className="search-wrap">
+        <h1 className="search-wrap__title">The Rick and Morty API</h1>
         <SearchBar
           searchTerm={searchTerm}
           onSearch={this.search}
