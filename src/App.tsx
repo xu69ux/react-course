@@ -1,9 +1,9 @@
-import { MainPage } from "./pages/MainPage";
+import SearchWrap from "./components/search/SearchWrap";
 
 function App() {
   return (
     <div className="App">
-      <MainPage />
+      <SearchWrap />
     </div>
   );
 }

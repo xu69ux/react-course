@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-font: "Source Code Pro", monospace;
+  --dark: #000000;
+  --light-dark: #333333;
+  --light: #ffffff;
+  --extra-light: #cccccc;
+  --hover: #ffe600;
+}
+
+.App {
+  text-align: center;
+}

@@ -1,0 +1,31 @@
+.search-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
+  background-color: var(--dark);
+  color: var(--light);
+  margin: 0 auto;
+  font-family: var(--primary-font);
+  border-top: 1px solid var(--light-dark);
+  padding-top: 1rem;
+}
+
+.search-result__title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  margin-right: auto;
+  margin-left: 5rem;
+}
+
+.search-result__list {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  color: var(--light);
+}
+
+.search-result__list li {
+  padding: 1rem;
+  border-top: 1px solid var(--light-dark);
+}
