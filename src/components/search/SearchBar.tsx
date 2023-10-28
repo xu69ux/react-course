@@ -9,7 +9,7 @@ interface SearchBarProps {
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-class SearchBar extends Component<SearchBarProps> {
+export class SearchBar extends Component<SearchBarProps> {
   render() {
     const { searchTerm, onSearch, onInputChange } = this.props;
     const clearSearch = () => {
@@ -40,5 +40,3 @@ class SearchBar extends Component<SearchBarProps> {
     );
   }
 }
-
-export default SearchBar;

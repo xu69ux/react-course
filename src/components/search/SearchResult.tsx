@@ -14,7 +14,7 @@ interface SearchResultProps {
   badRequest: boolean;
 }
 
-class SearchResult extends Component<SearchResultProps> {
+export class SearchResult extends Component<SearchResultProps> {
   render() {
     const { searchResults, badRequest } = this.props;
 
@@ -57,5 +57,3 @@ class SearchResult extends Component<SearchResultProps> {
     );
   }
 }
-
-export default SearchResult;

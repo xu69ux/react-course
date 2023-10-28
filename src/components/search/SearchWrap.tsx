@@ -1,8 +1,11 @@
 import React, { Component, ChangeEvent } from "react";
-import axios from "axios";
-import SearchBar from "./SearchBar";
-import SearchResult from "./SearchResult";
+import { SearchBar } from "./SearchBar";
+import { SearchResult } from "./SearchResult";
 import { ISearchResult } from "./SearchResult";
+import {
+  getAllCharacters,
+  getCharactersByName,
+} from "../../utils/usefullFuncs";
 
 import logo from "../../assets/rickandmorty.png";
 import "../../styles/SearchWrap.css";
@@ -40,25 +43,9 @@ export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
     this.setState({ badRequest: false });
     try {
       if (searchTerm.trim() === "") {
-        axios
-          .get("https://rickandmortyapi.com/api/character/?page=1")
-          .then((response) => {
-            console.log(response.data.results);
-            this.setState({
-              searchResults: response.data.results,
-            });
-          });
+        getAllCharacters(this);
       } else {
-        axios
-          .get(`https://rickandmortyapi.com/api/character/?name=${searchTerm}`)
-          .then((response) => {
-            this.setState({ searchResults: response.data.results });
-          })
-          .catch((error) => {
-            if (error.response.status === 404) {
-              this.setState({ badRequest: true });
-            }
-          });
+        getCharactersByName(this, searchTerm);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
