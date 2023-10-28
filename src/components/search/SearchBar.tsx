@@ -15,6 +15,9 @@ class SearchBar extends Component<SearchBarProps> {
     const clearSearch = () => {
       onInputChange({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
       localStorage.removeItem("searchTerm");
+      setTimeout(() => {
+        onSearch();
+      }, 100);
     };
 
     return (
