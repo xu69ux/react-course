@@ -2,8 +2,10 @@ import React, { Component, ChangeEvent } from "react";
 import axios from "axios";
 import SearchBar from "./SearchBar";
 import SearchResult from "./SearchResult";
-import "../../styles/SearchWrap.css";
 import { ISearchResult } from "./SearchResult";
+
+import logo from "../../assets/rickandmorty.png";
+import "../../styles/SearchWrap.css";
 
 interface SearchAppProps {}
 
@@ -33,22 +35,27 @@ class SearchApp extends Component<SearchAppProps, SearchAppState> {
   search = () => {
     const { searchTerm } = this.state;
     localStorage.setItem("searchTerm", searchTerm);
-    if (searchTerm.trim() === "") {
-      axios
-        .get("https://rickandmortyapi.com/api/character/?page=1")
-        .then((response) => {
-          console.log(response.data.results);
-          this.setState({
-            searchResults: response.data.results,
+    try {
+      if (searchTerm.trim() === "") {
+        axios
+          .get("https://rickandmortyapi.com/api/character/?page=1")
+          .then((response) => {
+            console.log(response.data.results);
+            this.setState({
+              searchResults: response.data.results,
+            });
           });
-        });
-    } else {
-      axios
-        .get(`https://rickandmortyapi.com/api/character/?name=${searchTerm}`)
-        .then((response) => {
-          console.log(response.data);
-          this.setState({ searchResults: response.data.results });
-        });
+      } else {
+        axios
+          .get(`https://rickandmortyapi.com/api/character/?name=${searchTerm}`)
+          .then((response) => {
+            this.setState({ searchResults: response.data.results });
+          });
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log("error message:", error.message);
+      }
     }
   };
 
@@ -61,6 +68,7 @@ class SearchApp extends Component<SearchAppProps, SearchAppState> {
 
     return (
       <div className="search-wrap">
+        <img className="search-wrap__logo" src={logo} />
         <h1 className="search-wrap__title">The Rick and Morty API</h1>
         <SearchBar
           searchTerm={searchTerm}

@@ -7,8 +7,8 @@
   color: var(--light);
   margin: 0 auto;
   font-family: var(--primary-font);
-  border-top: 1px solid var(--light-dark);
   padding-top: 1rem;
+  min-height: 100vh;
 }
 
 .search-result__title {
@@ -28,4 +28,8 @@
   padding: 1rem;
   border-top: 1px solid var(--light-dark);
   font-size: 1.5rem;
+}
+
+.list__name {
+  display: inline-block;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../styles/SearchResult.css";
+import { Loader } from "../loader/Loader";
 
 export interface ISearchResult {
   name: string;
@@ -19,7 +20,7 @@ class SearchResult extends Component<SearchResultProps> {
       return (
         <section className="search-result">
           <h2 className="search-result__title">search results:</h2>
-          <p className="search-result__message">No results found.</p>
+          <Loader />
         </section>
       );
     }
@@ -29,10 +30,14 @@ class SearchResult extends Component<SearchResultProps> {
         <ul className="search-result__list">
           {searchResults.map((result) => (
             <li key={result.id}>
-              <span>{`${result.id}. `}</span>
-              <span>{`name: ${result.name}`}</span>
-              {result.type && <span>{`, type: ${result.type}`}</span>}
-              {result.status && <span>{`, status: ${result.status}`}</span>}
+              <div className="list__id">{`id: ${result.id}`}</div>
+              <div className="list__name">{`name: ${result.name}`}</div>
+              {result.type && (
+                <div className="list__type">{`type: ${result.type}`}</div>
+              )}
+              {result.status && (
+                <div className="list__status">{`status: ${result.status}`}</div>
+              )}
             </li>
           ))}
         </ul>
