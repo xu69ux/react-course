@@ -7,15 +7,15 @@ import { ISearchResult } from "./SearchResult";
 import logo from "../../assets/rickandmorty.png";
 import "../../styles/SearchWrap.css";
 
-interface SearchAppProps {}
+interface SearchWrapProps {}
 
-interface SearchAppState {
+interface SearchWrapState {
   searchTerm: string;
   searchResults: ISearchResult[];
 }
 
-class SearchApp extends Component<SearchAppProps, SearchAppState> {
-  constructor(props: SearchAppProps) {
+export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
+  constructor(props: SearchWrapProps) {
     super(props);
     this.state = {
       searchTerm: "",
@@ -80,5 +80,3 @@ class SearchApp extends Component<SearchAppProps, SearchAppState> {
     );
   }
 }
-
-export default SearchApp;
