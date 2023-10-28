@@ -11,6 +11,7 @@
   --light: #ffffff;
   --extra-light: #cccccc;
   --hover: #ffe600;
+  --error: #ff0000;
 }
 
 .App {

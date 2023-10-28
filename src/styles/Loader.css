@@ -2,7 +2,7 @@
   width: 15rem;
   filter: brightness(10);
   animation: rotate 2s linear infinite;
-  margin-top: 5rem;
+  margin: 2rem 0;
 }
 
 @keyframes rotate {

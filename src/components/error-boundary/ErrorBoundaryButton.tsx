@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import "../../styles/ErrorBoundaryButton.css";
+
 interface ErrorBoundaryButtonProps {}
 
 export class ErrorBoundaryButton extends Component<
@@ -19,6 +21,10 @@ export class ErrorBoundaryButton extends Component<
     if (this.state.counter === 1) {
       throw new Error("app crashed!");
     }
-    return <button onClick={this.handleClick}>Generate Error</button>;
+    return (
+      <button className="error-boundary__btn" onClick={this.handleClick}>
+        error generator
+      </button>
+    );
   }
 }

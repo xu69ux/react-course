@@ -1,4 +1,6 @@
 import React, { Component, ChangeEvent } from "react";
+import { ErrorBoundaryButton } from "../error-boundary/ErrorBoundaryButton";
+
 import "../../styles/SearchBar.css";
 
 interface SearchBarProps {
@@ -23,6 +25,7 @@ class SearchBar extends Component<SearchBarProps> {
         <button className="search-bar__btn" onClick={onSearch}>
           search
         </button>
+        <ErrorBoundaryButton />
       </section>
     );
   }
