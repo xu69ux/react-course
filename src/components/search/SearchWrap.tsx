@@ -12,6 +12,7 @@ interface SearchWrapProps {}
 interface SearchWrapState {
   searchTerm: string;
   searchResults: ISearchResult[];
+  badRequest: boolean;
 }
 
 export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
@@ -20,6 +21,7 @@ export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
     this.state = {
       searchTerm: "",
       searchResults: [],
+      badRequest: false,
     };
   }
 
@@ -35,6 +37,7 @@ export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
   search = () => {
     const { searchTerm } = this.state;
     localStorage.setItem("searchTerm", searchTerm);
+    this.setState({ badRequest: false });
     try {
       if (searchTerm.trim() === "") {
         axios
@@ -50,6 +53,11 @@ export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
           .get(`https://rickandmortyapi.com/api/character/?name=${searchTerm}`)
           .then((response) => {
             this.setState({ searchResults: response.data.results });
+          })
+          .catch((error) => {
+            if (error.response.status === 404) {
+              this.setState({ badRequest: true });
+            }
           });
       }
     } catch (error: unknown) {
@@ -75,7 +83,10 @@ export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
           onSearch={this.search}
           onInputChange={this.handleInputChange}
         />
-        <SearchResult searchResults={searchResults} />
+        <SearchResult
+          searchResults={searchResults}
+          badRequest={this.state.badRequest}
+        />
       </div>
     );
   }

@@ -11,11 +11,23 @@ export interface ISearchResult {
 
 interface SearchResultProps {
   searchResults: ISearchResult[];
+  badRequest: boolean;
 }
 
 class SearchResult extends Component<SearchResultProps> {
   render() {
-    const { searchResults } = this.props;
+    const { searchResults, badRequest } = this.props;
+
+    if (badRequest) {
+      return (
+        <section className="search-result">
+          <h2 className="search-result__title">no search results:</h2>
+          <div className="search-result__bad">
+            sorry, your request looks bad, please try again with correct name
+          </div>
+        </section>
+      );
+    }
     if (!searchResults || searchResults.length === 0) {
       return (
         <section className="search-result">

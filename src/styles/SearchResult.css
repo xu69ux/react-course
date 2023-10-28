@@ -33,3 +33,11 @@
 .list__name {
   display: inline-block;
 }
+
+.search-result__bad {
+  background-color: var(--light-dark);
+  color: var(--light);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 10rem;
+}
