@@ -35,3 +35,19 @@
   background-color: var(--light-dark);
   color: var(--light);
 }
+
+.search-bar__btn-clear {
+  display: inline-block;
+  width: 2rem;
+  font-size: 2rem;
+  margin-right: 1rem;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  color: var(--light);
+  border: none;
+  cursor: pointer;
+}
+
+.search-bar__btn-clear:hover {
+  color: var(--hover);
+}

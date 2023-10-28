@@ -12,9 +12,16 @@ interface SearchBarProps {
 class SearchBar extends Component<SearchBarProps> {
   render() {
     const { searchTerm, onSearch, onInputChange } = this.props;
+    const clearSearch = () => {
+      onInputChange({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
+      localStorage.removeItem("searchTerm");
+    };
 
     return (
       <section className="search-bar">
+        <button className="search-bar__btn-clear" onClick={clearSearch}>
+          &#10005;
+        </button>
         <input
           className="search-bar__input"
           type="text"
