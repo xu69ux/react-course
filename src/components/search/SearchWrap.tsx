@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from "react";
+import { Component, ChangeEvent } from "react";
 import { SearchBar } from "./SearchBar";
 import { SearchResult } from "./SearchResult";
 import { ISearchResult } from "./SearchResult";

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 
 import "../../styles/ErrorBoundaryButton.css";
 
@@ -19,7 +19,9 @@ export class ErrorBoundaryButton extends Component<
 
   render() {
     if (this.state.counter === 1) {
-      throw new Error("app crashed!");
+      throw new Error(
+        "the application crashed because you clicked the error generator!",
+      );
     }
     return (
       <button className="error-boundary__btn" onClick={this.handleClick}>

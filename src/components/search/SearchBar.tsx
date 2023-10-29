@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from "react";
+import { Component, ChangeEvent } from "react";
 import { ErrorBoundaryButton } from "../error-boundary/ErrorBoundaryButton";
 
 import "../../styles/SearchBar.css";

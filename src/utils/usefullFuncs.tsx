@@ -12,8 +12,9 @@ export function getAllCharacters(component: Component) {
 }
 
 export function getCharactersByName(component: Component, searchTerm: string) {
+  const trimSearchTerm = searchTerm.trim();
   return axios
-    .get(`https://rickandmortyapi.com/api/character/?name=${searchTerm}`)
+    .get(`https://rickandmortyapi.com/api/character/?name=${trimSearchTerm}`)
     .then((response) => {
       component.setState({ searchResults: response.data.results });
     })
