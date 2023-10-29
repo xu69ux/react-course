@@ -12,6 +12,8 @@
   --extra-light: #cccccc;
   --hover: #ffe600;
   --error: #ff0000;
+
+  background-color: var(--dark);
 }
 
 .App {
@@ -22,12 +24,4 @@
   color: var(--light);
   font-family: var(--primary-font);
   padding: 2rem 4rem;
-}
-
-.app-crash {
-  background-color: var(--light-dark);
-  color: var(--light);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-top: 10rem;
 }
