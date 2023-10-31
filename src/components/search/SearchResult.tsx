@@ -12,6 +12,7 @@ export interface ISearchResult {
 interface SearchResultProps {
   searchResults: ISearchResult[];
   badRequest: boolean;
+  loading: boolean;
 }
 
 export class SearchResult extends Component<SearchResultProps> {
@@ -56,12 +57,12 @@ export class SearchResult extends Component<SearchResultProps> {
   }
 
   render() {
-    const { badRequest, searchResults } = this.props;
+    const { badRequest, loading } = this.props;
 
     if (badRequest) {
       return this.renderNoResults();
     }
-    if (!searchResults || searchResults.length === 0) {
+    if (loading) {
       return this.renderLoading();
     }
     return this.renderSearchResults();

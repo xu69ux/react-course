@@ -2,10 +2,7 @@ import { Component, ChangeEvent } from "react";
 import { SearchBar } from "./SearchBar";
 import { SearchResult } from "./SearchResult";
 import { ISearchResult } from "./SearchResult";
-import {
-  getAllCharacters,
-  getCharactersByName,
-} from "../../utils/usefullFuncs";
+import { getAllCharacters, getCharactersByName } from "../../utils/usefulFuncs";
 
 import logo from "../../assets/rickandmorty.png";
 import "../../styles/SearchWrap.css";
@@ -16,6 +13,7 @@ interface SearchWrapState {
   searchTerm: string;
   searchResults: ISearchResult[];
   badRequest: boolean;
+  loading: boolean;
 }
 
 export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
@@ -25,6 +23,7 @@ export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
       searchTerm: "",
       searchResults: [],
       badRequest: false,
+      loading: false,
     };
   }
 
@@ -44,8 +43,10 @@ export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
     try {
       if (searchTerm.trim() === "") {
         getAllCharacters(this);
+        this.setState({ loading: true });
       } else {
         getCharactersByName(this, searchTerm);
+        this.setState({ loading: true });
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -73,6 +74,7 @@ export class SearchWrap extends Component<SearchWrapProps, SearchWrapState> {
         <SearchResult
           searchResults={searchResults}
           badRequest={this.state.badRequest}
+          loading={this.state.loading}
         />
       </div>
     );

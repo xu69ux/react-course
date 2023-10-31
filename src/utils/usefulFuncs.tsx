@@ -7,6 +7,7 @@ export function getAllCharacters(component: Component) {
     .then((response) => {
       component.setState({
         searchResults: response.data.results,
+        loading: false,
       });
     });
 }
@@ -16,7 +17,10 @@ export function getCharactersByName(component: Component, searchTerm: string) {
   return axios
     .get(`https://rickandmortyapi.com/api/character/?name=${trimSearchTerm}`)
     .then((response) => {
-      component.setState({ searchResults: response.data.results });
+      component.setState({
+        searchResults: response.data.results,
+        loading: false,
+      });
     })
     .catch((error) => {
       if (error.response.status === 404) {
