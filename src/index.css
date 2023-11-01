@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-font: "Source Code Pro", monospace;
+  --dark: #000000;
+  --light-dark: #333333;
+  --light: #ffffff;
+  --extra-light: #cccccc;
+  --hover: #ffe600;
+  --error: #ff0000;
+
+  background-color: var(--dark);
+}
+
+.App {
+  min-height: 100vh;
+  max-height: fit-content;
+  text-align: center;
+  background-color: var(--dark);
+  color: var(--light);
+  font-family: var(--primary-font);
+  padding: 2rem 4rem;
+}
