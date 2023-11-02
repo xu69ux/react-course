@@ -13,7 +13,11 @@ export const App = () => {
 
   return (
     <div className="App">
-      <SearchWrap searchWrapWidth={searchWrapWidth} />
+      <SearchWrap
+        searchWrapWidth={searchWrapWidth}
+        isSideBarOpen={isSideBarOpen}
+        toggleSideBar={toggleSideBar}
+      />
       <SideBar isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
     </div>
   );

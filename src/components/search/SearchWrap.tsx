@@ -10,17 +10,25 @@ import "../../styles/SearchWrap.css";
 
 interface SearchWrapProps {
   searchWrapWidth: string;
+  isSideBarOpen: boolean;
+  toggleSideBar: () => void;
 }
 
-export const SearchWrap: React.FC<SearchWrapProps> = ({ searchWrapWidth }) => {
+export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
   const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem("searchTerm") || "",
   );
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const [badRequest, setBadRequest] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { searchWrapWidth, isSideBarOpen, toggleSideBar } = props;
   const searchWrapStyle = {
     width: searchWrapWidth,
+  };
+  const closeSideBar = () => {
+    if (isSideBarOpen) {
+      toggleSideBar();
+    }
   };
 
   useEffect(() => {
@@ -54,7 +62,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = ({ searchWrapWidth }) => {
   }, [searchTerm]);
 
   return (
-    <div className="search-wrap" style={searchWrapStyle}>
+    <div className="search-wrap" style={searchWrapStyle} onClick={closeSideBar}>
       <img className="search-wrap__logo" src={logo} />
       <h1 className="search-wrap__title">The Rick and Morty API</h1>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
