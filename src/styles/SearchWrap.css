@@ -1,3 +1,7 @@
+.search-wrap {
+  margin: 2rem;
+}
+
 .search-wrap__title {
   margin-top: 1rem;
   align-items: center;

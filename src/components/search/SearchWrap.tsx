@@ -8,13 +8,20 @@ import { getAllCharacters, getCharactersByName } from "../../utils/usefulFuncs";
 import logo from "../../assets/rickandmorty.png";
 import "../../styles/SearchWrap.css";
 
-export const SearchWrap: React.FC = () => {
+interface SearchWrapProps {
+  searchWrapWidth: string;
+}
+
+export const SearchWrap: React.FC<SearchWrapProps> = ({ searchWrapWidth }) => {
   const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem("searchTerm") || "",
   );
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const [badRequest, setBadRequest] = useState(false);
   const [loading, setLoading] = useState(false);
+  const searchWrapStyle = {
+    width: searchWrapWidth,
+  };
 
   useEffect(() => {
     localStorage.setItem("searchTerm", searchTerm);
@@ -47,7 +54,7 @@ export const SearchWrap: React.FC = () => {
   }, [searchTerm]);
 
   return (
-    <div className="search-wrap">
+    <div className="search-wrap" style={searchWrapStyle}>
       <img className="search-wrap__logo" src={logo} />
       <h1 className="search-wrap__title">The Rick and Morty API</h1>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
