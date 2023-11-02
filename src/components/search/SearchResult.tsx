@@ -1,4 +1,3 @@
-import { Component } from "react";
 import "../../styles/SearchResult.css";
 import { Loader } from "../loader/Loader";
 
@@ -15,12 +14,12 @@ interface SearchResultProps {
   loading: boolean;
 }
 
-export class SearchResult extends Component<SearchResultProps> {
-  renderSearchResults() {
-    const { searchResults } = this.props;
+export const SearchResult: React.FC<SearchResultProps> = (props) => {
+  const { searchResults, badRequest, loading } = props;
+  const renderSearchResults = () => {
     return (
       <ul className="search-result__list">
-        {searchResults.map((result) => (
+        {searchResults.map((result: ISearchResult) => (
           <li key={result.id}>
             <div className="list__id">{`id: ${result.id}`}</div>
             <div className="list__name">{`name: ${result.name}`}</div>
@@ -34,9 +33,9 @@ export class SearchResult extends Component<SearchResultProps> {
         ))}
       </ul>
     );
-  }
+  };
 
-  renderNoResults() {
+  const renderNoResults = () => {
     return (
       <section className="search-result">
         <h2 className="search-result__title">no search results:</h2>
@@ -45,26 +44,22 @@ export class SearchResult extends Component<SearchResultProps> {
         </div>
       </section>
     );
-  }
+  };
 
-  renderLoading() {
+  const renderLoading = () => {
     return (
       <section className="search-result">
         <h2 className="search-result__title">search results:</h2>
         <Loader />
       </section>
     );
-  }
+  };
 
-  render() {
-    const { badRequest, loading } = this.props;
-
-    if (badRequest) {
-      return this.renderNoResults();
-    }
-    if (loading) {
-      return this.renderLoading();
-    }
-    return this.renderSearchResults();
+  if (badRequest) {
+    return renderNoResults();
   }
-}
+  if (loading) {
+    return renderLoading();
+  }
+  return renderSearchResults();
+};

@@ -1,26 +1,27 @@
-import { Component, ChangeEvent } from "react";
+import { useState } from "react";
 import { ErrorBoundaryButton } from "../error-boundary/ErrorBoundaryButton";
 
 import "../../styles/SearchBar.css";
 
 interface SearchBarProps {
   searchTerm: string;
-  onSearch: () => void;
-  onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  setSearchTerm: (searchTerm: string) => void;
 }
 
-export class SearchBar extends Component<SearchBarProps> {
-  render() {
-    const { searchTerm, onSearch, onInputChange } = this.props;
-    const clearSearch = () => {
-      onInputChange({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
-      localStorage.removeItem("searchTerm");
-      setTimeout(() => {
-        onSearch();
-      }, 100);
-    };
+export const SearchBar: React.FC<SearchBarProps> = (props) => {
+  const { searchTerm, setSearchTerm } = props;
+  const [inputValue, setInputValue] = useState(searchTerm);
 
-    return (
+  const clearSearch = () => {
+    localStorage.removeItem("searchTerm");
+    setTimeout(() => {
+      setSearchTerm("");
+      setInputValue("");
+    }, 100);
+  };
+
+  return (
+    <>
       <section className="search-bar">
         <button className="search-bar__btn-clear" onClick={clearSearch}>
           &#10005;
@@ -29,14 +30,17 @@ export class SearchBar extends Component<SearchBarProps> {
           className="search-bar__input"
           type="text"
           placeholder="please enter a name"
-          value={searchTerm}
-          onChange={onInputChange}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
         />
-        <button className="search-bar__btn" onClick={onSearch}>
+        <button
+          className="search-bar__btn"
+          onClick={() => setSearchTerm(inputValue)}
+        >
           search
         </button>
-        <ErrorBoundaryButton />
+        <ErrorBoundaryButton counter={0} />
       </section>
-    );
-  }
-}
+    </>
+  );
+};
