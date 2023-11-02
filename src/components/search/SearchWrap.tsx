@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { SearchResult } from "./SearchResult";
 import { ISearchResult } from "./SearchResult";
+import { Pagination } from "../pagination/Pagination";
 
 import { getAllCharacters, getCharactersByName } from "../../utils/usefulFuncs";
 
@@ -21,6 +22,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const [badRequest, setBadRequest] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
   const { searchWrapWidth, isSideBarOpen, toggleSideBar } = props;
   const searchWrapStyle = {
     width: searchWrapWidth,
@@ -37,7 +39,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
     setLoading(true);
 
     if (searchTerm.trim() === "") {
-      getAllCharacters()
+      getAllCharacters(page)
         .then((results) => {
           setSearchResults(results);
           setLoading(false);
@@ -59,13 +61,14 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           }
         });
     }
-  }, [searchTerm]);
+  }, [searchTerm, page]);
 
   return (
     <div className="search-wrap" style={searchWrapStyle} onClick={closeSideBar}>
       <img className="search-wrap__logo" src={logo} />
       <h1 className="search-wrap__title">The Rick and Morty API</h1>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <Pagination page={page} setPage={setPage} totalPages={4} />
       <SearchResult
         searchResults={searchResults}
         badRequest={badRequest}

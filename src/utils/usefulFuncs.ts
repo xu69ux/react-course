@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export function getAllCharacters() {
+export function getAllCharacters(page: number) {
   return axios
-    .get("https://rickandmortyapi.com/api/character/?page=1")
+    .get(`https://rickandmortyapi.com/api/character/?page=${page}`)
     .then((response) => {
       return response.data.results;
     });
