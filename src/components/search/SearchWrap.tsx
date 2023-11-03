@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import { SearchResult } from "./SearchResult";
 import { ISearchResult } from "./SearchResult";
@@ -86,6 +86,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           isSideBarOpen={isSideBarOpen}
         />
       </div>
+      <Outlet />
     </>
   );
 };

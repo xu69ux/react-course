@@ -63,15 +63,17 @@ export const SideBar: React.FC<SideBarProps> = (props) => {
 
   const renderLoading = () => {
     return (
-      <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
-        <button className="sidebar__btn-close" onClick={toggleSideBar}>
-          &#10005;
-        </button>
-        <h1 className="sidebar__title">side bar</h1>
-        <div className="sidebar__content">
-          <Loader />
+      <>
+        <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
+          <button className="sidebar__btn-close" onClick={toggleSideBar}>
+            &#10005;
+          </button>
+          <h1 className="sidebar__title">side bar</h1>
+          <div className="sidebar__content">
+            <Loader />
+          </div>
         </div>
-      </div>
+      </>
     );
   };
 

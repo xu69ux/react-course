@@ -11,6 +11,7 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
   const { setPage, totalPages } = props;
   const [limit, setLimit] = useState(20);
   const params = useParams();
+  console.log("params:", params);
   const currentPage = Number(params.page);
   const navigate = useNavigate();
 

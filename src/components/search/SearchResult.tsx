@@ -1,6 +1,5 @@
-import { Link, Routes, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Loader } from "../loader/Loader";
-import { SideBar } from "../sidebar/SideBar";
 
 import "../../styles/SearchResult.css";
 
@@ -20,8 +19,7 @@ interface SearchResultProps {
 }
 
 export const SearchResult: React.FC<SearchResultProps> = (props) => {
-  const { searchResults, badRequest, loading, toggleSideBar, isSideBarOpen } =
-    props;
+  const { searchResults, badRequest, loading, toggleSideBar } = props;
   const renderSearchResults = () => {
     return (
       <>
@@ -29,7 +27,7 @@ export const SearchResult: React.FC<SearchResultProps> = (props) => {
           {searchResults.map((result: ISearchResult) => (
             <li key={result.id}>
               <Link
-                to={`/details/${result.id}`}
+                to={`details/${result.id}`}
                 className="list__link"
                 onClick={toggleSideBar}
               >
@@ -45,17 +43,6 @@ export const SearchResult: React.FC<SearchResultProps> = (props) => {
             </li>
           ))}
         </ul>
-        <Routes>
-          <Route
-            path="details/:id"
-            element={
-              <SideBar
-                isSideBarOpen={isSideBarOpen}
-                toggleSideBar={toggleSideBar}
-              />
-            }
-          />
-        </Routes>
       </>
     );
   };
