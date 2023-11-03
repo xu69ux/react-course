@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export const App = () => {
   const [isSideBarOpen, setSideBarOpen] = useState(false);
+  const [page, setPage] = useState(1);
 
   const toggleSideBar = () => {
     setSideBarOpen((prevState) => !prevState);
@@ -16,12 +17,14 @@ export const App = () => {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/*"
+            path="/:page/*"
             element={
               <SearchWrap
                 isSideBarOpen={isSideBarOpen}
                 toggleSideBar={toggleSideBar}
                 searchWrapWidth={searchWrapWidth}
+                page={page}
+                setPage={setPage}
               />
             }
           />

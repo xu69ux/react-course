@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
 import { Loader } from "../loader/Loader";
+import { SideBar } from "../sidebar/SideBar";
 
 import "../../styles/SearchResult.css";
 
@@ -15,32 +16,47 @@ interface SearchResultProps {
   badRequest: boolean;
   loading: boolean;
   toggleSideBar: () => void;
+  isSideBarOpen: boolean;
 }
 
 export const SearchResult: React.FC<SearchResultProps> = (props) => {
-  const { searchResults, badRequest, loading, toggleSideBar } = props;
+  const { searchResults, badRequest, loading, toggleSideBar, isSideBarOpen } =
+    props;
   const renderSearchResults = () => {
     return (
-      <ul className="search-result__list">
-        {searchResults.map((result: ISearchResult) => (
-          <li key={result.id}>
-            <Link
-              to={`/details/${result.id}`}
-              className="list__link"
-              onClick={toggleSideBar}
-            >
-              <div className="list__id">{`id: ${result.id}`}</div>
-              <div className="list__name">{`name: ${result.name}`}</div>
-              {result.type && (
-                <div className="list__type">{`type: ${result.type}`}</div>
-              )}
-              {result.status && (
-                <div className="list__status">{`status: ${result.status}`}</div>
-              )}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <>
+        <ul className="search-result__list">
+          {searchResults.map((result: ISearchResult) => (
+            <li key={result.id}>
+              <Link
+                to={`/details/${result.id}`}
+                className="list__link"
+                onClick={toggleSideBar}
+              >
+                <div className="list__id">{`id: ${result.id}`}</div>
+                <div className="list__name">{`name: ${result.name}`}</div>
+                {result.type && (
+                  <div className="list__type">{`type: ${result.type}`}</div>
+                )}
+                {result.status && (
+                  <div className="list__status">{`status: ${result.status}`}</div>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Routes>
+          <Route
+            path="details/:id"
+            element={
+              <SideBar
+                isSideBarOpen={isSideBarOpen}
+                toggleSideBar={toggleSideBar}
+              />
+            }
+          />
+        </Routes>
+      </>
     );
   };
 

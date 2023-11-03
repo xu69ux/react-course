@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import { SearchResult } from "./SearchResult";
 import { ISearchResult } from "./SearchResult";
-import { SideBar } from "../sidebar/SideBar";
 import { Pagination } from "../pagination/Pagination";
 
 import { getAllCharacters, getCharactersByName } from "../../utils/usefulFuncs";
@@ -15,6 +14,8 @@ interface SearchWrapProps {
   searchWrapWidth: string;
   isSideBarOpen: boolean;
   toggleSideBar: () => void;
+  page: number;
+  setPage: (page: number) => void;
 }
 
 export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
@@ -24,8 +25,9 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const [badRequest, setBadRequest] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const { searchWrapWidth, isSideBarOpen, toggleSideBar } = props;
+  const params = useParams();
+  const currentPage = Number(params.page);
+  const { searchWrapWidth, isSideBarOpen, toggleSideBar, setPage } = props;
   const searchWrapStyle = {
     width: searchWrapWidth,
   };
@@ -41,7 +43,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
     setLoading(true);
 
     if (searchTerm.trim() === "") {
-      getAllCharacters(page)
+      getAllCharacters(currentPage)
         .then((results) => {
           setSearchResults(results);
           setLoading(false);
@@ -63,7 +65,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           }
         });
     }
-  }, [searchTerm, page]);
+  }, [searchTerm, currentPage]);
 
   return (
     <>
@@ -75,25 +77,15 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
         <img className="search-wrap__logo" src={logo} />
         <h1 className="search-wrap__title">The Rick and Morty API</h1>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <Pagination page={page} setPage={setPage} totalPages={4} />
+        <Pagination setPage={setPage} totalPages={4} />
         <SearchResult
           searchResults={searchResults}
           badRequest={badRequest}
           loading={loading}
           toggleSideBar={toggleSideBar}
+          isSideBarOpen={isSideBarOpen}
         />
       </div>
-      <Routes>
-        <Route
-          path="details/:id"
-          element={
-            <SideBar
-              isSideBarOpen={isSideBarOpen}
-              toggleSideBar={toggleSideBar}
-            />
-          }
-        />
-      </Routes>
     </>
   );
 };

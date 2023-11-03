@@ -19,9 +19,10 @@ interface ICharacter {
 
 export const SideBar: React.FC<SideBarProps> = (props) => {
   const { isSideBarOpen, toggleSideBar } = props;
-  const { id } = useParams<{ id: string }>();
   const [character, setCharacter] = useState<ICharacter | null>(null);
   const [loading, setLoading] = useState(false);
+  const params = useParams();
+  const id = params.id;
 
   useEffect(() => {
     if (id) {
