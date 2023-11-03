@@ -22,3 +22,18 @@ export function getCharactersByName(searchTerm: string) {
       throw error;
     });
 }
+
+export function getCharacterById(id: number) {
+  return axios
+    .get(`https://rickandmortyapi.com/api/character/${id}`)
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        throw new Error("Not found");
+      }
+      throw error;
+    });
+}

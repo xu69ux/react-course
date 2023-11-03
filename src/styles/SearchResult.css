@@ -41,3 +41,8 @@
   border-radius: 0.5rem;
   margin-top: 10rem;
 }
+
+.list__link {
+  color: var(--light);
+  text-decoration: none;
+}

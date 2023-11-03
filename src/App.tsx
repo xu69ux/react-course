@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { SearchWrap } from "./components/search/SearchWrap";
-import { SideBar } from "./components/sidebar/SideBar";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export const App = () => {
-  const [isSideBarOpen, setSideBarOpen] = useState(true);
+  const [isSideBarOpen, setSideBarOpen] = useState(false);
 
   const toggleSideBar = () => {
     setSideBarOpen((prevState) => !prevState);
@@ -13,12 +13,20 @@ export const App = () => {
 
   return (
     <div className="App">
-      <SearchWrap
-        searchWrapWidth={searchWrapWidth}
-        isSideBarOpen={isSideBarOpen}
-        toggleSideBar={toggleSideBar}
-      />
-      <SideBar isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/*"
+            element={
+              <SearchWrap
+                isSideBarOpen={isSideBarOpen}
+                toggleSideBar={toggleSideBar}
+                searchWrapWidth={searchWrapWidth}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
