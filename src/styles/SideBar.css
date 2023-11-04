@@ -7,11 +7,13 @@
   position: fixed;
   top: 0;
   right: 0;
-  transition: width 0.3s;
+  opacity: 0;
+  transition: width opacity 0.5s;
 }
 
 .sidebar.open {
   width: 30%;
+  opacity: 1;
 }
 
 .sidebar__title {

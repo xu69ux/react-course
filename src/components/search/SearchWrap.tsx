@@ -54,7 +54,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           }
         });
     } else {
-      getCharactersByName(searchTerm)
+      getCharactersByName(searchTerm, currentPage)
         .then((results) => {
           setSearchResults(results);
           setLoading(false);

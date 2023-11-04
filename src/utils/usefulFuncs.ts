@@ -8,10 +8,12 @@ export function getAllCharacters(page: number) {
     });
 }
 
-export function getCharactersByName(searchTerm: string) {
+export function getCharactersByName(searchTerm: string, page: number) {
   const trimSearchTerm = searchTerm.trim();
   return axios
-    .get(`https://rickandmortyapi.com/api/character/?name=${trimSearchTerm}`)
+    .get(
+      `https://rickandmortyapi.com/api/character/?page=${page}&name=${trimSearchTerm}`,
+    )
     .then((response) => {
       return response.data.results;
     })
