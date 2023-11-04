@@ -79,7 +79,11 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           <img className="search-wrap__logo" src={logo} />
         </Link>
         <h1 className="search-wrap__title">The Rick and Morty API</h1>
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          currentPage={currentPage}
+        />
         <Pagination setPage={setPage} totalPages={4} loading={loading} />
         <SearchResult
           searchResults={searchResults}
