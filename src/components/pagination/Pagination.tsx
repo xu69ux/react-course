@@ -11,19 +11,18 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
   const { setPage, totalPages } = props;
   const [limit, setLimit] = useState(20);
   const params = useParams();
-  console.log("params:", params);
   const currentPage = Number(params.page);
   const navigate = useNavigate();
 
   const goToPrevPage = () => {
     const prevPage = currentPage - 1;
-    navigate(`/${String(prevPage)}`);
+    navigate(`/search/page/${String(prevPage)}`);
     setPage(prevPage);
   };
 
   const goToNextPage = () => {
     const nextPage = currentPage + 1;
-    navigate(`/${String(nextPage)}`);
+    navigate(`/search/page/${String(nextPage)}`);
     setPage(nextPage);
   };
 

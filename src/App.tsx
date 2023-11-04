@@ -13,6 +13,14 @@ export const App = () => {
 
   const searchWrapWidth = isSideBarOpen ? "65%" : "100%";
 
+  if (!isSideBarOpen) {
+    const currentUrl = window.location.pathname;
+    const detailsIndex = currentUrl.indexOf("/details/");
+    if (detailsIndex !== -1) {
+      const newUrl = currentUrl.substring(0, detailsIndex);
+      window.history.pushState(null, "", newUrl);
+    }
+  }
   return (
     <div className="App">
       <BrowserRouter>
