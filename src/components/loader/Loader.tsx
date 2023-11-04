@@ -1,4 +1,4 @@
-import logo from "../../assets/rickandmorty.png";
+import logo from "../../assets/rickandmorty-white.png";
 
 import "../../styles/Loader.css";
 

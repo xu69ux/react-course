@@ -10,7 +10,6 @@
 
 .search-wrap__logo {
   width: 3rem;
-  filter: brightness(10);
   margin-left: 1rem;
   cursor: pointer;
 }

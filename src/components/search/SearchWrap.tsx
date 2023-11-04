@@ -7,7 +7,7 @@ import { Pagination } from "../pagination/Pagination";
 
 import { getAllCharacters, getCharactersByName } from "../../utils/usefulFuncs";
 
-import logo from "../../assets/rickandmorty.png";
+import logo from "../../assets/rickandmorty-white.png";
 import "../../styles/SearchWrap.css";
 
 interface SearchWrapProps {
