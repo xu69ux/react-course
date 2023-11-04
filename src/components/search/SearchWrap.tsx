@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import { SearchResult } from "./SearchResult";
 import { ISearchResult } from "./SearchResult";
@@ -74,7 +74,10 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
         style={searchWrapStyle}
         onClick={closeSideBar}
       >
-        <img className="search-wrap__logo" src={logo} />
+        {" "}
+        <Link to="/search/page/1" className="search-wrap__home-link">
+          <img className="search-wrap__logo" src={logo} />
+        </Link>
         <h1 className="search-wrap__title">The Rick and Morty API</h1>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <Pagination setPage={setPage} totalPages={4} loading={loading} />
