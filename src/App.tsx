@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SearchWrap } from "./components/search/SearchWrap";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { SideBar } from "./components/sidebar/SideBar";
 
 export const App = () => {
@@ -47,6 +47,7 @@ export const App = () => {
               }
             />
           </Route>
+          <Route path="*" element={<Navigate to="search/page/1" />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
