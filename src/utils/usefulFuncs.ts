@@ -1,21 +1,29 @@
 import axios from "axios";
 
-export function getAllCharacters(page: number) {
+export function getAllPhilosophers(page: number, pageSize: number) {
+  const queryPage = page - 1;
   return axios
-    .get(`https://rickandmortyapi.com/api/character/?page=${page}`)
+    .get(
+      `http://belka.romakhin.ru/api/v1/filosofem?page=${queryPage}&page_size=${pageSize}`,
+    )
     .then((response) => {
-      return response.data.results;
+      return response.data;
     });
 }
 
-export function getCharactersByName(searchTerm: string, page: number) {
+export function getPhilosopherByName(
+  searchTerm: string,
+  page: number,
+  pageSize: number,
+) {
+  const queryPage = page - 1;
   const trimSearchTerm = searchTerm.trim();
   return axios
     .get(
-      `https://rickandmortyapi.com/api/character/?page=${page}&name=${trimSearchTerm}`,
+      `http://belka.romakhin.ru/api/v1/filosofem?page=${queryPage}&page_size=${pageSize}&search.name=${trimSearchTerm}`,
     )
     .then((response) => {
-      return response.data.results;
+      return response.data;
     })
     .catch((error) => {
       if (axios.isAxiosError(error) && error.response?.status === 404) {
@@ -25,9 +33,9 @@ export function getCharactersByName(searchTerm: string, page: number) {
     });
 }
 
-export function getCharacterById(id: number) {
+export function getPhilosopherById(id: number) {
   return axios
-    .get(`https://rickandmortyapi.com/api/character/${id}`)
+    .get(`http://belka.romakhin.ru/api/v1/filosofem/${id}`)
     .then((response) => {
       console.log(response.data);
       return response.data;

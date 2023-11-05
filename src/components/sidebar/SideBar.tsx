@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getCharacterById } from "../../utils/usefulFuncs";
+import { getPhilosopherById } from "../../utils/usefulFuncs";
 import { Loader } from "../loader/Loader";
 import "../../styles/SideBar.css";
 
@@ -9,35 +9,35 @@ interface SideBarProps {
   toggleSideBar: () => void;
 }
 
-interface ICharacter {
+interface IPhilosopher {
   name: string;
-  status: string;
-  species: string;
-  gender: string;
-  image: string;
+  birth_year: string;
+  death_year: string;
+  idea: string;
+  famous_work: string;
 }
 
 export const SideBar: React.FC<SideBarProps> = (props) => {
   const { isSideBarOpen, toggleSideBar } = props;
-  const [character, setCharacter] = useState<ICharacter | null>(null);
+  const [philosopher, setPhilosopher] = useState<IPhilosopher | null>(null);
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const id = params.id;
 
   useEffect(() => {
     if (id) {
-      const fetchCharacter = async () => {
+      const fetchPhilosopher = async () => {
         setLoading(true);
         try {
-          getCharacterById(Number(id)).then((result) => {
-            setCharacter(result);
+          getPhilosopherById(Number(id)).then((result) => {
+            setPhilosopher(result);
             setLoading(false);
           });
         } catch (error) {
-          console.error("Error fetching character data:", error);
+          console.error("Error fetching philosopher data:", error);
         }
       };
-      fetchCharacter();
+      fetchPhilosopher();
     }
   }, [id]);
 
@@ -49,13 +49,11 @@ export const SideBar: React.FC<SideBarProps> = (props) => {
         </button>
         <h1 className="sidebar__title">side bar</h1>
         <div className="sidebar__content">
-          <div>name: {character?.name}</div>
-          <div>status: {character?.status}</div>
-          <div>species: {character?.species}</div>
-          <div>gender: {character?.gender}</div>
-          <div>
-            <img src={character?.image} alt={character?.name} />
-          </div>
+          <div>name: {philosopher?.name}</div>
+          <div>born: {philosopher?.birth_year}</div>
+          <div>died: {philosopher?.death_year}</div>
+          <div>idea: {philosopher?.idea}</div>
+          <div>famous work: {philosopher?.famous_work}</div>
         </div>
       </div>
     );

@@ -15,6 +15,6 @@
   margin: 0 1rem;
 }
 
-.pagination__btn.disable {
+.pagination__btn.disabled {
   opacity: 0.3;
 }

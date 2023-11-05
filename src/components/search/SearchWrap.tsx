@@ -5,7 +5,10 @@ import { SearchResult } from "./SearchResult";
 import { ISearchResult } from "./SearchResult";
 import { Pagination } from "../pagination/Pagination";
 
-import { getAllCharacters, getCharactersByName } from "../../utils/usefulFuncs";
+import {
+  getAllPhilosophers,
+  getPhilosopherByName,
+} from "../../utils/usefulFuncs";
 
 import logo from "../../assets/rickandmorty-white.png";
 import "../../styles/SearchWrap.css";
@@ -25,6 +28,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
   const [badRequest, setBadRequest] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageSize, setPageSize] = useState<number>(10);
   const params = useParams();
   const currentPage = Number(params.page);
   const { searchWrapWidth, isSideBarOpen, toggleSideBar, setPage } = props;
@@ -43,7 +47,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
     setLoading(true);
 
     if (searchTerm.trim() === "") {
-      getAllCharacters(currentPage)
+      getAllPhilosophers(currentPage, pageSize)
         .then((results) => {
           setSearchResults(results);
           setLoading(false);
@@ -54,7 +58,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           }
         });
     } else {
-      getCharactersByName(searchTerm, currentPage)
+      getPhilosopherByName(searchTerm, currentPage, pageSize)
         .then((results) => {
           setSearchResults(results);
           setLoading(false);
@@ -65,7 +69,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           }
         });
     }
-  }, [searchTerm, currentPage]);
+  }, [searchTerm, currentPage, pageSize]);
 
   return (
     <>
@@ -84,7 +88,13 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           setSearchTerm={setSearchTerm}
           currentPage={currentPage}
         />
-        <Pagination setPage={setPage} totalPages={4} loading={loading} />
+        <Pagination
+          setPage={setPage}
+          totalPages={4}
+          loading={loading}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+        />
         <SearchResult
           searchResults={searchResults}
           badRequest={badRequest}

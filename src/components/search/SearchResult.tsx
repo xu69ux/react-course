@@ -6,8 +6,6 @@ import "../../styles/SearchResult.css";
 export interface ISearchResult {
   name: string;
   id: number;
-  type: string;
-  status: string;
 }
 
 interface SearchResultProps {
@@ -33,12 +31,6 @@ export const SearchResult: React.FC<SearchResultProps> = (props) => {
               >
                 <div className="list__id">{`id: ${result.id}`}</div>
                 <div className="list__name">{`name: ${result.name}`}</div>
-                {result.type && (
-                  <div className="list__type">{`type: ${result.type}`}</div>
-                )}
-                {result.status && (
-                  <div className="list__status">{`status: ${result.status}`}</div>
-                )}
               </Link>
             </li>
           ))}
