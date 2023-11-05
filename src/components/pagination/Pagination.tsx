@@ -29,10 +29,14 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
 
   const pageSizeIncrement = () => {
     setPageSize(pageSize + 1);
+    navigate(`/search/page/1`);
+    setPage(1);
   };
 
   const pageSizeDecrement = () => {
     setPageSize(pageSize - 1);
+    navigate(`/search/page/1`);
+    setPage(1);
   };
 
   const renderPagination = () => {
