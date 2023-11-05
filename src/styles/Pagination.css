@@ -17,4 +17,6 @@
 
 .pagination__btn.disabled {
   opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
 }

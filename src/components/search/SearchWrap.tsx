@@ -10,7 +10,7 @@ import {
   getPhilosopherByName,
 } from "../../utils/usefulFuncs";
 
-import logo from "../../assets/rickandmorty-white.png";
+import logo from "../../assets/philosophy.svg";
 import "../../styles/SearchWrap.css";
 
 interface SearchWrapProps {
@@ -82,7 +82,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
         <Link to="/search/page/1" className="search-wrap__home-link">
           <img className="search-wrap__logo" src={logo} />
         </Link>
-        <h1 className="search-wrap__title">The Rick and Morty API</h1>
+        <h1 className="search-wrap__title">Filosofem API</h1>
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

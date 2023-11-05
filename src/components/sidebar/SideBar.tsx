@@ -47,13 +47,15 @@ export const SideBar: React.FC<SideBarProps> = (props) => {
         <button className="sidebar__btn-close" onClick={toggleSideBar}>
           &#10005;
         </button>
-        <h1 className="sidebar__title">side bar</h1>
+        <h1 className="sidebar__title">details:</h1>
         <div className="sidebar__content">
-          <div>name: {philosopher?.name}</div>
-          <div>born: {philosopher?.birth_year}</div>
-          <div>died: {philosopher?.death_year}</div>
-          <div>idea: {philosopher?.idea}</div>
-          <div>famous work: {philosopher?.famous_work}</div>
+          <div className="sidebar__data">name: {philosopher?.name}</div>
+          <div className="sidebar__data">born: {philosopher?.birth_year}</div>
+          <div className="sidebar__data">died: {philosopher?.death_year}</div>
+          <div className="sidebar__data">idea: {philosopher?.idea}</div>
+          <div className="sidebar__data">
+            famous work: {philosopher?.famous_work}
+          </div>
         </div>
       </div>
     );
