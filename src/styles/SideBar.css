@@ -39,7 +39,7 @@
 }
 
 .sidebar__content {
-  margin-left: 1rem;
+  margin: 0 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
   width: 90%;
