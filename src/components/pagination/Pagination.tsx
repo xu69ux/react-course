@@ -3,14 +3,14 @@ import "../../styles/Pagination.css";
 
 interface PaginationProps {
   setPage: (page: number) => void;
-  totalPages: number;
+  totalCount: number;
   loading: boolean;
   pageSize: number;
   setPageSize: (pageSize: number) => void;
 }
 
 export const Pagination: React.FC<PaginationProps> = (props) => {
-  const { setPage, totalPages, loading, pageSize, setPageSize } = props;
+  const { setPage, totalCount, loading, pageSize, setPageSize } = props;
   const params = useParams();
   const currentPage = Number(params.page);
   const navigate = useNavigate();
@@ -62,11 +62,11 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
           &lt;
         </button>
         <span className="pagination__page">
-          page {currentPage} of {totalPages}
+          page {currentPage} of {Math.ceil(totalCount / pageSize)}
         </span>
         <button
           className={
-            currentPage === totalPages
+            currentPage === Math.ceil(totalCount / pageSize)
               ? "pagination__btn next disabled"
               : "pagination__btn"
           }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import { SearchResult } from "./SearchResult";
@@ -29,6 +29,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
   const [badRequest, setBadRequest] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState<number>(10);
+  const totalCount = useRef<number>(0);
   const params = useParams();
   const currentPage = Number(params.page);
   const { searchWrapWidth, isSideBarOpen, toggleSideBar, setPage } = props;
@@ -45,11 +46,11 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
     localStorage.setItem("searchTerm", searchTerm);
     setBadRequest(false);
     setLoading(true);
-
     if (searchTerm.trim() === "") {
       getAllPhilosophers(currentPage, pageSize)
         .then((results) => {
-          setSearchResults(results);
+          totalCount.current = results.total;
+          setSearchResults(results.results);
           setLoading(false);
         })
         .catch((error) => {
@@ -60,7 +61,8 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
     } else {
       getPhilosopherByName(searchTerm, currentPage, pageSize)
         .then((results) => {
-          setSearchResults(results);
+          totalCount.current = results.total;
+          setSearchResults(results.results);
           setLoading(false);
         })
         .catch((error) => {
@@ -90,7 +92,7 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
         />
         <Pagination
           setPage={setPage}
-          totalPages={4}
+          totalCount={totalCount.current}
           loading={loading}
           pageSize={pageSize}
           setPageSize={setPageSize}

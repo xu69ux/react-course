@@ -4,7 +4,7 @@ export function getAllPhilosophers(page: number, pageSize: number) {
   const queryPage = page - 1;
   return axios
     .get(
-      `http://belka.romakhin.ru/api/v1/filosofem?page=${queryPage}&page_size=${pageSize}`,
+      `https://belka.romakhin.ru/api/v1/filosofem?page=${queryPage}&page_size=${pageSize}`,
     )
     .then((response) => {
       return response.data;
@@ -20,7 +20,7 @@ export function getPhilosopherByName(
   const trimSearchTerm = searchTerm.trim();
   return axios
     .get(
-      `http://belka.romakhin.ru/api/v1/filosofem?page=${queryPage}&page_size=${pageSize}&search.name=${trimSearchTerm}`,
+      `https://belka.romakhin.ru/api/v1/filosofem?page=${queryPage}&page_size=${pageSize}&search.name=${trimSearchTerm}`,
     )
     .then((response) => {
       return response.data;
@@ -35,7 +35,7 @@ export function getPhilosopherByName(
 
 export function getPhilosopherById(id: number) {
   return axios
-    .get(`http://belka.romakhin.ru/api/v1/filosofem/${id}`)
+    .get(`https://belka.romakhin.ru/api/v1/filosofem/${id}`)
     .then((response) => {
       console.log(response.data);
       return response.data;
