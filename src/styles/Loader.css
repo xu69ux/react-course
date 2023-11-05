@@ -1,0 +1,14 @@
+.loader {
+  width: 7rem;
+  animation: rotate 2s linear infinite;
+  margin: 2rem auto;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
