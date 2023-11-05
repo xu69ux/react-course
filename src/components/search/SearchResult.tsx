@@ -21,6 +21,7 @@ export const SearchResult: React.FC<SearchResultProps> = (props) => {
   const renderSearchResults = () => {
     return (
       <>
+        <h2 className="search-result__title">search results:</h2>
         <ul className="search-result__list">
           {searchResults.map((result: ISearchResult) => (
             <li key={result.id}>

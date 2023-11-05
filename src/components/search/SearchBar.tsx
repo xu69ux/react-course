@@ -41,7 +41,7 @@ export const SearchBar: React.FC<SearchBarProps> = (props) => {
         <input
           className="search-bar__input"
           type="text"
-          placeholder="please enter a name"
+          placeholder="enter a philosophical name"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
         />
