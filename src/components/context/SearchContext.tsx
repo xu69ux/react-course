@@ -1,9 +1,9 @@
 import { createContext, useState, FC, ReactNode, useContext } from "react";
+import { ISearchResponse, ISearchResult } from "../../types/types";
 
 interface ISearchProviderProps {
   children: ReactNode;
 }
-
 interface SearchContextType {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
@@ -22,16 +22,6 @@ interface SearchContextType {
   isSideBarOpen: boolean;
   setSideBarOpen: (isSideBarOpen: boolean) => void;
   toggleSideBar: () => void;
-}
-
-interface ISearchResponse {
-  results: ISearchResult[];
-  total: number;
-}
-
-interface ISearchResult {
-  name: string;
-  id: number;
 }
 
 const defaultSearchContext: SearchContextType = {

@@ -4,7 +4,7 @@ import { useSearch } from "../context/SearchContext";
 import { SearchBar } from "../indexComponents";
 import { SearchResult } from "../indexComponents";
 import { Pagination } from "../indexComponents";
-import { ISearchResult } from "./SearchResult";
+import { ISearchResponse } from "../../types/types";
 
 import {
   getAllPhilosophers,
@@ -13,11 +13,6 @@ import {
 
 import logo from "../../assets/philosophy.svg";
 import "../../styles/SearchWrap.css";
-
-interface IResponse {
-  results: ISearchResult[];
-  total: number;
-}
 
 interface ISearchWrapProps {
   searchWrapWidth: string;
@@ -58,7 +53,7 @@ export const SearchWrap: FC<ISearchWrapProps> = (props) => {
     setNoResults(false);
     setLoading(true);
 
-    const handleResults = (response: IResponse) => {
+    const handleResults = (response: ISearchResponse) => {
       if (response.total === 0) {
         setNoResults(true);
       }

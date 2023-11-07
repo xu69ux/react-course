@@ -2,13 +2,9 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Loader } from "../indexComponents";
 import { useSearch } from "../context/SearchContext";
+import { ISearchResult } from "../../types/types";
 
 import "../../styles/SearchResult.css";
-
-export interface ISearchResult {
-  name: string;
-  id: number;
-}
 
 export const SearchResult: FC = () => {
   const { searchResults, noResults, loading, toggleSideBar } = useSearch();
