@@ -7,7 +7,20 @@ import { ISearchResult } from "../../types/types";
 import "../../styles/SearchResult.css";
 
 export const SearchResult: FC = () => {
-  const { searchResults, noResults, loading, toggleSideBar } = useSearch();
+  const {
+    searchResults,
+    noResults,
+    loadingResults,
+    setSideBarOpen,
+    setSearchWrapWidth,
+  } = useSearch();
+
+  const handleOpenSideBar = () => {
+    console.log("handleOpenSideBar");
+    setSideBarOpen(true);
+    setSearchWrapWidth("65%");
+  };
+
   const renderSearchResults = () => {
     return (
       <>
@@ -18,7 +31,7 @@ export const SearchResult: FC = () => {
               <Link
                 to={`details/${result.id}`}
                 className="list__link"
-                onClick={toggleSideBar}
+                onClick={handleOpenSideBar}
               >
                 <div className="list__id">{`id: ${result.id}`}</div>
                 <div className="list__name">{`name: ${result.name}`}</div>
@@ -53,7 +66,7 @@ export const SearchResult: FC = () => {
   if (noResults) {
     return renderNoResults();
   }
-  if (loading) {
+  if (loadingResults) {
     return renderLoading();
   }
   return renderSearchResults();

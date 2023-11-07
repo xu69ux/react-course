@@ -37,7 +37,6 @@ export function getPhilosopherById(id: number) {
   return axios
     .get(`https://belka.romakhin.ru/api/v1/filosofem/${id}`)
     .then((response) => {
-      console.log(response.data);
       return response.data;
     })
     .catch((error) => {

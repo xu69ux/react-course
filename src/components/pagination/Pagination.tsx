@@ -12,7 +12,7 @@ export const Pagination: FC<IPaginationProps> = (props) => {
   const {
     pageSize,
     setPageSize,
-    loading,
+    loadingResults,
     currentPage,
     setCurrentPage,
     noResults,
@@ -90,7 +90,7 @@ export const Pagination: FC<IPaginationProps> = (props) => {
     );
   };
 
-  if (loading) {
+  if (loadingResults) {
     return null;
   }
   return renderPagination();

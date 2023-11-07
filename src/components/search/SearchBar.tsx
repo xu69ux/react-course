@@ -1,5 +1,4 @@
 import { useState, FC } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSearch } from "../context/SearchContext";
 import { ErrorBoundaryButton } from "../indexComponents";
 import { Button } from "../indexComponents";
@@ -7,15 +6,13 @@ import { Button } from "../indexComponents";
 import "../../styles/SearchBar.css";
 
 export const SearchBar: FC = () => {
-  const { searchTerm, setSearchTerm, currentPage } = useSearch();
+  const { searchTerm, setSearchTerm, currentPage, setCurrentPage } =
+    useSearch();
   const [inputValue, setInputValue] = useState(searchTerm);
-  const navigate = useNavigate();
 
   const handleSearch = () => {
     setSearchTerm(inputValue);
-    if (currentPage !== 1) {
-      navigate(`/search/page/1`);
-    }
+    setCurrentPage(1);
   };
   const clearSearch = () => {
     localStorage.removeItem("searchTerm");
@@ -24,7 +21,7 @@ export const SearchBar: FC = () => {
       setInputValue("");
     }, 100);
     if (currentPage !== 1) {
-      navigate(`/search/page/1`);
+      setCurrentPage(1);
     }
   };
 

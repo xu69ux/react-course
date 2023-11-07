@@ -1,7 +1,7 @@
 import { ErrorBoundary } from "./error-boundary/ErrorBoundary";
 import { ErrorBoundaryButton } from "./error-boundary/ErrorBoundaryButton";
 import { FallBack } from "./fallback/FallBack";
-import { Loader } from "./Loader/Loader";
+import { Loader } from "./loader/Loader";
 import { Pagination } from "./pagination/Pagination";
 import { SearchBar } from "./search/SearchBar";
 import { SearchResult } from "./search/SearchResult";

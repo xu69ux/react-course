@@ -14,32 +14,20 @@ import {
 import logo from "../../assets/philosophy.svg";
 import "../../styles/SearchWrap.css";
 
-interface ISearchWrapProps {
-  searchWrapWidth: string;
-}
-
-export const SearchWrap: FC<ISearchWrapProps> = (props) => {
+export const SearchWrap: FC = () => {
   const {
-    toggleSideBar,
-    isSideBarOpen,
     setSearchResults,
     currentPage,
     pageSize,
     searchTerm,
     setNoResults,
-    setLoading,
+    setLoadingResults,
+    searchWrapWidth,
   } = useSearch();
-  const { searchWrapWidth } = props;
   const [totalResults, setTotalResults] = useState<number>(0);
 
   const searchWrapStyle = {
     width: searchWrapWidth,
-  };
-
-  const closeSideBar = () => {
-    if (isSideBarOpen) {
-      toggleSideBar();
-    }
   };
 
   const handleFetchError = useCallback((error: Error) => {
@@ -51,7 +39,7 @@ export const SearchWrap: FC<ISearchWrapProps> = (props) => {
   useEffect(() => {
     localStorage.setItem("searchTerm", searchTerm);
     setNoResults(false);
-    setLoading(true);
+    setLoadingResults(true);
 
     const handleResults = (response: ISearchResponse) => {
       if (response.total === 0) {
@@ -59,7 +47,7 @@ export const SearchWrap: FC<ISearchWrapProps> = (props) => {
       }
       setTotalResults(response.total);
       setSearchResults(response.results);
-      setLoading(false);
+      setLoadingResults(false);
     };
 
     if (searchTerm.trim() === "") {
@@ -76,7 +64,7 @@ export const SearchWrap: FC<ISearchWrapProps> = (props) => {
     currentPage,
     pageSize,
     setNoResults,
-    setLoading,
+    setLoadingResults,
     handleFetchError,
     setSearchResults,
     totalResults,
@@ -84,12 +72,7 @@ export const SearchWrap: FC<ISearchWrapProps> = (props) => {
 
   return (
     <>
-      <div
-        className="search-wrap"
-        style={searchWrapStyle}
-        onClick={closeSideBar}
-      >
-        {" "}
+      <div className="search-wrap" style={searchWrapStyle}>
         <Link to="/search/page/1" className="search-wrap__home-link">
           <img className="search-wrap__logo" src={logo} alt="logo" />
         </Link>

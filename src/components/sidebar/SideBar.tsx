@@ -16,19 +16,34 @@ interface IPhilosopher {
 }
 
 export const SideBar: FC = () => {
-  const { loading, setLoading, isSideBarOpen, toggleSideBar } = useSearch();
+  const {
+    loadingDetails,
+    setLoadingDetails,
+    isSideBarOpen,
+    setSideBarOpen,
+    setSearchWrapWidth,
+  } = useSearch();
   const [philosopher, setPhilosopher] = useState<IPhilosopher | null>(null);
   const params = useParams();
   const id = params.id;
 
+  if (!isSideBarOpen) {
+    const currentUrl = window.location.pathname;
+    const detailsIndex = currentUrl.indexOf("/details/");
+    if (detailsIndex !== -1) {
+      const newUrl = currentUrl.substring(0, detailsIndex);
+      window.history.pushState(null, "", newUrl);
+    }
+  }
+
   useEffect(() => {
     if (id) {
       const fetchPhilosopher = async () => {
-        setLoading(true);
+        setLoadingDetails(true);
         try {
           getPhilosopherById(Number(id)).then((result) => {
             setPhilosopher(result);
-            setLoading(false);
+            setLoadingDetails(false);
           });
         } catch (error) {
           console.error("Error fetching philosopher data:", error);
@@ -36,15 +51,20 @@ export const SideBar: FC = () => {
       };
       fetchPhilosopher();
     }
-  }, [id, setLoading]);
+  }, [id, setLoadingDetails, setSearchWrapWidth]);
 
-  const renderCharacter = () => {
+  const handleCloseSideBar = () => {
+    setSideBarOpen(false);
+    setSearchWrapWidth("100%");
+  };
+
+  const renderPhilosopher = () => {
     return (
       <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
         <Button
           text="&#10005;"
           className="sidebar__btn-close"
-          onClick={toggleSideBar}
+          onClick={handleCloseSideBar}
         />
         <h1 className="sidebar__title">details:</h1>
         <div className="sidebar__content">
@@ -64,20 +84,18 @@ export const SideBar: FC = () => {
     return (
       <>
         <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
-          <button className="sidebar__btn-close" onClick={toggleSideBar}>
+          <button className="sidebar__btn-close" onClick={handleCloseSideBar}>
             &#10005;
           </button>
           <h1 className="sidebar__title">side bar</h1>
-          <div className="sidebar__content">
-            <Loader />
-          </div>
+          <Loader />
         </div>
       </>
     );
   };
 
-  if (loading) {
+  if (loadingDetails) {
     return renderLoading();
   }
-  return renderCharacter();
+  return renderPhilosopher();
 };
