@@ -16,19 +16,23 @@ import "../../styles/SearchWrap.css";
 
 export const SearchWrap: FC = () => {
   const {
-    setSearchResults,
     currentPage,
     pageSize,
     searchTerm,
-    setNoResults,
     setLoadingResults,
-    searchWrapWidth,
+    setSearchResponse,
+    isSideBarOpen,
   } = useSearch();
+
   const [totalResults, setTotalResults] = useState<number>(0);
 
   const searchWrapStyle = {
-    width: searchWrapWidth,
+    width: "100%",
   };
+
+  if (isSideBarOpen) {
+    searchWrapStyle.width = "65%";
+  }
 
   const handleFetchError = useCallback((error: Error) => {
     if (error instanceof Error) {
@@ -38,16 +42,14 @@ export const SearchWrap: FC = () => {
 
   useEffect(() => {
     localStorage.setItem("searchTerm", searchTerm);
-    setNoResults(false);
     setLoadingResults(true);
 
     const handleResults = (response: ISearchResponse) => {
-      if (response.total === 0) {
-        setNoResults(true);
-      }
       setTotalResults(response.total);
-      setSearchResults(response.results);
       setLoadingResults(false);
+      if (setSearchResponse) {
+        setSearchResponse(response);
+      }
     };
 
     if (searchTerm.trim() === "") {
@@ -63,11 +65,10 @@ export const SearchWrap: FC = () => {
     searchTerm,
     currentPage,
     pageSize,
-    setNoResults,
     setLoadingResults,
     handleFetchError,
-    setSearchResults,
     totalResults,
+    setSearchResponse,
   ]);
 
   return (

@@ -16,13 +16,8 @@ interface IPhilosopher {
 }
 
 export const SideBar: FC = () => {
-  const {
-    loadingDetails,
-    setLoadingDetails,
-    isSideBarOpen,
-    setSideBarOpen,
-    setSearchWrapWidth,
-  } = useSearch();
+  const { loadingDetails, setLoadingDetails, isSideBarOpen, setSideBarOpen } =
+    useSearch();
   const [philosopher, setPhilosopher] = useState<IPhilosopher | null>(null);
   const params = useParams();
   const id = params.id;
@@ -51,11 +46,10 @@ export const SideBar: FC = () => {
       };
       fetchPhilosopher();
     }
-  }, [id, setLoadingDetails, setSearchWrapWidth]);
+  }, [id, setLoadingDetails]);
 
   const handleCloseSideBar = () => {
     setSideBarOpen(false);
-    setSearchWrapWidth("100%");
   };
 
   const renderPhilosopher = () => {

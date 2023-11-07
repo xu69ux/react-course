@@ -15,7 +15,7 @@ export const Pagination: FC<IPaginationProps> = (props) => {
     loadingResults,
     currentPage,
     setCurrentPage,
-    noResults,
+    searchResponse,
   } = useSearch();
   const { totalResults } = props;
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ export const Pagination: FC<IPaginationProps> = (props) => {
   };
 
   const renderPagination = () => {
-    if (noResults) {
+    if (searchResponse?.total === 0) {
       return null;
     }
     return (

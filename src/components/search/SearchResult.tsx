@@ -7,38 +7,32 @@ import { ISearchResult } from "../../types/types";
 import "../../styles/SearchResult.css";
 
 export const SearchResult: FC = () => {
-  const {
-    searchResults,
-    noResults,
-    loadingResults,
-    setSideBarOpen,
-    setSearchWrapWidth,
-  } = useSearch();
+  const { searchResponse, loadingResults, setSideBarOpen } = useSearch();
 
   const handleOpenSideBar = () => {
-    console.log("handleOpenSideBar");
     setSideBarOpen(true);
-    setSearchWrapWidth("65%");
   };
 
   const renderSearchResults = () => {
     return (
       <>
         <h2 className="search-result__title">search results:</h2>
-        <ul className="search-result__list">
-          {searchResults?.map((result: ISearchResult) => (
-            <li key={result.id}>
-              <Link
-                to={`details/${result.id}`}
-                className="list__link"
-                onClick={handleOpenSideBar}
-              >
-                <div className="list__id">{`id: ${result.id}`}</div>
-                <div className="list__name">{`name: ${result.name}`}</div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {
+          <ul className="search-result__list">
+            {searchResponse?.results.map((result: ISearchResult) => (
+              <li key={result.id}>
+                <Link
+                  to={`details/${result.id}`}
+                  className="list__link"
+                  onClick={handleOpenSideBar}
+                >
+                  <div className="list__id">{`id: ${result.id}`}</div>
+                  <div className="list__name">{`name: ${result.name}`}</div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        }
       </>
     );
   };
@@ -63,7 +57,7 @@ export const SearchResult: FC = () => {
     );
   };
 
-  if (noResults) {
+  if (searchResponse?.total === 0) {
     return renderNoResults();
   }
   if (loadingResults) {
