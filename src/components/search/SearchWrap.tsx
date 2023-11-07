@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef, FC } from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { useEffect, FC, useCallback, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import { useSearch } from "../context/SearchContext";
 import { SearchBar } from "../indexComponents";
 import { SearchResult } from "../indexComponents";
 import { Pagination } from "../indexComponents";
@@ -17,26 +18,25 @@ interface IResponse {
   results: ISearchResult[];
   total: number;
 }
-interface SearchWrapProps {
-  page: number;
+
+interface ISearchWrapProps {
   searchWrapWidth: string;
-  isSideBarOpen: boolean;
-  setPage: (page: number) => void;
-  toggleSideBar: () => void;
 }
 
-export const SearchWrap: FC<SearchWrapProps> = (props) => {
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem("searchTerm") || "",
-  );
-  const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
-  const [noResults, setNoResults] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [pageSize, setPageSize] = useState<number>(10);
-  const totalCount = useRef<number>(0);
-  const params = useParams();
-  const currentPage = Number(params.page);
-  const { searchWrapWidth, isSideBarOpen, toggleSideBar, setPage } = props;
+export const SearchWrap: FC<ISearchWrapProps> = (props) => {
+  const {
+    toggleSideBar,
+    isSideBarOpen,
+    setSearchResults,
+    currentPage,
+    pageSize,
+    searchTerm,
+    setNoResults,
+    setLoading,
+  } = useSearch();
+  const { searchWrapWidth } = props;
+  const [totalResults, setTotalResults] = useState<number>(0);
+
   const searchWrapStyle = {
     width: searchWrapWidth,
   };
@@ -47,25 +47,25 @@ export const SearchWrap: FC<SearchWrapProps> = (props) => {
     }
   };
 
-  const handleResults = (response: IResponse) => {
-    if (response.total === 0) {
-      setNoResults(true);
-    }
-    totalCount.current = response.total;
-    setSearchResults(response.results);
-    setLoading(false);
-  };
-
-  const handleFetchError = (error: Error) => {
+  const handleFetchError = useCallback((error: Error) => {
     if (error instanceof Error) {
       console.log("error message:", error.message);
     }
-  };
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("searchTerm", searchTerm);
     setNoResults(false);
     setLoading(true);
+
+    const handleResults = (response: IResponse) => {
+      if (response.total === 0) {
+        setNoResults(true);
+      }
+      setTotalResults(response.total);
+      setSearchResults(response.results);
+      setLoading(false);
+    };
 
     if (searchTerm.trim() === "") {
       getAllPhilosophers(currentPage, pageSize)
@@ -76,7 +76,16 @@ export const SearchWrap: FC<SearchWrapProps> = (props) => {
         .then(handleResults)
         .catch(handleFetchError);
     }
-  }, [searchTerm, currentPage, pageSize]);
+  }, [
+    searchTerm,
+    currentPage,
+    pageSize,
+    setNoResults,
+    setLoading,
+    handleFetchError,
+    setSearchResults,
+    totalResults,
+  ]);
 
   return (
     <>
@@ -87,29 +96,12 @@ export const SearchWrap: FC<SearchWrapProps> = (props) => {
       >
         {" "}
         <Link to="/search/page/1" className="search-wrap__home-link">
-          <img className="search-wrap__logo" src={logo} />
+          <img className="search-wrap__logo" src={logo} alt="logo" />
         </Link>
         <h1 className="search-wrap__title">Filosofem API</h1>
-        <SearchBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          currentPage={currentPage}
-        />
-        <Pagination
-          setPage={setPage}
-          totalCount={totalCount.current}
-          loading={loading}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          noResults={noResults}
-        />
-        <SearchResult
-          searchResults={searchResults}
-          noResults={noResults}
-          loading={loading}
-          toggleSideBar={toggleSideBar}
-          isSideBarOpen={isSideBarOpen}
-        />
+        <SearchBar />
+        <Pagination totalResults={totalResults} />
+        <SearchResult />
       </div>
       <Outlet />
     </>

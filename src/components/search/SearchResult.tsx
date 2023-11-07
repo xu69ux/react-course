@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Loader } from "../indexComponents";
+import { useSearch } from "../context/SearchContext";
 
 import "../../styles/SearchResult.css";
 
@@ -9,22 +10,14 @@ export interface ISearchResult {
   id: number;
 }
 
-interface SearchResultProps {
-  searchResults: ISearchResult[];
-  noResults: boolean;
-  loading: boolean;
-  isSideBarOpen: boolean;
-  toggleSideBar: () => void;
-}
-
-export const SearchResult: FC<SearchResultProps> = (props) => {
-  const { searchResults, noResults, loading, toggleSideBar } = props;
+export const SearchResult: FC = () => {
+  const { searchResults, noResults, loading, toggleSideBar } = useSearch();
   const renderSearchResults = () => {
     return (
       <>
         <h2 className="search-result__title">search results:</h2>
         <ul className="search-result__list">
-          {searchResults.map((result: ISearchResult) => (
+          {searchResults?.map((result: ISearchResult) => (
             <li key={result.id}>
               <Link
                 to={`details/${result.id}`}

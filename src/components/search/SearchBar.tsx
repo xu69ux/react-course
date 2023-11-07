@@ -1,18 +1,13 @@
 import { useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSearch } from "../context/SearchContext";
 import { ErrorBoundaryButton } from "../indexComponents";
 import { Button } from "../indexComponents";
 
 import "../../styles/SearchBar.css";
 
-interface SearchBarProps {
-  currentPage: number;
-  searchTerm: string;
-  setSearchTerm: (searchTerm: string) => void;
-}
-
-export const SearchBar: FC<SearchBarProps> = (props) => {
-  const { searchTerm, setSearchTerm, currentPage } = props;
+export const SearchBar: FC = () => {
+  const { searchTerm, setSearchTerm, currentPage } = useSearch();
   const [inputValue, setInputValue] = useState(searchTerm);
   const navigate = useNavigate();
 

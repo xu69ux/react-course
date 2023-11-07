@@ -1,46 +1,47 @@
 import { FC } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSearch } from "../context/SearchContext";
 
 import "../../styles/Pagination.css";
 
-interface PaginationProps {
-  totalCount: number;
-  pageSize: number;
-  loading: boolean;
-  noResults: boolean;
-  setPage: (page: number) => void;
-  setPageSize: (pageSize: number) => void;
+interface IPaginationProps {
+  totalResults: number;
 }
 
-export const Pagination: FC<PaginationProps> = (props) => {
-  const { setPage, totalCount, loading, pageSize, setPageSize, noResults } =
-    props;
-  const params = useParams();
-  const currentPage = Number(params.page);
+export const Pagination: FC<IPaginationProps> = (props) => {
+  const {
+    pageSize,
+    setPageSize,
+    loading,
+    currentPage,
+    setCurrentPage,
+    noResults,
+  } = useSearch();
+  const { totalResults } = props;
   const navigate = useNavigate();
 
   const goToPrevPage = () => {
     const prevPage = currentPage - 1;
     navigate(`/search/page/${String(prevPage)}`);
-    setPage(prevPage);
+    setCurrentPage(prevPage);
   };
 
   const goToNextPage = () => {
     const nextPage = currentPage + 1;
     navigate(`/search/page/${String(nextPage)}`);
-    setPage(nextPage);
+    setCurrentPage(nextPage);
   };
 
   const pageSizeIncrement = () => {
     setPageSize(pageSize + 1);
     navigate(`/search/page/1`);
-    setPage(1);
+    setCurrentPage(1);
   };
 
   const pageSizeDecrement = () => {
     setPageSize(pageSize - 1);
     navigate(`/search/page/1`);
-    setPage(1);
+    setCurrentPage(1);
   };
 
   const renderPagination = () => {
@@ -73,11 +74,11 @@ export const Pagination: FC<PaginationProps> = (props) => {
           &lt;
         </button>
         <span className="pagination__page">
-          page {currentPage} of {Math.ceil(totalCount / pageSize)}
+          page {currentPage} of {Math.ceil(totalResults / pageSize)}
         </span>
         <button
           className={
-            currentPage === Math.ceil(totalCount / pageSize)
+            currentPage === Math.ceil(totalResults / pageSize)
               ? "pagination__btn next disabled"
               : "pagination__btn"
           }

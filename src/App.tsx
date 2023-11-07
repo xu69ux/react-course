@@ -1,15 +1,12 @@
-import { useState, FC } from "react";
+import { FC } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useSearch } from "./components/context/SearchContext";
 import { SearchWrap } from "./components/indexComponents";
 import { SideBar } from "./components/indexComponents";
+import { SearchProvider } from "./components/context/SearchContext";
 
 export const App: FC = () => {
-  const [isSideBarOpen, setSideBarOpen] = useState(false);
-  const [page, setPage] = useState(1);
-
-  const toggleSideBar = () => {
-    setSideBarOpen((prevState) => !prevState);
-  };
+  const { isSideBarOpen } = useSearch();
 
   const searchWrapWidth = isSideBarOpen ? "65%" : "100%";
 
@@ -24,31 +21,17 @@ export const App: FC = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route
-            path="search/page/:page/*"
-            element={
-              <SearchWrap
-                isSideBarOpen={isSideBarOpen}
-                toggleSideBar={toggleSideBar}
-                searchWrapWidth={searchWrapWidth}
-                page={page}
-                setPage={setPage}
-              />
-            }
-          >
+        <SearchProvider>
+          <Routes>
             <Route
-              path="details/:id"
-              element={
-                <SideBar
-                  isSideBarOpen={isSideBarOpen}
-                  toggleSideBar={toggleSideBar}
-                />
-              }
-            />
-          </Route>
-          <Route path="*" element={<Navigate to="search/page/1" />}></Route>
-        </Routes>
+              path="search/page/:page/*"
+              element={<SearchWrap searchWrapWidth={searchWrapWidth} />}
+            >
+              <Route path="details/:id" element={<SideBar />} />
+            </Route>
+            <Route path="*" element={<Navigate to="search/page/1" />}></Route>
+          </Routes>
+        </SearchProvider>
       </BrowserRouter>
     </div>
   );

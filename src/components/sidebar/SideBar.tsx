@@ -1,15 +1,11 @@
 import { useEffect, useState, FC } from "react";
 import { useParams } from "react-router-dom";
 import { getPhilosopherById } from "../../utils/usefulFuncs";
+import { useSearch } from "../context/SearchContext";
 import { Loader } from "../indexComponents";
 import { Button } from "../indexComponents";
 
 import "../../styles/SideBar.css";
-
-interface SideBarProps {
-  isSideBarOpen: boolean;
-  toggleSideBar: () => void;
-}
 
 interface IPhilosopher {
   name: string;
@@ -19,10 +15,9 @@ interface IPhilosopher {
   famous_work: string;
 }
 
-export const SideBar: FC<SideBarProps> = (props) => {
-  const { isSideBarOpen, toggleSideBar } = props;
+export const SideBar: FC = () => {
+  const { loading, setLoading, isSideBarOpen, toggleSideBar } = useSearch();
   const [philosopher, setPhilosopher] = useState<IPhilosopher | null>(null);
-  const [loading, setLoading] = useState(false);
   const params = useParams();
   const id = params.id;
 
@@ -41,7 +36,7 @@ export const SideBar: FC<SideBarProps> = (props) => {
       };
       fetchPhilosopher();
     }
-  }, [id]);
+  }, [id, setLoading]);
 
   const renderCharacter = () => {
     return (
