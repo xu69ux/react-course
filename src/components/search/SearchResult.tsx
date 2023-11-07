@@ -1,5 +1,6 @@
+import { FC } from "react";
 import { Link } from "react-router-dom";
-import { Loader } from "../loader/Loader";
+import { Loader } from "../indexComponents";
 
 import "../../styles/SearchResult.css";
 
@@ -10,14 +11,14 @@ export interface ISearchResult {
 
 interface SearchResultProps {
   searchResults: ISearchResult[];
-  badRequest: boolean;
+  noResults: boolean;
   loading: boolean;
-  toggleSideBar: () => void;
   isSideBarOpen: boolean;
+  toggleSideBar: () => void;
 }
 
-export const SearchResult: React.FC<SearchResultProps> = (props) => {
-  const { searchResults, badRequest, loading, toggleSideBar } = props;
+export const SearchResult: FC<SearchResultProps> = (props) => {
+  const { searchResults, noResults, loading, toggleSideBar } = props;
   const renderSearchResults = () => {
     return (
       <>
@@ -60,7 +61,7 @@ export const SearchResult: React.FC<SearchResultProps> = (props) => {
     );
   };
 
-  if (badRequest) {
+  if (noResults) {
     return renderNoResults();
   }
   if (loading) {

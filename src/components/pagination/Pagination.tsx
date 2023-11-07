@@ -1,16 +1,20 @@
+import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import "../../styles/Pagination.css";
 
 interface PaginationProps {
-  setPage: (page: number) => void;
   totalCount: number;
-  loading: boolean;
   pageSize: number;
+  loading: boolean;
+  noResults: boolean;
+  setPage: (page: number) => void;
   setPageSize: (pageSize: number) => void;
 }
 
-export const Pagination: React.FC<PaginationProps> = (props) => {
-  const { setPage, totalCount, loading, pageSize, setPageSize } = props;
+export const Pagination: FC<PaginationProps> = (props) => {
+  const { setPage, totalCount, loading, pageSize, setPageSize, noResults } =
+    props;
   const params = useParams();
   const currentPage = Number(params.page);
   const navigate = useNavigate();
@@ -40,6 +44,9 @@ export const Pagination: React.FC<PaginationProps> = (props) => {
   };
 
   const renderPagination = () => {
+    if (noResults) {
+      return null;
+    }
     return (
       <div className="pagination">
         <button

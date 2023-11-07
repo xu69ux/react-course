@@ -1,7 +1,9 @@
+import { useEffect, useState, FC } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { getPhilosopherById } from "../../utils/usefulFuncs";
-import { Loader } from "../loader/Loader";
+import { Loader } from "../indexComponents";
+import { Button } from "../indexComponents";
+
 import "../../styles/SideBar.css";
 
 interface SideBarProps {
@@ -17,7 +19,7 @@ interface IPhilosopher {
   famous_work: string;
 }
 
-export const SideBar: React.FC<SideBarProps> = (props) => {
+export const SideBar: FC<SideBarProps> = (props) => {
   const { isSideBarOpen, toggleSideBar } = props;
   const [philosopher, setPhilosopher] = useState<IPhilosopher | null>(null);
   const [loading, setLoading] = useState(false);
@@ -44,9 +46,11 @@ export const SideBar: React.FC<SideBarProps> = (props) => {
   const renderCharacter = () => {
     return (
       <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
-        <button className="sidebar__btn-close" onClick={toggleSideBar}>
-          &#10005;
-        </button>
+        <Button
+          text="&#10005;"
+          className="sidebar__btn-close"
+          onClick={toggleSideBar}
+        />
         <h1 className="sidebar__title">details:</h1>
         <div className="sidebar__content">
           <div className="sidebar__data">name: {philosopher?.name}</div>

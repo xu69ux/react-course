@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
-import { ErrorBoundary } from "./components/error-boundary/ErrorBoundary";
-import { FallBack } from "./components/fallback/FallBack";
+import { ErrorBoundary } from "./components/indexComponents";
+import { FallBack } from "./components/indexComponents";
 
 import "./index.css";
 

@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { SearchWrap } from "./components/search/SearchWrap";
+import { useState, FC } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { SideBar } from "./components/sidebar/SideBar";
+import { SearchWrap } from "./components/indexComponents";
+import { SideBar } from "./components/indexComponents";
 
-export const App = () => {
+export const App: FC = () => {
   const [isSideBarOpen, setSideBarOpen] = useState(false);
   const [page, setPage] = useState(1);
 

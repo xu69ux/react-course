@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { ErrorBoundaryButton } from "../error-boundary/ErrorBoundaryButton";
+import { ErrorBoundaryButton } from "../indexComponents";
+import { Button } from "../indexComponents";
 
 import "../../styles/SearchBar.css";
 
 interface SearchBarProps {
+  currentPage: number;
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
-  currentPage: number;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = (props) => {
+export const SearchBar: FC<SearchBarProps> = (props) => {
   const { searchTerm, setSearchTerm, currentPage } = props;
   const [inputValue, setInputValue] = useState(searchTerm);
   const navigate = useNavigate();
@@ -35,9 +36,11 @@ export const SearchBar: React.FC<SearchBarProps> = (props) => {
   return (
     <>
       <section className="search-bar">
-        <button className="search-bar__btn-clear" onClick={clearSearch}>
-          &#10005;
-        </button>
+        <Button
+          text="&#10005;"
+          className="search-bar__btn-clear"
+          onClick={clearSearch}
+        />
         <input
           className="search-bar__input"
           type="text"
@@ -45,9 +48,11 @@ export const SearchBar: React.FC<SearchBarProps> = (props) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
         />
-        <button className="search-bar__btn" onClick={handleSearch}>
-          search
-        </button>
+        <Button
+          text="search"
+          className="search-bar__btn"
+          onClick={handleSearch}
+        />
         <ErrorBoundaryButton counter={0} />
       </section>
     </>

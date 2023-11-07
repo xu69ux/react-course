@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, FC } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { SearchBar } from "./SearchBar";
-import { SearchResult } from "./SearchResult";
+import { SearchBar } from "../indexComponents";
+import { SearchResult } from "../indexComponents";
+import { Pagination } from "../indexComponents";
 import { ISearchResult } from "./SearchResult";
-import { Pagination } from "../pagination/Pagination";
 
 import {
   getAllPhilosophers,
@@ -13,20 +13,24 @@ import {
 import logo from "../../assets/philosophy.svg";
 import "../../styles/SearchWrap.css";
 
+interface IResponse {
+  results: ISearchResult[];
+  total: number;
+}
 interface SearchWrapProps {
+  page: number;
   searchWrapWidth: string;
   isSideBarOpen: boolean;
-  toggleSideBar: () => void;
-  page: number;
   setPage: (page: number) => void;
+  toggleSideBar: () => void;
 }
 
-export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
+export const SearchWrap: FC<SearchWrapProps> = (props) => {
   const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem("searchTerm") || "",
   );
   const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
-  const [badRequest, setBadRequest] = useState(false);
+  const [noResults, setNoResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState<number>(10);
   const totalCount = useRef<number>(0);
@@ -36,40 +40,41 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
   const searchWrapStyle = {
     width: searchWrapWidth,
   };
+
   const closeSideBar = () => {
     if (isSideBarOpen) {
       toggleSideBar();
     }
   };
 
+  const handleResults = (response: IResponse) => {
+    if (response.total === 0) {
+      setNoResults(true);
+    }
+    totalCount.current = response.total;
+    setSearchResults(response.results);
+    setLoading(false);
+  };
+
+  const handleFetchError = (error: Error) => {
+    if (error instanceof Error) {
+      console.log("error message:", error.message);
+    }
+  };
+
   useEffect(() => {
     localStorage.setItem("searchTerm", searchTerm);
-    setBadRequest(false);
+    setNoResults(false);
     setLoading(true);
+
     if (searchTerm.trim() === "") {
       getAllPhilosophers(currentPage, pageSize)
-        .then((results) => {
-          totalCount.current = results.total;
-          setSearchResults(results.results);
-          setLoading(false);
-        })
-        .catch((error) => {
-          if (error instanceof Error) {
-            console.log("error message:", error.message);
-          }
-        });
+        .then(handleResults)
+        .catch(handleFetchError);
     } else {
       getPhilosopherByName(searchTerm, currentPage, pageSize)
-        .then((results) => {
-          totalCount.current = results.total;
-          setSearchResults(results.results);
-          setLoading(false);
-        })
-        .catch((error) => {
-          if (error instanceof Error) {
-            console.log("error message:", error.message);
-          }
-        });
+        .then(handleResults)
+        .catch(handleFetchError);
     }
   }, [searchTerm, currentPage, pageSize]);
 
@@ -96,10 +101,11 @@ export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
           loading={loading}
           pageSize={pageSize}
           setPageSize={setPageSize}
+          noResults={noResults}
         />
         <SearchResult
           searchResults={searchResults}
-          badRequest={badRequest}
+          noResults={noResults}
           loading={loading}
           toggleSideBar={toggleSideBar}
           isSideBarOpen={isSideBarOpen}
