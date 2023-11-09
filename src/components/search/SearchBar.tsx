@@ -11,6 +11,7 @@ export const SearchBar: FC = () => {
   const [inputValue, setInputValue] = useState(searchTerm);
 
   const handleSearch = () => {
+    localStorage.setItem("searchTerm", inputValue);
     setSearchTerm(inputValue);
     setCurrentPage(1);
   };

@@ -9,6 +9,11 @@ export default {
     "\\.(gif|ttf|eot|svg|png)$": "identity-obj-proxy",
   },
   collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**/*.{js,jsx,ts,tsx}",
+    "!<rootDir>/node_modules/",
+    "!<rootDir>/path/to/dir/",
+  ],
   coverageReporters: ["text", "lcov"],
   coverageThreshold: {
     global: {
@@ -18,4 +23,5 @@ export default {
       statements: 80,
     },
   },
+  setupFilesAfterEnv: ["<rootDir>/src/__test__/setupTests.ts"],
 };

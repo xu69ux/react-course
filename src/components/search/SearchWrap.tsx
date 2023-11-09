@@ -41,7 +41,6 @@ export const SearchWrap: FC = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("searchTerm", searchTerm);
     setLoadingResults(true);
 
     const handleResults = (response: ISearchResponse) => {

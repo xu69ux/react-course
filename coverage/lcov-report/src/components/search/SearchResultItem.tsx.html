@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>
-      Code coverage report for src/components/pages/NotFoundPage.tsx
+      Code coverage report for src/components/search/SearchResultItem.tsx
     </title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
@@ -21,7 +21,7 @@
       <div class="pad1">
         <h1>
           <a href="../../../index.html">All files</a> /
-          <a href="index.html">src/components/pages</a> NotFoundPage.tsx
+          <a href="index.html">src/components/search</a> SearchResultItem.tsx
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
@@ -73,12 +73,40 @@
 <a name='L10'></a><a href='#L10'>10</a>
 <a name='L11'></a><a href='#L11'>11</a>
 <a name='L12'></a><a href='#L12'>12</a>
-<a name='L13'></a><a href='#L13'>13</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -86,15 +114,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
+import { Link } from "react-router-dom";
+import { ISearchResult } from "../../types/types";
 &nbsp;
-import "../../styles/NotFoundPage.css";
+interface SearchResultItemProps {
+  result: ISearchResult;
+  onClick: () =&gt; void;
+}
 &nbsp;
-export const NotFound: FC = () =&gt; {
+export const SearchResultItem: FC&lt;SearchResultItemProps&gt; = ({
+  result,
+  onClick,
+}) =&gt; {
   return (
-    &lt;div className="not-found-page"&gt;
-      &lt;h1&gt;Page not found&lt;/h1&gt;
-      &lt;h2&gt;The page is absent in being, as the absence of being in the page.&lt;/h2&gt;
-    &lt;/div&gt;
+    &lt;li key={result.id}&gt;
+      &lt;Link
+        to={`details/${result.id}`}
+        className="list__link"
+        onClick={onClick}
+      &gt;
+        &lt;div className="list__id"&gt;{`id: ${result.id}`}&lt;/div&gt;
+        &lt;div className="list__name"&gt;{`name: ${result.name}`}&lt;/div&gt;
+      &lt;/Link&gt;
+    &lt;/li&gt;
   );
 };
 &nbsp;</pre></td></tr></table></pre>
