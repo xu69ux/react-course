@@ -64,6 +64,7 @@ export const Pagination: FC<IPaginationProps> = (props) => {
           +
         </button>
         <button
+          data-testid="prev-page"
           className={
             currentPage === 1
               ? "pagination__btn prev disabled"
@@ -77,6 +78,7 @@ export const Pagination: FC<IPaginationProps> = (props) => {
           page {currentPage} of {Math.ceil(totalResults / pageSize)}
         </span>
         <button
+          data-testid="next-page"
           className={
             currentPage === Math.ceil(totalResults / pageSize)
               ? "pagination__btn next disabled"

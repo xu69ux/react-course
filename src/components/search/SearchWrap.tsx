@@ -73,7 +73,7 @@ export const SearchWrap: FC = () => {
   return (
     <>
       <div className="search-wrap" style={searchWrapStyle}>
-        <Link to="/search/page/1" className="search-wrap__home-link">
+        <Link to="/" className="search-wrap__home-link">
           <img className="search-wrap__logo" src={logo} alt="logo" />
         </Link>
         <h1 className="search-wrap__title">Filosofem API</h1>
