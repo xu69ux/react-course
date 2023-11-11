@@ -1,5 +1,5 @@
 import { useEffect, useState, FC } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getPhilosopherById } from "../../utils/usefulFuncs";
 import { useSearch } from "../context/SearchContext";
 import { Loader } from "../indexComponents";
@@ -20,7 +20,8 @@ export const SideBar: FC = () => {
     useSearch();
   const [philosopher, setPhilosopher] = useState<IPhilosopher | null>(null);
   const params = useParams();
-  const id = params.id;
+  const { id, page } = params;
+  const navigate = useNavigate();
 
   if (!isSideBarOpen) {
     const currentUrl = window.location.pathname;
@@ -32,21 +33,26 @@ export const SideBar: FC = () => {
   }
 
   useEffect(() => {
+    const fetchPhilosopher = async () => {
+      setLoadingDetails(true);
+      try {
+        const result = await getPhilosopherById(Number(id));
+        setPhilosopher(result);
+        setLoadingDetails(false);
+      } catch (error) {
+        console.error("Error fetching philosopher data:", error);
+      }
+    };
+
     if (id) {
-      const fetchPhilosopher = async () => {
-        setLoadingDetails(true);
-        try {
-          getPhilosopherById(Number(id)).then((result) => {
-            setPhilosopher(result);
-            setLoadingDetails(false);
-          });
-        } catch (error) {
-          console.error("Error fetching philosopher data:", error);
-        }
-      };
+      navigate(`/search/page/${page || 1}/details/${id}`);
+      setSideBarOpen(true);
       fetchPhilosopher();
+    } else {
+      setSideBarOpen(false);
+      navigate("/search/page/1");
     }
-  }, [id, setLoadingDetails]);
+  }, [id, setLoadingDetails, setSideBarOpen, navigate, page]);
 
   const handleCloseSideBar = () => {
     setSideBarOpen(false);
@@ -54,36 +60,50 @@ export const SideBar: FC = () => {
 
   const renderPhilosopher = () => {
     return (
-      <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
-        <Button
-          text="&#10005;"
-          className="sidebar__btn-close"
-          onClick={handleCloseSideBar}
-        />
-        <h1 className="sidebar__title">details:</h1>
-        <div className="sidebar__content">
-          <div className="sidebar__data">name: {philosopher?.name}</div>
-          <div className="sidebar__data">born: {philosopher?.birth_year}</div>
-          <div className="sidebar__data">died: {philosopher?.death_year}</div>
-          <div className="sidebar__data">idea: {philosopher?.idea}</div>
-          <div className="sidebar__data">
-            famous work: {philosopher?.famous_work}
+      <>
+        {isSideBarOpen && (
+          <div data-testid="sidebar" className="sidebar open">
+            <Button
+              data-testid="close-btn"
+              text="&#10005;"
+              className="sidebar__btn-close"
+              onClick={handleCloseSideBar}
+            />
+            <h1 className="sidebar__title">details:</h1>
+            <div className="sidebar__content">
+              <div className="sidebar__data">name: {philosopher?.name}</div>
+              <div className="sidebar__data">
+                born: {philosopher?.birth_year}
+              </div>
+              <div className="sidebar__data">
+                died: {philosopher?.death_year}
+              </div>
+              <div className="sidebar__data">idea: {philosopher?.idea}</div>
+              <div className="sidebar__data">
+                famous work: {philosopher?.famous_work}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+      </>
     );
   };
 
   const renderLoading = () => {
     return (
       <>
-        <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
-          <button className="sidebar__btn-close" onClick={handleCloseSideBar}>
-            &#10005;
-          </button>
-          <h1 className="sidebar__title">side bar</h1>
-          <Loader />
-        </div>
+        {isSideBarOpen && (
+          <div data-testid="sidebar" className="sidebar open">
+            <Button
+              data-testid="close-btn"
+              text="&#10005;"
+              className="sidebar__btn-close"
+              onClick={handleCloseSideBar}
+            />
+            <h1 className="sidebar__title">details:</h1>
+            <Loader />
+          </div>
+        )}
       </>
     );
   };

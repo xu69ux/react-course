@@ -3,6 +3,7 @@ import { ISearchResponse } from "../../types/types";
 
 interface ISearchProviderProps {
   children: ReactNode;
+  value?: SearchContextType;
 }
 
 interface SearchContextType {
@@ -45,7 +46,10 @@ export const useSearch = () => {
   return useContext(SearchContext);
 };
 
-export const SearchProvider: FC<ISearchProviderProps> = ({ children }) => {
+export const SearchProvider: FC<ISearchProviderProps> = ({
+  children,
+  value,
+}) => {
   const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem("searchTerm") || "",
   );
@@ -76,7 +80,7 @@ export const SearchProvider: FC<ISearchProviderProps> = ({ children }) => {
   };
 
   return (
-    <SearchContext.Provider value={setSearchContext}>
+    <SearchContext.Provider value={value || setSearchContext}>
       {children}
     </SearchContext.Provider>
   );
