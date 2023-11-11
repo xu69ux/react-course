@@ -3,12 +3,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { SearchResultItem } from "../components/indexComponents";
 
 const mockResult = {
-  id: 1,
+  id: 5,
   name: "Mock Result",
 };
 
 describe("SearchResultItem component", () => {
-  it("renders the relevant item data", () => {
+  test("renders the relevant item data", () => {
     const { getByText } = render(
       <Router>
         <SearchResultItem result={mockResult} onClick={() => {}} />
@@ -19,7 +19,7 @@ describe("SearchResultItem component", () => {
     expect(getByText(`name: ${mockResult.name}`)).toBeInTheDocument();
   });
 
-  it("opens a detailed item component when clicked", () => {
+  test("opens a detailed item component when clicked", () => {
     const mockClick = jest.fn();
 
     const { getByText } = render(

@@ -6,7 +6,7 @@ interface ISearchProviderProps {
   value?: SearchContextType;
 }
 
-interface SearchContextType {
+export interface SearchContextType {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   searchResponse?: ISearchResponse;

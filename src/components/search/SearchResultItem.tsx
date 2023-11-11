@@ -14,6 +14,7 @@ export const SearchResultItem: FC<SearchResultItemProps> = ({
   return (
     <li key={result.id}>
       <Link
+        data-testid="search-result-item"
         to={`details/${result.id}`}
         className="list__link"
         onClick={onClick}
