@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import { useSearch } from "../context/SearchContext";
 import { ErrorBoundaryButton } from "../indexComponents";
 import { Button } from "../indexComponents";
@@ -10,6 +10,13 @@ export const SearchBar: FC = () => {
     useSearch();
   const [inputValue, setInputValue] = useState(searchTerm);
 
+  useEffect(() => {
+    const searchTerm = localStorage.getItem("searchTerm");
+    if (searchTerm) {
+      setSearchTerm(searchTerm);
+      setInputValue(searchTerm);
+    }
+  }, [searchTerm, setSearchTerm]);
   const handleSearch = () => {
     localStorage.setItem("searchTerm", inputValue);
     setSearchTerm(inputValue);
@@ -38,7 +45,7 @@ export const SearchBar: FC = () => {
           className="search-bar__input"
           type="text"
           placeholder="enter a philosophical name"
-          value={inputValue}
+          value={inputValue || ""}
           onChange={(e) => setInputValue(e.target.value)}
         />
         <Button

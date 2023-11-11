@@ -23,27 +23,27 @@
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
-            <span class="strong">72.72% </span>
+            <span class="strong">77.77% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">16/22</span>
+            <span class="fraction">21/27</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">0% </span>
+            <span class="strong">75% </span>
             <span class="quiet">Branches</span>
-            <span class="fraction">0/1</span>
+            <span class="fraction">3/4</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">60% </span>
+            <span class="strong">66.66% </span>
             <span class="quiet">Functions</span>
-            <span class="fraction">3/5</span>
+            <span class="fraction">4/6</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">71.42% </span>
+            <span class="strong">76.92% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">15/21</span>
+            <span class="fraction">20/26</span>
           </div>
         </div>
         <p class="quiet">
@@ -112,7 +112,14 @@
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -121,15 +128,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -140,7 +154,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,7 +179,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, FC } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, FC, useEffect } from "react";
 import { useSearch } from "../context/SearchContext";
 import { ErrorBoundaryButton } from "../indexComponents";
 import { Button } from "../indexComponents";
@@ -177,6 +191,13 @@ export const SearchBar: FC = () =&gt; {
     useSearch();
   const [inputValue, setInputValue] = useState(searchTerm);
 &nbsp;
+  useEffect(() =&gt; {
+    const searchTerm = localStorage.getItem("searchTerm");
+    if (searchTerm) {
+      setSearchTerm(searchTerm);
+      setInputValue(searchTerm);
+    }
+  }, [searchTerm, setSearchTerm]);
   const handleSearch = () =&gt; {
     localStorage.setItem("searchTerm", inputValue);
     setSearchTerm(inputValue);
@@ -205,7 +226,7 @@ export const SearchBar: FC = () =&gt; {
           className="search-bar__input"
           type="text"
           placeholder="enter a philosophical name"
-          value={inputValue}
+          value={inputValue || ""}
           onChange={(e) =&gt; setInputValue(e.target.value)}
         /&gt;
         &lt;Button
@@ -232,7 +253,7 @@ export const SearchBar: FC = () =&gt; {
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2023-11-11T18:09:06.798Z
+      at 2023-11-11T18:31:21.059Z
     </div>
     <script src="../../../prettify.js"></script>
     <script>

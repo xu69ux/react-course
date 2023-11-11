@@ -1,36 +1,33 @@
-import { render, fireEvent, waitFor } from "@testing-library/react";
-import { SearchBar } from "../components/indexComponents";
-import { act } from "react-dom/test-utils";
+import { screen, render, fireEvent } from "@testing-library/react";
+import { SearchBar } from "../components/search/SearchBar";
+
+jest.mock("../components/context/SearchContext", () => ({
+  useSearch: () => ({
+    setSearchResponse: jest.fn(),
+    setLoadingResults: jest.fn(),
+    setSearchTerm: jest.fn(),
+    setCurrentPage: jest.fn(),
+  }),
+}));
 
 describe("SearchBar component", () => {
-  test("saves the entered value to local storage when Search button is clicked", () => {
+  test("saves the entered value to the local storage when the Search button is clicked", () => {
+    Storage.prototype.setItem = jest.fn();
     const { getByPlaceholderText, getByText } = render(<SearchBar />);
-    const input = getByPlaceholderText("enter a philosophical name");
-    const searchButton = getByText("search");
-    jest.spyOn(Storage.prototype, "setItem");
-    fireEvent.change(input, { target: { value: "TestValue" } });
-    fireEvent.click(searchButton);
-    expect(Storage.prototype.setItem).toHaveBeenCalledTimes(1);
-    jest.clearAllMocks();
+    fireEvent.change(getByPlaceholderText("enter a philosophical name"), {
+      target: { value: "test" },
+    });
+    fireEvent.click(getByText("search"));
+    expect(localStorage.setItem).toHaveBeenCalledWith("searchTerm", "test");
   });
-  test("component retrieves the value from the local storage upon mounting", async () => {
-    window.localStorage.setItem("SearchTerm", "TestValue");
-    let getByPlaceholderTextResult: (text: string) => HTMLElement;
-    act(() => {
-      getByPlaceholderTextResult = render(<SearchBar />).getByPlaceholderText;
-    });
 
-    await waitFor(() => {
-      const input = getByPlaceholderTextResult(
-        "enter a philosophical name",
-      ) as HTMLInputElement;
-
-      act(() => {
-        input.value = window.localStorage.getItem("SearchTerm") || "";
-        fireEvent.input(input);
-      });
-
-      expect(input).toHaveValue("TestValue");
-    });
+  test("retrieves the value from the local storage upon mounting", () => {
+    Storage.prototype.getItem = jest.fn(() => "test");
+    render(<SearchBar />);
+    expect(localStorage.getItem).toHaveBeenCalledWith("searchTerm");
+    const input = screen.getByPlaceholderText(
+      "enter a philosophical name",
+    ) as HTMLInputElement;
+    expect(input.value).toBe("test");
   });
 });
