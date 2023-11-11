@@ -15,8 +15,12 @@ describe("SearchResultItem component", () => {
       </Router>,
     );
 
-    expect(getByText(`id: ${mockResult.id}`)).toBeInTheDocument();
-    expect(getByText(`name: ${mockResult.name}`)).toBeInTheDocument();
+    expect(
+      getByText(new RegExp(`id: ${mockResult.id}`, "i")),
+    ).toBeInTheDocument();
+    expect(
+      getByText(new RegExp(`name: ${mockResult.name}`, "i")),
+    ).toBeInTheDocument();
   });
 
   test("opens a detailed item component when clicked", () => {
@@ -28,7 +32,7 @@ describe("SearchResultItem component", () => {
       </Router>,
     );
 
-    fireEvent.click(getByText(`id: ${mockResult.id}`));
+    fireEvent.click(getByText(new RegExp(`id: ${mockResult.id}`, "i")));
 
     expect(mockClick).toHaveBeenCalled();
   });

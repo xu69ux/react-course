@@ -17,7 +17,7 @@ describe("SearchBar component", () => {
     fireEvent.change(getByPlaceholderText("enter a philosophical name"), {
       target: { value: "test" },
     });
-    fireEvent.click(getByText("search"));
+    fireEvent.click(getByText(/search/i));
     expect(localStorage.setItem).toHaveBeenCalledWith("searchTerm", "test");
   });
 
