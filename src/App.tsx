@@ -5,20 +5,26 @@ import { SideBar } from "./components/indexComponents";
 import { SearchProvider } from "./components/context/SearchContext";
 import { NotFound } from "./components/pages/NotFoundPage";
 
-export const App: FC = () => {
+export const AppContent: FC = () => {
   return (
     <div className="App">
-      <BrowserRouter>
-        <SearchProvider>
-          <Routes>
-            <Route path="/" element={<Navigate to="search/page/1" replace />} />
-            <Route path="search/page/:page/*" element={<SearchWrap />}>
-              <Route path="details/:id" element={<SideBar />} />
-            </Route>
-            <Route path="*" element={<NotFound />}></Route>
-          </Routes>
-        </SearchProvider>
-      </BrowserRouter>
+      <SearchProvider>
+        <Routes>
+          <Route path="/" element={<Navigate to="search/page/1" replace />} />
+          <Route path="search/page/:page/*" element={<SearchWrap />}>
+            <Route path="details/:id" element={<SideBar />} />
+          </Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+      </SearchProvider>
     </div>
+  );
+};
+
+export const App: FC = () => {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 };

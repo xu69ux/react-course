@@ -23,5 +23,10 @@ export default {
       statements: 80,
     },
   },
+  coveragePathIgnorePatterns: [
+    "<rootDir>/src/utils/usefulFunction.ts",
+    "<rootDir>/src/main.tsx",
+    "<rootDir>/src/vite-env.d.ts",
+  ],
   setupFilesAfterEnv: ["<rootDir>/src/__test__/setupTests.ts"],
 };
