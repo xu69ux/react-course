@@ -6,6 +6,8 @@ import { SearchResult } from "../indexComponents";
 import { Pagination } from "../indexComponents";
 import { ISearchResponse } from "../../types/types";
 
+import logoUrl from "../../assets/philosophy.svg";
+
 import {
   getAllPhilosophers,
   getPhilosopherByName,
@@ -95,11 +97,7 @@ export const SearchWrap: FC = () => {
           className="search-wrap__home-link"
           onClick={hadleClickLogo}
         >
-          <img
-            className="search-wrap__logo"
-            src="../../assets/philosophy.svg"
-            alt="logo"
-          />
+          <img className="search-wrap__logo" src={logoUrl} alt="logo" />
         </Link>
         <h1 className="search-wrap__title">Filosofem API</h1>
         <SearchBar />

@@ -14,9 +14,6 @@ describe("Loader", () => {
 
   test("renders the correct image", () => {
     const { getByAltText } = render(<Loader />);
-    expect(getByAltText(/loader/i)).toHaveAttribute(
-      "src",
-      "../../assets/philosophy.svg",
-    );
+    expect(getByAltText(/loader/i)).toHaveAttribute("src", "test-file-stub");
   });
 });
