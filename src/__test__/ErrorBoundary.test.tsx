@@ -6,6 +6,14 @@ const ErrorComponent = () => {
 };
 
 describe("ErrorBoundary", () => {
+  beforeAll(() => {
+    jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    (console.error as jest.Mock).mockRestore();
+  });
+
   test("displays fallback UI when child component throws an error", () => {
     render(
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
