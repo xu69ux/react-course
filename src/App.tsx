@@ -1,55 +1,30 @@
-import { useState } from "react";
-import { SearchWrap } from "./components/search/SearchWrap";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { SideBar } from "./components/sidebar/SideBar";
+import { FC } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { SearchWrap } from "./components/indexComponents";
+import { SideBar } from "./components/indexComponents";
+import { SearchProvider } from "./components/context/SearchContext";
+import { NotFound } from "./components/pages/NotFoundPage";
 
-export const App = () => {
-  const [isSideBarOpen, setSideBarOpen] = useState(false);
-  const [page, setPage] = useState(1);
-
-  const toggleSideBar = () => {
-    setSideBarOpen((prevState) => !prevState);
-  };
-
-  const searchWrapWidth = isSideBarOpen ? "65%" : "100%";
-
-  if (!isSideBarOpen) {
-    const currentUrl = window.location.pathname;
-    const detailsIndex = currentUrl.indexOf("/details/");
-    if (detailsIndex !== -1) {
-      const newUrl = currentUrl.substring(0, detailsIndex);
-      window.history.pushState(null, "", newUrl);
-    }
-  }
+export const AppContent: FC = () => {
   return (
     <div className="App">
-      <BrowserRouter>
+      <SearchProvider>
         <Routes>
-          <Route
-            path="search/page/:page/*"
-            element={
-              <SearchWrap
-                isSideBarOpen={isSideBarOpen}
-                toggleSideBar={toggleSideBar}
-                searchWrapWidth={searchWrapWidth}
-                page={page}
-                setPage={setPage}
-              />
-            }
-          >
-            <Route
-              path="details/:id"
-              element={
-                <SideBar
-                  isSideBarOpen={isSideBarOpen}
-                  toggleSideBar={toggleSideBar}
-                />
-              }
-            />
+          <Route path="/" element={<Navigate to="search/page/1" replace />} />
+          <Route path="search/page/:page/*" element={<SearchWrap />}>
+            <Route path="details/:id" element={<SideBar />} />
           </Route>
-          <Route path="*" element={<Navigate to="search/page/1" />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
-      </BrowserRouter>
+      </SearchProvider>
     </div>
+  );
+};
+
+export const App: FC = () => {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 };

@@ -1,13 +1,11 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { getPhilosopherById } from "../../utils/usefulFuncs";
-import { Loader } from "../loader/Loader";
-import "../../styles/SideBar.css";
+import { useSearch } from "../context/SearchContext";
+import { Loader } from "../indexComponents";
+import { Button } from "../indexComponents";
 
-interface SideBarProps {
-  isSideBarOpen: boolean;
-  toggleSideBar: () => void;
-}
+import "../../styles/SideBar.css";
 
 interface IPhilosopher {
   name: string;
@@ -17,68 +15,101 @@ interface IPhilosopher {
   famous_work: string;
 }
 
-export const SideBar: React.FC<SideBarProps> = (props) => {
-  const { isSideBarOpen, toggleSideBar } = props;
+export const SideBar: FC = () => {
+  const { loadingDetails, setLoadingDetails, isSideBarOpen, setSideBarOpen } =
+    useSearch();
   const [philosopher, setPhilosopher] = useState<IPhilosopher | null>(null);
-  const [loading, setLoading] = useState(false);
   const params = useParams();
-  const id = params.id;
+  const { id, page } = params;
+  const navigate = useNavigate();
+
+  if (!isSideBarOpen) {
+    const currentUrl = window.location.pathname;
+    const detailsIndex = currentUrl.indexOf("/details/");
+    if (detailsIndex !== -1) {
+      const newUrl = currentUrl.substring(0, detailsIndex);
+      window.history.pushState(null, "", newUrl);
+    }
+  }
 
   useEffect(() => {
-    if (id) {
-      const fetchPhilosopher = async () => {
-        setLoading(true);
-        try {
-          getPhilosopherById(Number(id)).then((result) => {
-            setPhilosopher(result);
-            setLoading(false);
-          });
-        } catch (error) {
-          console.error("Error fetching philosopher data:", error);
-        }
-      };
-      fetchPhilosopher();
-    }
-  }, [id]);
+    const fetchPhilosopher = async () => {
+      setLoadingDetails(true);
+      try {
+        const result = await getPhilosopherById(Number(id));
+        setPhilosopher(result);
+        setLoadingDetails(false);
+      } catch (error) {
+        console.error("Error fetching philosopher data:", error);
+      }
+    };
 
-  const renderCharacter = () => {
+    if (id) {
+      navigate(`/search/page/${page || 1}/details/${id}`);
+      setSideBarOpen(true);
+      fetchPhilosopher();
+    } else {
+      setSideBarOpen(false);
+      navigate("/search/page/1");
+    }
+  }, [id, setLoadingDetails, setSideBarOpen, navigate, page]);
+
+  const handleCloseSideBar = () => {
+    setSideBarOpen(false);
+  };
+
+  const renderPhilosopher = () => {
     return (
-      <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
-        <button className="sidebar__btn-close" onClick={toggleSideBar}>
-          &#10005;
-        </button>
-        <h1 className="sidebar__title">details:</h1>
-        <div className="sidebar__content">
-          <div className="sidebar__data">name: {philosopher?.name}</div>
-          <div className="sidebar__data">born: {philosopher?.birth_year}</div>
-          <div className="sidebar__data">died: {philosopher?.death_year}</div>
-          <div className="sidebar__data">idea: {philosopher?.idea}</div>
-          <div className="sidebar__data">
-            famous work: {philosopher?.famous_work}
+      <>
+        {isSideBarOpen && (
+          <div data-testid="sidebar" className="sidebar open">
+            <Button
+              data-testid="close-btn"
+              text="&#10005;"
+              className="sidebar__btn-close"
+              onClick={handleCloseSideBar}
+            />
+            <h1 className="sidebar__title">details:</h1>
+            <div className="sidebar__content">
+              <div className="sidebar__data">name: {philosopher?.name}</div>
+              <div className="sidebar__data">
+                born: {philosopher?.birth_year}
+              </div>
+              <div className="sidebar__data">
+                died: {philosopher?.death_year}
+              </div>
+              <div className="sidebar__data">idea: {philosopher?.idea}</div>
+              <div className="sidebar__data">
+                famous work: {philosopher?.famous_work}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+      </>
     );
   };
 
   const renderLoading = () => {
     return (
       <>
-        <div className={isSideBarOpen ? "sidebar open" : "sidebar close"}>
-          <button className="sidebar__btn-close" onClick={toggleSideBar}>
-            &#10005;
-          </button>
-          <h1 className="sidebar__title">side bar</h1>
-          <div className="sidebar__content">
+        {isSideBarOpen && (
+          <div data-testid="sidebar" className="sidebar open">
+            <Button
+              data-testid="close-btn"
+              text="&#10005;"
+              className="sidebar__btn-close"
+              onClick={handleCloseSideBar}
+            />
+            <h1 className="sidebar__title">details:</h1>
             <Loader />
           </div>
-        </div>
+        )}
       </>
     );
   };
 
-  if (loading) {
+  if (loadingDetails) {
     return renderLoading();
   }
-  return renderCharacter();
+  return renderPhilosopher();
 };

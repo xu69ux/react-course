@@ -18,5 +18,7 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["./src/__tests__/**", "./src/__mocks__/**"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "types": ["node", "jest", "@testing-library/jest-dom"]
 }

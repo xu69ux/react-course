@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { FC } from "react";
+import { Button } from "../indexComponents";
+
 import "../../styles/ErrorBoundaryButton.css";
 
 interface ErrorBoundaryButtonProps {
   counter: number;
 }
 
-export const ErrorBoundaryButton: React.FC<ErrorBoundaryButtonProps> = () => {
+export const ErrorBoundaryButton: FC<ErrorBoundaryButtonProps> = () => {
   const [counter, setCounter] = useState(0);
 
   const handleClick = () => {
@@ -18,8 +21,10 @@ export const ErrorBoundaryButton: React.FC<ErrorBoundaryButtonProps> = () => {
     );
   }
   return (
-    <button className="error-boundary__btn" onClick={handleClick}>
-      error generator
-    </button>
+    <Button
+      text="error generator"
+      className="error-boundary__btn"
+      onClick={handleClick}
+    />
   );
 };

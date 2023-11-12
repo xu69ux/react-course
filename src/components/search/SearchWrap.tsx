@@ -1,109 +1,108 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, FC, useCallback, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { SearchBar } from "./SearchBar";
-import { SearchResult } from "./SearchResult";
-import { ISearchResult } from "./SearchResult";
-import { Pagination } from "../pagination/Pagination";
+import { useSearch } from "../context/SearchContext";
+import { SearchBar } from "../indexComponents";
+import { SearchResult } from "../indexComponents";
+import { Pagination } from "../indexComponents";
+import { ISearchResponse } from "../../types/types";
+
+import logoUrl from "../../assets/philosophy.svg";
 
 import {
   getAllPhilosophers,
   getPhilosopherByName,
 } from "../../utils/usefulFuncs";
 
-import logo from "../../assets/philosophy.svg";
 import "../../styles/SearchWrap.css";
 
-interface SearchWrapProps {
-  searchWrapWidth: string;
-  isSideBarOpen: boolean;
-  toggleSideBar: () => void;
-  page: number;
-  setPage: (page: number) => void;
-}
+export const SearchWrap: FC = () => {
+  const {
+    setCurrentPage,
+    pageSize,
+    searchTerm,
+    setLoadingResults,
+    setSearchResponse,
+    isSideBarOpen,
+    setSideBarOpen,
+  } = useSearch();
 
-export const SearchWrap: React.FC<SearchWrapProps> = (props) => {
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem("searchTerm") || "",
-  );
-  const [searchResults, setSearchResults] = useState<ISearchResult[]>([]);
-  const [badRequest, setBadRequest] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [pageSize, setPageSize] = useState<number>(10);
-  const totalCount = useRef<number>(0);
-  const params = useParams();
-  const currentPage = Number(params.page);
-  const { searchWrapWidth, isSideBarOpen, toggleSideBar, setPage } = props;
+  const [totalResults, setTotalResults] = useState<number>(0);
+  const { page } = useParams();
+
+  const currentPage = page ? parseInt(page, 10) : 1;
+
   const searchWrapStyle = {
-    width: searchWrapWidth,
+    width: "100%",
   };
-  const closeSideBar = () => {
-    if (isSideBarOpen) {
-      toggleSideBar();
+
+  if (isSideBarOpen) {
+    searchWrapStyle.width = "65%";
+  }
+
+  const handleFetchError = useCallback((error: Error) => {
+    if (error instanceof Error) {
+      console.log("error message:", error.message);
     }
+  }, []);
+
+  const hadleClickLogo = () => {
+    setSideBarOpen(false);
   };
 
   useEffect(() => {
-    localStorage.setItem("searchTerm", searchTerm);
-    setBadRequest(false);
-    setLoading(true);
+    setCurrentPage(currentPage);
+  }, [currentPage, setCurrentPage]);
+
+  useEffect(() => {
+    setSideBarOpen(false);
+    setLoadingResults(true);
+
+    const handleResults = (response: ISearchResponse) => {
+      setTotalResults(response.total);
+      setLoadingResults(false);
+      if (setSearchResponse) {
+        setSearchResponse(response);
+      }
+    };
+
     if (searchTerm.trim() === "") {
       getAllPhilosophers(currentPage, pageSize)
-        .then((results) => {
-          totalCount.current = results.total;
-          setSearchResults(results.results);
-          setLoading(false);
-        })
-        .catch((error) => {
-          if (error instanceof Error) {
-            console.log("error message:", error.message);
-          }
-        });
+        .then(handleResults)
+        .catch(handleFetchError);
     } else {
       getPhilosopherByName(searchTerm, currentPage, pageSize)
-        .then((results) => {
-          totalCount.current = results.total;
-          setSearchResults(results.results);
-          setLoading(false);
-        })
-        .catch((error) => {
-          if (error instanceof Error) {
-            console.log("error message:", error.message);
-          }
-        });
+        .then(handleResults)
+        .catch(handleFetchError);
     }
-  }, [searchTerm, currentPage, pageSize]);
+  }, [
+    searchTerm,
+    currentPage,
+    pageSize,
+    setLoadingResults,
+    handleFetchError,
+    totalResults,
+    setSearchResponse,
+    setSideBarOpen,
+  ]);
 
   return (
     <>
       <div
+        data-testid="search-wrap"
         className="search-wrap"
         style={searchWrapStyle}
-        onClick={closeSideBar}
       >
-        {" "}
-        <Link to="/search/page/1" className="search-wrap__home-link">
-          <img className="search-wrap__logo" src={logo} />
+        <Link
+          to="/"
+          className="search-wrap__home-link"
+          onClick={hadleClickLogo}
+        >
+          <img className="search-wrap__logo" src={logoUrl} alt="logo" />
         </Link>
         <h1 className="search-wrap__title">Filosofem API</h1>
-        <SearchBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          currentPage={currentPage}
-        />
-        <Pagination
-          setPage={setPage}
-          totalCount={totalCount.current}
-          loading={loading}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-        />
-        <SearchResult
-          searchResults={searchResults}
-          badRequest={badRequest}
-          loading={loading}
-          toggleSideBar={toggleSideBar}
-          isSideBarOpen={isSideBarOpen}
-        />
+        <SearchBar />
+        <Pagination totalResults={totalResults} />
+        <SearchResult />
       </div>
       <Outlet />
     </>

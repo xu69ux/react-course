@@ -6,9 +6,9 @@ interface ErrorBoundaryProps {
 }
 
 interface ErrorBoundaryState {
-  hasError: boolean;
   error: Error | null;
   errorInfo: ErrorInfo | null;
+  hasError: boolean;
 }
 
 export class ErrorBoundary extends Component<
@@ -16,9 +16,9 @@ export class ErrorBoundary extends Component<
   Readonly<ErrorBoundaryState>
 > {
   state: Readonly<ErrorBoundaryState> = {
-    hasError: false,
     error: null,
     errorInfo: null,
+    hasError: false,
   };
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
