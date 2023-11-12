@@ -1,6 +1,9 @@
-import { render, fireEvent } from "@testing-library/react";
+import axios from "axios";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { SearchResultItem } from "../components/indexComponents";
+
+jest.mock("axios");
 
 const mockResult = {
   id: 5,
@@ -35,5 +38,19 @@ describe("SearchResultItem component", () => {
     fireEvent.click(getByText(new RegExp(`id: ${mockResult.id}`, "i")));
 
     expect(mockClick).toHaveBeenCalled();
+  });
+  test("triggers an additional API call to fetch detailed information when clicked", async () => {
+    const { getByText } = render(
+      <Router>
+        <SearchResultItem
+          result={mockResult}
+          onClick={() =>
+            axios.get("https://belka.romakhin.ru/api/v1/filosofem")
+          }
+        />
+      </Router>,
+    );
+    fireEvent.click(getByText((content) => content.startsWith("name")));
+    await waitFor(() => expect(axios.get).toHaveBeenCalled());
   });
 });

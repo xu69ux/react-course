@@ -11,7 +11,6 @@ import {
   getPhilosopherByName,
 } from "../../utils/usefulFuncs";
 
-import logo from "../../assets/philosophy.svg";
 import "../../styles/SearchWrap.css";
 
 export const SearchWrap: FC = () => {
@@ -86,13 +85,21 @@ export const SearchWrap: FC = () => {
 
   return (
     <>
-      <div className="search-wrap" style={searchWrapStyle}>
+      <div
+        data-testid="search-wrap"
+        className="search-wrap"
+        style={searchWrapStyle}
+      >
         <Link
           to="/"
           className="search-wrap__home-link"
           onClick={hadleClickLogo}
         >
-          <img className="search-wrap__logo" src={logo} alt="logo" />
+          <img
+            className="search-wrap__logo"
+            src="../../assets/philosophy.svg"
+            alt="logo"
+          />
         </Link>
         <h1 className="search-wrap__title">Filosofem API</h1>
         <SearchBar />
