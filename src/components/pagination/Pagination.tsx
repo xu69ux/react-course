@@ -1,6 +1,8 @@
 import { FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "../../redux/slices/searchSlice";
+import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
-import { useSearch } from "../context/SearchContext";
 
 import "../../styles/Pagination.css";
 
@@ -9,39 +11,35 @@ interface IPaginationProps {
 }
 
 export const Pagination: FC<IPaginationProps> = (props) => {
-  const {
-    pageSize,
-    setPageSize,
-    loadingResults,
-    currentPage,
-    setCurrentPage,
-    searchResponse,
-  } = useSearch();
+  const dispatch = useDispatch();
+  const { pageSize, currentPage, searchResponse, loadingResults } = useSelector(
+    (state: RootState) => state.search,
+  );
   const { totalResults } = props;
   const navigate = useNavigate();
 
   const goToPrevPage = () => {
     const prevPage = currentPage - 1;
     navigate(`/search/page/${String(prevPage)}`);
-    setCurrentPage(prevPage);
+    dispatch(actions.setCurrentPage(prevPage));
   };
 
   const goToNextPage = () => {
     const nextPage = currentPage + 1;
     navigate(`/search/page/${String(nextPage)}`);
-    setCurrentPage(nextPage);
+    dispatch(actions.setCurrentPage(nextPage));
   };
 
   const pageSizeIncrement = () => {
-    setPageSize(pageSize + 1);
+    dispatch(actions.setPageSize(pageSize + 1));
     navigate(`/search/page/1`);
-    setCurrentPage(1);
+    dispatch(actions.setCurrentPage(1));
   };
 
   const pageSizeDecrement = () => {
-    setPageSize(pageSize - 1);
+    dispatch(actions.setPageSize(pageSize - 1));
     navigate(`/search/page/1`);
-    setCurrentPage(1);
+    dispatch(actions.setCurrentPage(1));
   };
 
   const renderPagination = () => {
