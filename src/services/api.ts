@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IPhilosophersResponse, IPhilosopher } from "../types/types";
 
-export const apiService = createApi({
+export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://belka.romakhin.ru/api/v1/filosofem",
@@ -29,8 +29,10 @@ export const apiService = createApi({
 });
 
 export const {
-  useGetAllPhilosophersQuery = apiService.endpoints.getAllPhilosophers.initiate,
-  useGetPhilosopherByNameQuery = apiService.endpoints.getPhilosopherByName
-    .initiate,
-  useGetPhilosopherByIdQuery = apiService.endpoints.getPhilosopherById.initiate,
-} = apiService;
+  useGetAllPhilosophersQuery: getAllPhilosophersQuery = api.endpoints
+    .getAllPhilosophers.initiate,
+  useGetPhilosopherByNameQuery: getPhilosopherByNameQuery = api.endpoints
+    .getPhilosopherByName.initiate,
+  useGetPhilosopherByIdQuery: getPhilosopherByIdQuery = api.endpoints
+    .getPhilosopherById.initiate,
+} = api;

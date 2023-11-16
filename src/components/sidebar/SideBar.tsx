@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from "../../redux/slices/searchSlice";
 import { RootState } from "../../redux/store";
-import { useGetPhilosopherByIdQuery } from "../../services/api";
+import { getPhilosopherByIdQuery } from "../../services/api";
 import { IPhilosopher } from "../../types/types";
 import { Loader } from "../indexComponents";
 import { Button } from "../indexComponents";
@@ -18,7 +18,7 @@ export const SideBar: FC = () => {
   );
   const params = useParams();
   const { id, page } = params;
-  const philosopherResult = useGetPhilosopherByIdQuery(Number(id)) as {
+  const philosopherResult = getPhilosopherByIdQuery(Number(id)) as {
     data?: IPhilosopher;
     isLoading: boolean;
   };

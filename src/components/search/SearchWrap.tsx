@@ -7,8 +7,8 @@ import { SearchBar } from "../indexComponents";
 import { SearchResult } from "../indexComponents";
 import { Pagination } from "../indexComponents";
 import {
-  useGetAllPhilosophersQuery,
-  useGetPhilosopherByNameQuery,
+  getAllPhilosophersQuery,
+  getPhilosopherByNameQuery,
 } from "../../services/api";
 import { IPhilosophersResponse, ISearchResponse } from "../../types/types";
 import logoUrl from "../../assets/philosophy.svg";
@@ -22,11 +22,11 @@ export const SearchWrap: FC = () => {
   const { pageSize, searchTerm, isSideBarOpen, viewMode } = useSelector(
     (state: RootState) => state.search,
   );
-  const { data: allPhilosophersData } = useGetAllPhilosophersQuery({
+  const { data: allPhilosophersData } = getAllPhilosophersQuery({
     page: currentPage,
     pageSize,
   }) as { data?: IPhilosophersResponse };
-  const { data: philosopherByNameData } = useGetPhilosopherByNameQuery({
+  const { data: philosopherByNameData } = getPhilosopherByNameQuery({
     searchTerm,
     page: currentPage,
     pageSize,

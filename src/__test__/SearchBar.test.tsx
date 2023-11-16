@@ -1,19 +1,23 @@
 import { screen, render, fireEvent } from "@testing-library/react";
+import { Provider } from "react-redux";
+import configureMockStore from "redux-mock-store";
 import { SearchBar } from "../components/search/SearchBar";
 
-jest.mock("../components/context/SearchContext", () => ({
-  useSearch: () => ({
-    setSearchResponse: jest.fn(),
-    setLoadingResults: jest.fn(),
-    setSearchTerm: jest.fn(),
-    setCurrentPage: jest.fn(),
-  }),
-}));
+const mockStore = configureMockStore();
+const store = mockStore({
+  search: {
+    searchTerm: "",
+  },
+});
 
 describe("SearchBar component", () => {
   test("saves the entered value to the local storage when the Search button is clicked", () => {
     Storage.prototype.setItem = jest.fn();
-    const { getByPlaceholderText, getByText } = render(<SearchBar />);
+    const { getByPlaceholderText, getByText } = render(
+      <Provider store={store}>
+        <SearchBar />
+      </Provider>,
+    );
     fireEvent.change(getByPlaceholderText("enter a philosophical name"), {
       target: { value: "test" },
     });
@@ -23,7 +27,11 @@ describe("SearchBar component", () => {
 
   test("retrieves the value from the local storage upon mounting", () => {
     Storage.prototype.getItem = jest.fn(() => "test");
-    render(<SearchBar />);
+    render(
+      <Provider store={store}>
+        <SearchBar />
+      </Provider>,
+    );
     expect(localStorage.getItem).toHaveBeenCalledWith("searchTerm");
     const input = screen.getByPlaceholderText(
       "enter a philosophical name",

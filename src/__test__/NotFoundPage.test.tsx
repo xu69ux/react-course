@@ -7,11 +7,12 @@ describe("NotFoundPage component", () => {
     render(
       <BrowserRouter>
         <Routes>
+          <Route path="/home" element={<div>home</div>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>,
     );
-
+    window.history.pushState({}, "", "/invalid-route");
     expect(screen.getByText(/not found/i)).toBeInTheDocument();
   });
 });
