@@ -20,5 +20,5 @@
   "include": ["src"],
   "exclude": ["./src/__tests__/**", "./src/__mocks__/**"],
   "references": [{ "path": "./tsconfig.node.json" }],
-  "types": ["node", "jest", "@testing-library/jest-dom"]
+  "types": ["node", "jest", "@testing-library/jest-dom", "node_modules"]
 }

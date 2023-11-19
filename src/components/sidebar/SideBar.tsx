@@ -1,27 +1,28 @@
-import { useEffect, useState, FC } from "react";
+import { useEffect, FC } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPhilosopherById } from "../../utils/usefulFuncs";
-import { useSearch } from "../context/SearchContext";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "../../redux/slices/searchSlice";
+import { RootState } from "../../redux/store";
+import { getPhilosopherByIdQuery } from "../../services/api";
+import { IPhilosopher } from "../../types/types";
 import { Loader } from "../indexComponents";
 import { Button } from "../indexComponents";
 
 import "../../styles/SideBar.css";
 
-interface IPhilosopher {
-  name: string;
-  birth_year: string;
-  death_year: string;
-  idea: string;
-  famous_work: string;
-}
-
 export const SideBar: FC = () => {
-  const { loadingDetails, setLoadingDetails, isSideBarOpen, setSideBarOpen } =
-    useSearch();
-  const [philosopher, setPhilosopher] = useState<IPhilosopher | null>(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loadingDetails, isSideBarOpen } = useSelector(
+    (state: RootState) => state.search,
+  );
   const params = useParams();
   const { id, page } = params;
-  const navigate = useNavigate();
+  const philosopherResult = getPhilosopherByIdQuery(Number(id)) as {
+    data?: IPhilosopher;
+    isLoading: boolean;
+  };
+  const { data: philosopher } = philosopherResult;
 
   if (!isSideBarOpen) {
     const currentUrl = window.location.pathname;
@@ -33,29 +34,17 @@ export const SideBar: FC = () => {
   }
 
   useEffect(() => {
-    const fetchPhilosopher = async () => {
-      setLoadingDetails(true);
-      try {
-        const result = await getPhilosopherById(Number(id));
-        setPhilosopher(result);
-        setLoadingDetails(false);
-      } catch (error) {
-        console.error("Error fetching philosopher data:", error);
-      }
-    };
-
     if (id) {
       navigate(`/search/page/${page || 1}/details/${id}`);
-      setSideBarOpen(true);
-      fetchPhilosopher();
+      dispatch(actions.setSideBarOpen(true));
     } else {
-      setSideBarOpen(false);
+      dispatch(actions.setSideBarOpen(false));
       navigate("/search/page/1");
     }
-  }, [id, setLoadingDetails, setSideBarOpen, navigate, page]);
+  }, [id, navigate, page, dispatch]);
 
   const handleCloseSideBar = () => {
-    setSideBarOpen(false);
+    dispatch(actions.setSideBarOpen(false));
   };
 
   const renderPhilosopher = () => {

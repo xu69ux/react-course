@@ -1,35 +1,40 @@
 import { useState, FC, useEffect } from "react";
-import { useSearch } from "../context/SearchContext";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "../../redux/slices/searchSlice";
+import { RootState } from "../../redux/store";
 import { ErrorBoundaryButton } from "../indexComponents";
 import { Button } from "../indexComponents";
 
 import "../../styles/SearchBar.css";
 
 export const SearchBar: FC = () => {
-  const { searchTerm, setSearchTerm, currentPage, setCurrentPage } =
-    useSearch();
+  const dispatch = useDispatch();
+  const { searchTerm, currentPage } = useSelector(
+    (state: RootState) => state.search,
+  );
   const [inputValue, setInputValue] = useState(searchTerm);
 
   useEffect(() => {
     const searchTerm = localStorage.getItem("searchTerm");
     if (searchTerm) {
-      setSearchTerm(searchTerm);
+      dispatch(actions.setSearchTerm(searchTerm));
       setInputValue(searchTerm);
     }
-  }, [searchTerm, setSearchTerm]);
+  }, [searchTerm, dispatch]);
+
   const handleSearch = () => {
     localStorage.setItem("searchTerm", inputValue);
-    setSearchTerm(inputValue);
-    setCurrentPage(1);
+    dispatch(actions.setSearchTerm(inputValue));
+    dispatch(actions.setCurrentPage(1));
   };
   const clearSearch = () => {
     localStorage.removeItem("searchTerm");
     setTimeout(() => {
-      setSearchTerm("");
+      dispatch(actions.setSearchTerm(""));
       setInputValue("");
     }, 100);
     if (currentPage !== 1) {
-      setCurrentPage(1);
+      dispatch(actions.setCurrentPage(1));
     }
   };
 

@@ -1,89 +1,76 @@
-import { useEffect, FC, useCallback, useState } from "react";
+import { useEffect, FC, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useSearch } from "../context/SearchContext";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "../../redux/slices/searchSlice";
+import { RootState } from "../../redux/store";
 import { SearchBar } from "../indexComponents";
 import { SearchResult } from "../indexComponents";
 import { Pagination } from "../indexComponents";
-import { ISearchResponse } from "../../types/types";
-
-import logoUrl from "../../assets/philosophy.svg";
-
 import {
-  getAllPhilosophers,
-  getPhilosopherByName,
-} from "../../utils/usefulFuncs";
+  getAllPhilosophersQuery,
+  getPhilosopherByNameQuery,
+} from "../../services/api";
+import { IPhilosophersResponse, ISearchResponse } from "../../types/types";
+import logoUrl from "../../assets/philosophy.svg";
 
 import "../../styles/SearchWrap.css";
 
 export const SearchWrap: FC = () => {
-  const {
-    setCurrentPage,
-    pageSize,
-    searchTerm,
-    setLoadingResults,
-    setSearchResponse,
-    isSideBarOpen,
-    setSideBarOpen,
-  } = useSearch();
-
-  const [totalResults, setTotalResults] = useState<number>(0);
+  const dispatch = useDispatch();
   const { page } = useParams();
-
   const currentPage = page ? parseInt(page, 10) : 1;
-
+  const { pageSize, searchTerm, isSideBarOpen, viewMode } = useSelector(
+    (state: RootState) => state.search,
+  );
+  const { data: allPhilosophersData } = getAllPhilosophersQuery({
+    page: currentPage,
+    pageSize,
+  }) as { data?: IPhilosophersResponse };
+  const { data: philosopherByNameData } = getPhilosopherByNameQuery({
+    searchTerm,
+    page: currentPage,
+    pageSize,
+  }) as { data?: IPhilosophersResponse };
+  const [totalResults, setTotalResults] = useState<number>(0);
   const searchWrapStyle = {
-    width: "100%",
+    width: viewMode,
   };
 
-  if (isSideBarOpen) {
-    searchWrapStyle.width = "65%";
-  }
-
-  const handleFetchError = useCallback((error: Error) => {
-    if (error instanceof Error) {
-      console.log("error message:", error.message);
+  useEffect(() => {
+    if (isSideBarOpen) {
+      dispatch(actions.setViewMode("65%"));
+    } else {
+      dispatch(actions.setViewMode("100%"));
     }
-  }, []);
+  }, [isSideBarOpen, dispatch]);
 
   const hadleClickLogo = () => {
-    setSideBarOpen(false);
+    dispatch(actions.setSideBarOpen(false));
   };
 
   useEffect(() => {
-    setCurrentPage(currentPage);
-  }, [currentPage, setCurrentPage]);
+    dispatch(actions.setCurrentPage(currentPage));
+  }, [currentPage, dispatch]);
 
   useEffect(() => {
-    setSideBarOpen(false);
-    setLoadingResults(true);
+    dispatch(actions.setSideBarOpen(false));
+    dispatch(actions.setLoadingResults(true));
 
     const handleResults = (response: ISearchResponse) => {
       setTotalResults(response.total);
-      setLoadingResults(false);
-      if (setSearchResponse) {
-        setSearchResponse(response);
-      }
+      dispatch(actions.setLoadingResults(false));
+      dispatch(actions.setSearchResponse(response));
     };
-
     if (searchTerm.trim() === "") {
-      getAllPhilosophers(currentPage, pageSize)
-        .then(handleResults)
-        .catch(handleFetchError);
+      if (allPhilosophersData) {
+        handleResults(allPhilosophersData as unknown as ISearchResponse);
+      }
     } else {
-      getPhilosopherByName(searchTerm, currentPage, pageSize)
-        .then(handleResults)
-        .catch(handleFetchError);
+      if (philosopherByNameData) {
+        handleResults(philosopherByNameData as unknown as ISearchResponse);
+      }
     }
-  }, [
-    searchTerm,
-    currentPage,
-    pageSize,
-    setLoadingResults,
-    handleFetchError,
-    totalResults,
-    setSearchResponse,
-    setSideBarOpen,
-  ]);
+  }, [allPhilosophersData, philosopherByNameData, searchTerm, dispatch]);
 
   return (
     <>

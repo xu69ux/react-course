@@ -1,15 +1,20 @@
 import { FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "../../redux/slices/searchSlice";
+import { RootState } from "../../redux/store";
 import { Loader } from "../indexComponents";
 import { SearchResultItem } from "./SearchResultItem";
-import { useSearch } from "../context/SearchContext";
 import { ISearchResult } from "../../types/types";
 
 import "../../styles/SearchResult.css";
 
 export const SearchResult: FC = () => {
-  const { searchResponse, loadingResults, setSideBarOpen } = useSearch();
+  const dispatch = useDispatch();
+  const { searchResponse, loadingResults } = useSelector(
+    (state: RootState) => state.search,
+  );
   const handleOpenSideBar = () => {
-    setSideBarOpen(true);
+    dispatch(actions.setSideBarOpen(true));
   };
 
   const renderSearchResults = () => {
