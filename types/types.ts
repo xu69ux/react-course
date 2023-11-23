@@ -8,6 +8,6 @@ export interface Philosopher {
   death_year: number;
   famous_work: string;
   id: number;
-  ideas: string;
+  idea: string;
   name: string;
 }

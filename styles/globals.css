@@ -27,11 +27,11 @@
   font-family: var(--primary-font);
 }
 
-.not-found-page {
+.not_found_page {
   margin: 10rem auto;
 }
 
-.not-found-page h1 {
+.not_found_page h1 {
   margin-bottom: 2rem;
 }
 

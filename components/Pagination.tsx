@@ -1,9 +1,9 @@
   import { useSearchParams } from 'next/navigation';
   import { useRouter } from 'next/router';
 
-  import styles from '../styles/Pagination.module.css'
+  import styles from '@styles/Pagination.module.css'
 
-  export default function Pagination({ totalPages }: { totalPages: number }) {
+  export function Pagination({ totalPages }: { totalPages: number }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const currentPage = Number(router.query.page) || 1;

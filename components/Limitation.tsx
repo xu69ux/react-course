@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 
-import styles from '../styles/Limitation.module.css'
+import styles from '@styles/Limitation.module.css'
 
-export default function Limitation({total}: {total: number}) {
+export function Limitation({total}: {total: number}) {
 
   const router = useRouter();
   const limit = Number(router.query.limit) || 10;

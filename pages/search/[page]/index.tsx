@@ -1,12 +1,9 @@
 import Link from 'next/link';
 import { GetServerSidePropsContext } from 'next'
-import { APIResponse, Philosopher } from '../../../types';
-import Pagination from '../../../components/Pagination';
-import Limitation from '../../../components/Limitation';
-import SearchInput from '../../../components/SearchInput';
+import { APIResponse, Philosopher } from '@/types/types';
+import { SearchInput, Pagination, Limitation } from '@components/index';
 
-import styles from '../../../styles/SearchPage.module.css';
-
+import styles from '@styles/SearchPage.module.css';
 
 export default function SearchPage({ total, results, limit, page }: { total: number, results: Philosopher[], limit: number, page: number}) {
   const totalPages = Math.ceil(total / limit);
@@ -18,7 +15,7 @@ export default function SearchPage({ total, results, limit, page }: { total: num
       {Array.isArray(results) && results.map((philosopher) => (
         <Link className={styles.link} href={`/search/${page}/detail/${philosopher.id}`} key={philosopher.id}>
           <div key={philosopher.id}>
-            <span className={styles.id}>{philosopher.id}</span>
+            <span className={styles.id}>{philosopher.id}.</span>
             <span className={styles.name}>{philosopher.name}</span>
           </div>
         </Link>
@@ -51,7 +48,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       total: data.total,
       results: data.results,
       limit,
+      page: Number(pageUrl),
     },
   };
 }
-

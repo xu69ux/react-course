@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
 
-import styles from '../styles/SearchInput.module.css';
+import styles from '@styles/SearchInput.module.css';
 
-export default function SearchInput() {
+export function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const page = Number(router.query.page) || 1;

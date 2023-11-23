@@ -1,16 +1,35 @@
-// pages/search/[page]/detail/[id].tsx
 import { GetServerSidePropsContext } from 'next';
-import { APIResponse, Philosopher } from '../../../../types';
+import { Philosopher } from '@/types/types';
+import { useRouter } from 'next/router';
+
+import styles from '@styles/Details.module.css';
 
 interface DetailPageProps {
   data: Philosopher;
 }
 
 export default function DetailPage({ data }: DetailPageProps) {
+  const router = useRouter();
+  const page = Number(router.query.page) || 1;
+
+  const closeDetailHandler = () => {
+    router.push({
+      pathname: '/search/[page]',
+    }, 
+    `/search/${page}`);
+  };
+
   return (
-    <div>
-      <h1>DetailPage</h1>
-      <h2>{data.name}</h2>
+    <div className={styles.details_page}>
+      <button className={styles.btn_close} onClick={closeDetailHandler}>&#10005;</button>
+      <h1 className={styles.title}>details:</h1>
+      <div className={styles.content}>
+        <div className={styles.data}>name: {data.name}</div>
+        <div className={styles.data}>born: {data.birth_year}</div>
+        <div className={styles.data}>died: {data.death_year}</div>
+        <div className={styles.data}>idea: {data.idea}</div>
+        <div className={styles.data}>famous work: {data.famous_work}</div>
+      </div>
     </div>
   );
 }
@@ -26,3 +45,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   };
 }
+
