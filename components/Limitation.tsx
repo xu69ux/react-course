@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
+
 import styles from '../styles/Limitation.module.css'
 
-export default function Limitation() {
+export default function Limitation({total}: {total: number}) {
 
   const router = useRouter();
   const limit = Number(router.query.limit) || 10;
@@ -17,9 +18,15 @@ export default function Limitation() {
 
   return (
     <div className={styles.limitation}>
-      <button className={styles.btn} onClick={() => handleLimitChange(limit - 1)}>-</button>
+      <button 
+        className={limit === 1 ? styles.btn_disbl : styles.btn} 
+        onClick={() => handleLimitChange(limit - 1)}
+      >-</button>
       <span>{limit} per page</span>
-      <button className={styles.btn} onClick={() => handleLimitChange(limit + 1)}>+</button>
+      <button 
+        className={limit === total ? styles.btn_disbl : styles.btn} 
+        onClick={() => handleLimitChange(limit + 1)}
+        >+</button>
     </div>
   )
 };

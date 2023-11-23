@@ -1,43 +1,51 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setSearchValue, setResults } from '../redux/sliceSearch';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
 
 import styles from '../styles/SearchInput.module.css';
 
 export default function SearchInput() {
-  const dispatch = useDispatch();
-  const [localSearchValue, setLocalSearchValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const page = Number(router.query.page) || 1;
 
-  useEffect(() => {
-    const storedSearchValue = localStorage.getItem('searchValue');
-    if (storedSearchValue) {
-      setLocalSearchValue(storedSearchValue);
+  const handleSearch = () => {
+    const savedInputValue = localStorage.setItem('savedInputValue', inputRef.current?.value || '');
+    if (inputRef.current) {
+      const inputValue = inputRef.current.value;
+      router.push({
+        pathname: '/search/[page]',
+        query: { 'search.name': inputValue }
+      }, 
+      `/search/${page}?search.name=${inputValue}`);
     }
-  }, []);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalSearchValue(event.target.value);
   };
 
-  const handleSearchClick = async () => {
-    localStorage.setItem('searchValue', localSearchValue);
-    dispatch(setSearchValue(localSearchValue));
-    const response = await fetch(`https://belka.romakhin.ru/api/v1/filosofem?search.name=${localSearchValue}`);
-    const data = await response.json();
-    dispatch(setResults(data));
-  };
-
-  const handleSearchClear = () => {
-    localStorage.removeItem('searchValue');
-    dispatch(setSearchValue(''));
-    setLocalSearchValue('');
+  const handleClearSearch = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('savedInputValue');
+    }
+    inputRef.current!.value = '';
+    router.push({
+      pathname: '/search/[page]',
+    }, 
+    `/search/${page}`);
   };
 
   return (
     <div>
-      <button className={styles.btn_clear} onClick={handleSearchClear}>x</button>
-      <input className={styles.input} type="text" placeholder="enter a philosophical name" value={localSearchValue} onChange={handleInputChange} />
-      <button className={styles.btn} onClick={handleSearchClick}>Search</button>
+      <button 
+        className={styles.btn_clear} 
+        onClick={handleClearSearch}>&#10005;</button>
+      <input
+        className={styles.input} 
+        type="text" 
+        ref={inputRef}
+        placeholder="enter a philosophical name"
+        defaultValue={typeof window !== 'undefined' ? localStorage.getItem('savedInputValue') || '' : ''}
+      />
+      <button 
+      className={styles.btn} 
+      onClick={handleSearch}>search</button>
     </div>
   );
 }
