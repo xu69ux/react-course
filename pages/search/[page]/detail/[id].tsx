@@ -3,6 +3,7 @@ import { Philosopher } from '@/types/types';
 import { useRouter } from 'next/router';
 
 import styles from '@styles/Details.module.css';
+import { Button } from '@components/Button';
 
 interface DetailPageProps {
   data: Philosopher;
@@ -21,7 +22,7 @@ export default function DetailPage({ data }: DetailPageProps) {
 
   return (
     <div className={styles.details_page}>
-      <button className={styles.btn_close} onClick={closeDetailHandler}>&#10005;</button>
+      <Button className={styles.btn_close} onClick={closeDetailHandler} text="&#10005;"/>
       <h1 className={styles.title}>details:</h1>
       <div className={styles.content}>
         <div className={styles.data}>name: {data.name}</div>

@@ -44,7 +44,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const data = await response.json() as APIResponse;
-  console.log(data);
   return {
     props: {
       total: data.total,

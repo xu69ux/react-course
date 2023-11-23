@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
-
+import { Button } from '.';
 import styles from '@styles/SearchInput.module.css';
 
 export function SearchInput() {
@@ -33,9 +33,11 @@ export function SearchInput() {
 
   return (
     <div>
-      <button 
-        className={styles.btn_clear} 
-        onClick={handleClearSearch}>&#10005;</button>
+      <Button
+        className={styles.btn_clear}
+        onClick={handleClearSearch}
+        text="&#10005;"
+      />
       <input
         className={styles.input} 
         type="text" 
@@ -43,9 +45,11 @@ export function SearchInput() {
         placeholder="enter a philosophical name"
         defaultValue={typeof window !== 'undefined' ? localStorage.getItem('savedInputValue') || '' : ''}
       />
-      <button 
-      className={styles.btn} 
-      onClick={handleSearch}>search</button>
+      <Button
+        className={styles.btn}
+        onClick={handleSearch}
+        text="search"
+      />
     </div>
   );
 }
