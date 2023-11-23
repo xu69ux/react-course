@@ -1,30 +1,31 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setPage, selectPage } from '../redux/sliceSearch';
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-
 import styles from '../styles/Pagination.module.css'
 
-interface PaginationProps {
-  total: number;
-  limit: number;
-}
-
-export default function Pagination({ total, limit }: PaginationProps) {
-  const dispatch = useDispatch();
-  const page = useSelector(selectPage) || 1;
-  const totalPages = Math.ceil(total / limit) || 1;
+export default function Pagination({ totalPages }: { totalPages: number }) {
+  const searchParams = useSearchParams();
   const router = useRouter();
-
-  const handlePageChange = (newPage: number) => {
-    dispatch(setPage(newPage));
-    router.push(`/search/${newPage}`);
+  const currentPage = Number(router.query.page) || 1;
+  
+  const handlePageChange = (pageNumber: number) => {
+    const query = { ...router.query, page: pageNumber };
+    router.push({
+      pathname: router.pathname,
+      query,
+    });
   };
 
   return (
     <div className={styles.pagination}>
-      <button className={page === 1 ? styles.btn : styles.btn_disabled} onClick={() => handlePageChange(page - 1)}>&lt;</button>
-      <span>page {page} of {totalPages}</span>
-      <button className={page === totalPages ? styles.btn_disable : styles.btn} onClick={() => handlePageChange(page + 1)}>&gt;</button>
+      <button 
+        className={currentPage === 1 ? styles.btn_disbl : styles.btn} 
+        onClick={() => handlePageChange(currentPage - 1)}
+      >&lt;</button>
+      <span>page {currentPage} of {totalPages}</span>
+      <button 
+        className={currentPage === totalPages ? styles.btn_disbl : styles.btn}
+        onClick={() => handlePageChange(currentPage + 1)}
+      >&gt;</button>
     </div>
   );
-}
+};
