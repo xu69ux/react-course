@@ -1,0 +1,19 @@
+.search_page  {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+  padding: 6rem;
+  background-color: red;
+}
+
+.id,
+.name {
+  margin: 2rem .2rem;
+  color: var(--light);
+}
+
+.link {
+  text-decoration: none;
+  margin-bottom: 2rem;
+}

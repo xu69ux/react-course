@@ -1,0 +1,48 @@
+.details_page {
+  display: block;
+  width: 40%;
+  height: 100vh;
+  text-align: center;
+  border-left: 1px solid var(--light-dark);
+  font-size: 1rem;
+  position: fixed;
+  top: 0;
+  right: 0;
+  opacity: 1;
+  transition: width opacity 0.5s;
+}
+
+.title {
+  margin-top: 15rem;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.btn_close {
+  display: block;
+  width: 2rem;
+  font-size: 2rem;
+  background-color: transparent;
+  color: var(--light);
+  border: none;
+  cursor: pointer;
+  margin: 2rem 2rem 0 auto;
+  transition: color 0.3s ease;
+}
+
+.btn_close:hover {
+  color: var(--hover);
+}
+
+.content {
+  margin: 0 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  text-align: left;
+  font-size: 1.3rem;
+}
+
+.data {
+  margin-bottom: 1rem;
+}

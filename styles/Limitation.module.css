@@ -1,0 +1,22 @@
+.limitation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+  font-size: 1.5rem;
+}
+
+.btn {
+  font-size: 1.5rem;
+  border: none;
+  background-color: transparent;
+  color: var(--light);
+  margin: 0 1rem;
+}
+
+.btn_disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
