@@ -7,7 +7,7 @@ jest.mock('next/router', () => ({
 }));
 
 describe('Pagination component', () => {
-  it('updates URL query parameter when page number changes', () => {
+  test('updates URL query parameter when page number changes', () => {
     const pushMock = jest.fn();
     (useRouter as jest.Mock).mockReturnValue({
       route: '/',
@@ -25,7 +25,7 @@ describe('Pagination component', () => {
     });
   });
 
-  it('updates URL query parameter when page size changes', () => {
+  test('updates URL query parameter when page size changes', () => {
     const pushMock = jest.fn();
     (useRouter as jest.Mock).mockReturnValue({
       route: '/',

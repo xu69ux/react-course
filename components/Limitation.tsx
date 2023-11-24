@@ -18,7 +18,7 @@ export function Limitation({total}: {total: number}) {
   };
 
   return (
-    <div className={styles.limitation}>
+    <div className={styles.limitation} data-testid="limitation">
       <button 
         className={limit === 1 ? styles.btn_disbl : styles.btn} 
         onClick={() => handleLimitChange(limit - 1)}

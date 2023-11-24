@@ -21,17 +21,13 @@ export default function DetailPage({ data }: DetailPageProps) {
     `/search/${page}`);
   };
 
-  const renderResult = () => {};
-  const renderNoResult = () => {
-    return (
-      <div className={styles.no_result}>
-        <div className={styles.no_result_text}>no result</div>
-      </div>
-    );
-  };
   return (
     <div className={styles.details_page}>
-      <Button className={styles.btn_close} onClick={closeDetailHandler} text="&#10005;"/>
+      <Button 
+        data-testid="btn_close"
+        className={styles.btn_close} 
+        onClick={closeDetailHandler} 
+        text="&#10005;"/>
       <h1 className={styles.title}>details:</h1>
       <div className={styles.content}>
         <div className={styles.data}>name: {data.name}</div>

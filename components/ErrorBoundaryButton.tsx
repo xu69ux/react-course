@@ -22,6 +22,7 @@ export const ErrorBoundaryButton: FC<ErrorBoundaryButtonProps> = () => {
   }
   return (
     <Button
+      data-testid="error-boundary-button"
       text="error generator"
       className="error-boundary__btn"
       onClick={handleClick}

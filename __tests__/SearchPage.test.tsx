@@ -19,9 +19,19 @@ describe('SearchPage', () => {
     page: 1,
   };
 
-  it('renders search page', () => {
+  test('renders search page', () => {
     const { getByText } = render(<SearchPage {...mockProps} />);
     expect(getByText('Plato')).toBeInTheDocument();
     expect(getByText('Aristotle')).toBeInTheDocument();
   });
+
+  test('renders components', () => {
+    const { getByTestId } = render(<SearchPage {...mockProps} />);
+    expect(getByTestId('search-input')).toBeInTheDocument();
+    expect(getByTestId('limitation')).toBeInTheDocument();
+    expect(getByTestId('search-list')).toBeInTheDocument();
+    expect(getByTestId('pagination')).toBeInTheDocument();
+    expect(getByTestId('error-boundary-button')).toBeInTheDocument();
+  });
+
 });

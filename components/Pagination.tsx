@@ -17,7 +17,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
   };
 
   return (
-    <div className={styles.pagination}>
+    <div className={styles.pagination} data-testid="pagination">
       <button 
         className={currentPage === 1 ? styles.btn_disbl : styles.btn} 
         onClick={() => handlePageChange(currentPage - 1)}

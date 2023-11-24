@@ -18,7 +18,7 @@ describe('DetailPage', () => {
     idea: 'Platonism',
   };
 
-  it('renders philosopher details', () => {
+  test('renders philosopher details', () => {
     const { getByText } = render(<DetailPage data={mockData} />);
     expect(getByText(`name: ${mockData.name}`)).toBeInTheDocument();
     expect(getByText(`born: ${mockData.birth_year}`)).toBeInTheDocument();

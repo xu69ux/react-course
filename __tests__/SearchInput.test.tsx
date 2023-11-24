@@ -18,7 +18,7 @@ describe('SearchInput component', () => {
     });
   });
 
-  it('saves the entered value to the local storage when the Search button is clicked', () => {
+  test('saves the entered value to the local storage when the Search button is clicked', () => {
     const { getByText, getByPlaceholderText } = render(<SearchInput />);
     const input = getByPlaceholderText('enter a philosophical name');
     fireEvent.change(input, { target: { value: 'Plato' } });
@@ -26,7 +26,7 @@ describe('SearchInput component', () => {
     expect(localStorage.getItem('savedInputValue')).toBe('Plato');
   });
 
-  it('retrieves the value from the local storage upon mounting', () => {
+  test('retrieves the value from the local storage upon mounting', () => {
     localStorage.setItem('savedInputValue', 'Aristotle');
     const { getByPlaceholderText } = render(<SearchInput />);
     const input = getByPlaceholderText('enter a philosophical name');

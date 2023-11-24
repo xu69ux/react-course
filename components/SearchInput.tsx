@@ -44,7 +44,7 @@ export function SearchInput() {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="search-input">
       <Button
         className={styles.btn_clear}
         onClick={handleClearSearch}

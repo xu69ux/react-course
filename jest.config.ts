@@ -14,7 +14,11 @@ const customJestConfig = {
     "**/components/**/*.{js,jsx,ts,tsx}",
     "!**/node_modules/**",
     "!**/vendor/**",
-    "!jest.config.ts"
+    "!jest.config.ts",
+    "!.next/**",
+    "!pages/api/**",
+    "!pages/_document.tsx",
+
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageThreshold: {

@@ -14,7 +14,7 @@ export function SearchList({ results, page }: SearchListProps) {
     return (
       <>
       <h2 className={styles.title}>search results:</h2>
-      <ul className={styles.list}>
+      <ul className={styles.list} data-testid="search-list">
         {Array.isArray(results) && results.map((philosopher) => (
             <SearchItem key={philosopher.id} philosopher={philosopher} page={page}/>
         ))}
