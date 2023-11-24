@@ -1,0 +1,21 @@
+.title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  margin-right: auto;
+}
+
+.list {
+  width: 100%;
+  list-style: none;
+  color: var(--light);
+  text-align: left; 
+  margin-bottom: 5rem;
+}
+
+.no_result {
+  background-color: var(--light-dark);
+  color: var(--light);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 10rem auto;
+}

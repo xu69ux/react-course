@@ -1,5 +1,6 @@
+import React from "react";
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Button } from '.';
 import styles from '@styles/SearchInput.module.css';
 
@@ -28,11 +29,22 @@ export function SearchInput() {
     router.push({
       pathname: '/search/[page]',
     }, 
-    `/search/${page}`);
+    `/search/1`);
   };
 
+  useEffect(() => {
+    const savedInputValue = typeof window !== 'undefined' ? localStorage.getItem('savedInputValue') : '';
+    if (savedInputValue && savedInputValue !== '') {
+      router.push({
+        pathname: '/search/[page]',
+        query: { 'search.name': savedInputValue }
+      }, 
+      `/search/${page}?search.name=${savedInputValue}`);
+    }
+  }, []);
+
   return (
-    <div>
+    <div className={styles.container}>
       <Button
         className={styles.btn_clear}
         onClick={handleClearSearch}

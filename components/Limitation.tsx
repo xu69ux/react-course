@@ -1,3 +1,4 @@
+import React from "react";
 import { useRouter } from 'next/router';
 
 import styles from '@styles/Limitation.module.css'
@@ -9,7 +10,7 @@ export function Limitation({total}: {total: number}) {
 
 
   const handleLimitChange = (newLimit: number) => {
-    const query = { ...router.query, limit: newLimit };
+    const query = { ...router.query, limit: newLimit, page: 1 };
     router.push({
       pathname: router.pathname,
       query,

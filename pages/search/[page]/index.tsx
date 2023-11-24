@@ -1,7 +1,7 @@
-import Link from 'next/link';
+import React from 'react';
 import { GetServerSidePropsContext } from 'next'
 import { APIResponse, Philosopher } from '@/types/types';
-import { SearchInput, Pagination, Limitation } from '@components/index';
+import { SearchInput, SearchList, Pagination, Limitation } from '@components/index';
 
 import styles from '@styles/SearchPage.module.css';
 import { ErrorBoundaryButton } from '@components/ErrorBoundaryButton';
@@ -11,18 +11,11 @@ export default function SearchPage({ total, results, limit, page }: { total: num
   
   return (
     <div className={styles.search_page}>
-      <ErrorBoundaryButton counter={0}/>
       <SearchInput/>
       <Limitation total={total}/>
-      {Array.isArray(results) && results.map((philosopher) => (
-        <Link className={styles.link} href={`/search/${page}/detail/${philosopher.id}`} key={philosopher.id}>
-          <div key={philosopher.id}>
-            <span className={styles.id}>{philosopher.id}.</span>
-            <span className={styles.name}>{philosopher.name}</span>
-          </div>
-        </Link>
-      ))}
+      <SearchList results={results} page={page}/>
       <Pagination totalPages={totalPages}/>
+      <ErrorBoundaryButton counter={0}/>
     </div>
   );
 }
@@ -34,16 +27,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.query['search.id'];
   const name = context.query['search.name'];
 
-  let response;
+  let res;
   if (id) {
-    response = await fetch(`https://belka.romakhin.ru/api/v1/filosofem?${id}`);
+    res = await fetch(`https://belka.romakhin.ru/api/v1/filosofem?${id}`);
   } else if (name) {
-    response = await fetch(`https://belka.romakhin.ru/api/v1/filosofem?search.name=${name}&page=${pageApi}&page_size=${limit}`);
+    res = await fetch(`https://belka.romakhin.ru/api/v1/filosofem?search.name=${name}&page=${pageApi}&page_size=${limit}`);
   } else {
-    response = await fetch(`https://belka.romakhin.ru/api/v1/filosofem?page=${pageApi}&page_size=${limit}`);
+    res = await fetch(`https://belka.romakhin.ru/api/v1/filosofem?page=${pageApi}&page_size=${limit}`);
   }
 
-  const data = await response.json() as APIResponse;
+  const data = await res.json() as APIResponse;
   return {
     props: {
       total: data.total,

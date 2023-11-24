@@ -1,3 +1,4 @@
+import React from 'react';
 import { GetServerSidePropsContext } from 'next';
 import { Philosopher } from '@/types/types';
 import { useRouter } from 'next/router';
@@ -20,6 +21,14 @@ export default function DetailPage({ data }: DetailPageProps) {
     `/search/${page}`);
   };
 
+  const renderResult = () => {};
+  const renderNoResult = () => {
+    return (
+      <div className={styles.no_result}>
+        <div className={styles.no_result_text}>no result</div>
+      </div>
+    );
+  };
   return (
     <div className={styles.details_page}>
       <Button className={styles.btn_close} onClick={closeDetailHandler} text="&#10005;"/>
@@ -37,8 +46,8 @@ export default function DetailPage({ data }: DetailPageProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.params?.id as string;
-  const response = await fetch(`https://belka.romakhin.ru/api/v1/filosofem/${id}`);
-  const data: Philosopher = await response.json();
+  const res = await fetch(`https://belka.romakhin.ru/api/v1/filosofem/${id}`);
+  const data: Philosopher = await res.json();
 
   return {
     props: {
