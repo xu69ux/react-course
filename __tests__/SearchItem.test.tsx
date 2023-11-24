@@ -19,7 +19,7 @@ jest.mock('next/router', () => ({
   }),
 }));
 
-describe("SearchResultItem component", () => {
+describe("SearchItem component", () => {
   test("renders the relevant item data", () => {
     const { getByText } = render(
       <SearchItem philosopher={mockResult} page={1} />

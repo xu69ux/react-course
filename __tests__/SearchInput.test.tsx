@@ -6,7 +6,7 @@ jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
-describe('SearchInput', () => {
+describe('SearchInput component', () => {
   beforeEach(() => {
     localStorage.clear();
     (useRouter as jest.Mock).mockReturnValue({

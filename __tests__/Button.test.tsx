@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react';
 import { Button } from '@components/Button';
 
-describe('Button component tests', () => {
+describe('Button component', () => {
   test('click button', () => {
     const mockOnClick = jest.fn();
   

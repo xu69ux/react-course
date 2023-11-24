@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { SearchList } from '@components/index';
 
-describe('SearchList', () => {
+describe('SearchList component', () => {
   const mockResults = [
     { id: 1, name: 'Plato', birth_year: 438, death_year: 347, famous_work: 'The Republic', idea: 'Platonism' },
     { id: 2, name: 'Aristotle', birth_year: 384, death_year: 322, famous_work: 'Nicomachean Ethics', idea: 'Aristotelianism' },

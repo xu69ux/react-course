@@ -6,7 +6,7 @@ jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
-describe('Limitation', () => {
+describe('Limitation component', () => {
   it('renders the current limit', () => {
     (useRouter as jest.Mock).mockReturnValue({
       route: '/',
