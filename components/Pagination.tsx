@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import styles from '@styles/Pagination.module.css'
 
-export function Pagination({ totalPages }: { totalPages: number }) {
+export function Pagination({ totalPages = 1 }: { totalPages: number }) {
   const router = useRouter();
   const currentPage = Number(router.query.page) || 1;
   

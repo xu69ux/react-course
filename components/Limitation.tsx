@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import styles from '@styles/Limitation.module.css'
 
-export function Limitation({total}: {total: number}) {
+export function Limitation({total = 0}: {total?: number}) {
 
   const router = useRouter();
   const limit = Number(router.query.limit) || 10;

@@ -9,7 +9,7 @@ interface SearchListProps {
   page: number;
 }
 
-export function SearchList({ results, page }: SearchListProps) {
+export function SearchList({ results = [], page = 1 }: SearchListProps) {
   const renderResults = ({ results, page }: SearchListProps) => {
     return (
       <>

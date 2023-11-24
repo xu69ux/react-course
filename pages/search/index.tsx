@@ -1,6 +1,12 @@
-import { redirect } from "next/navigation";
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-export default async function HomeSearchPage() {
-  redirect('/search/1');
+export default function HomeSearchPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/search/1');
+  }, [router]);
+
   return null;
 };

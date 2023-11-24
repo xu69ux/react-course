@@ -41,7 +41,7 @@ export function SearchInput() {
       }, 
       `/search/${page}?search.name=${savedInputValue}`);
     }
-  }, []);
+  }, [page, router]);
 
   return (
     <div className={styles.container} data-testid="search-input">
