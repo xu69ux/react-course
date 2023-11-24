@@ -5,12 +5,11 @@ import { useRouter } from 'next/router';
 import styles from '@styles/Pagination.module.css'
 
 export function Pagination({ totalPages }: { totalPages: number }) {
-  const searchParams = useSearchParams();
   const router = useRouter();
   const currentPage = Number(router.query.page) || 1;
   
   const handlePageChange = (pageNumber: number) => {
-    const query = { ...router.query, page: pageNumber };
+    const query = { ...router.query, page: String(pageNumber) };
     router.push({
       pathname: router.pathname,
       query,

@@ -9,6 +9,13 @@ const customJestConfig = {
   testEnvironment: 'jest-environment-jsdom',
   testPathIgnorePatterns: ['/node_modules/', './__tests__/__mocks__', './__tests__/setupTests'],
   collectCoverage: true,
+  collectCoverageFrom: [
+    "**/pages/**/*.{js,jsx,ts,tsx}",
+    "**/components/**/*.{js,jsx,ts,tsx}",
+    "!**/node_modules/**",
+    "!**/vendor/**",
+    "!jest.config.ts"
+  ],
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageThreshold: {
     global: {

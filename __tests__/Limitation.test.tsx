@@ -34,7 +34,7 @@ describe('Limitation', () => {
     fireEvent.click(getByText('+'));
     expect(pushMock).toHaveBeenCalledWith({
       pathname: '/',
-      query: { limit: 11, page: 1 },
+      query: { limit: '11', page: '1' },
     });
   });
 });

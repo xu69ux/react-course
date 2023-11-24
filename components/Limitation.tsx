@@ -10,7 +10,7 @@ export function Limitation({total}: {total: number}) {
 
 
   const handleLimitChange = (newLimit: number) => {
-    const query = { ...router.query, limit: newLimit, page: 1 };
+    const query = { ...router.query, limit: String(newLimit), page: String(1) };
     router.push({
       pathname: router.pathname,
       query,
