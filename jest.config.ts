@@ -1,27 +1,15 @@
-import type {Config} from 'jest';
-import {defaults} from 'jest-config';
+const nextJest = require('next/jest')
 
-const config: Config = {
-  preset: "ts-jest",
-  testEnvironment: "jest-environment-jsdom",
-  transform: {
-    "^.+\\.tsx?$": "ts-jest",
-  },
-  transformIgnorePatterns: [
-    "/node_modules/(?!@reduxjs/toolkit/query/react).+\\.js$",
-  ],
-  moduleNameMapper: {
-    "\\.(css|less|scss|sss|styl)$": "identity-obj-proxy",
-    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-      "<rootDir>/__tests__/__mocks__/fileMock.js",
-  },
+const createJestConfig = nextJest({
+  dir: './',
+})
+
+const customJestConfig = {
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testEnvironment: 'jest-environment-jsdom',
+  testPathIgnorePatterns: ['/node_modules/', './__tests__/__mocks__', './__tests__/setupTests'],
   collectCoverage: true,
-  collectCoverageFrom: [
-    "src/**/*.{js,jsx,ts,tsx}",
-    "!<rootDir>/node_modules/",
-    "!<rootDir>/path/to/dir/",
-  ],
-  coverageReporters: ["text", "lcov"],
+  coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageThreshold: {
     global: {
       branches: 80,
@@ -30,9 +18,6 @@ const config: Config = {
       statements: 80,
     },
   },
-  setupFilesAfterEnv: ["<rootDir>/__tests__/setupTests.ts"],
-};
+}
 
-export default config;
-
-
+module.exports = createJestConfig(customJestConfig)
