@@ -16,7 +16,6 @@ interface DetailPageProps {
 export default function DetailPage({ data, results, total, totalPages }: DetailPageProps) {
   const router = useRouter();
   const page = Number(router.query.page) || 1;
-  console.log(totalPages);
   const closeDetailHandler = () => {
     router.push({
       pathname: '/search/[page]',
