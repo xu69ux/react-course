@@ -37,6 +37,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const data = await res.json() as APIResponse;
+
   return {
     props: {
       total: data.total,
@@ -46,3 +47,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   };
 }
+
+
