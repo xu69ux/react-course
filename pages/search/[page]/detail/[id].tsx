@@ -16,11 +16,24 @@ interface DetailPageProps {
 export default function DetailPage({ data, results, total, totalPages }: DetailPageProps) {
   const router = useRouter();
   const page = Number(router.query.page) || 1;
+
   const closeDetailHandler = () => {
+    const { ['search.name']: searchName, limit } = router.query;
+  
+    const params = { 
+      ...(searchName && { 'search.name': searchName }),   
+      ...(limit && { limit }) 
+    };
+  
+    const queryString = Object.entries(params)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+  
     router.push({
       pathname: '/search/[page]',
+      query: params,
     }, 
-    `/search/${page}`);
+    `/search/${page}?${queryString}`);
   };
 
   return (
@@ -34,10 +47,10 @@ export default function DetailPage({ data, results, total, totalPages }: DetailP
       </div>
       <div className={styles.details_page}>
         <Button 
-          data-testid="btn_close"
-          className={styles.btn_close} 
-          onClick={closeDetailHandler} 
-          text="&#10005;"/>
+            data-testid="btn_close"
+            className={styles.btn_close} 
+            onClick={closeDetailHandler} 
+            text="&#10005;"/>
         <h1 className={styles.title}>details:</h1>
         <div className={styles.content}>
           <div className={styles.data}>name: {data.name}</div>
@@ -57,14 +70,18 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const pageUrl = context.query.page as string;
   const pageApi = Number(pageUrl) - 1;
   const limit = Number(context.query.limit) || 10;
+  const name = context.query['search.name'];
 
-  const res = await fetch(`https://belka.romakhin.ru/api/v1/filosofem/${id}`);
-  const data: Philosopher = await res.json();
+  let url = `https://belka.romakhin.ru/api/v1/filosofem?page=${pageApi}&page_size=${limit}`;
 
-  const resSearch = await fetch(`https://belka.romakhin.ru/api/v1/filosofem?page=${pageApi}&page_size=${limit}`);
-  const dataSearch = await resSearch.json() as APIResponse;
-  console.log(dataSearch);
+  if (name) {
+    url += `&search.name=${name}`;
+  }
 
+  const [data, dataSearch] = await Promise.all([
+    fetch(`https://belka.romakhin.ru/api/v1/filosofem/${id}`).then((res) => res.json()),
+    fetch(url).then((res) => res.json()),
+  ]);
   return {
     props: {
       data,

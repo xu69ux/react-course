@@ -34,7 +34,7 @@ export function SearchInput() {
 
   useEffect(() => {
     const savedInputValue = typeof window !== 'undefined' ? localStorage.getItem('savedInputValue') : '';
-    if (savedInputValue && savedInputValue !== '') {
+    if (savedInputValue && savedInputValue !== '' && !router.pathname.includes('detail')) {
       router.push({
         pathname: '/search/[page]',
         query: { 'search.name': savedInputValue }
