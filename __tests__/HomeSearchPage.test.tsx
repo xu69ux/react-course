@@ -1,14 +1,22 @@
-import { redirect } from 'next/navigation';
+import { render, waitFor } from '@testing-library/react';
+import { useRouter } from 'next/router';
 import HomeSearchPage from '../pages/search/index';
 
-jest.mock('next/navigation', () => ({
-  redirect: jest.fn(),
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
 }));
 
 describe('HomeSearchPage', () => {
-  it('redirects to the search page', async () => {
-    await HomeSearchPage();
+  test('redirects to the search page', async () => {
+    const push = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({
+      push,
+    });
 
-    expect(redirect).toHaveBeenCalledWith('/search/1');
+    render(<HomeSearchPage />);
+
+    await waitFor(() => {
+      expect(push).toHaveBeenCalledWith('/search/1');
+    });
   });
 });

@@ -51,6 +51,7 @@ export function SearchInput() {
         text="&#10005;"
       />
       <input
+        data-testid="input"
         className={styles.input} 
         type="text" 
         ref={inputRef}

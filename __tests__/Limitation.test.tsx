@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { Limitation } from '@components/index';
 import { useRouter } from 'next/router';
 
@@ -16,8 +16,8 @@ describe('Limitation component', () => {
       push: jest.fn(),
     });
 
-    const { getByText } = render(<Limitation total={10} />);
-    expect(getByText('10 per page')).toBeInTheDocument();
+    render(<Limitation total={10} />);
+    expect(screen.getByText('10 per page')).toBeInTheDocument();
   });
 
   it('calls router.push with the new limit when the + button is clicked', () => {
@@ -30,8 +30,8 @@ describe('Limitation component', () => {
       push: pushMock,
     });
 
-    const { getByText } = render(<Limitation total={20} />);
-    fireEvent.click(getByText('+'));
+    render(<Limitation total={20} />);
+    fireEvent.click(screen.getByText('+'));
     expect(pushMock).toHaveBeenCalledWith({
       pathname: '/',
       query: { limit: '11', page: '1' },

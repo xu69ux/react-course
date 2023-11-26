@@ -1,4 +1,6 @@
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
+import { getServerSideProps } from '../pages/search/[page]';
 import SearchPage from './../pages/search/[page]';
 
 jest.mock('next/router', () => ({
@@ -7,6 +9,9 @@ jest.mock('next/router', () => ({
     push: jest.fn(),
   }),
 }));
+
+fetchMock.enableMocks();
+
 
 describe('SearchPage', () => {
   const mockProps = {
@@ -20,18 +25,69 @@ describe('SearchPage', () => {
   };
 
   test('renders search page', () => {
-    const { getByText } = render(<SearchPage {...mockProps} />);
-    expect(getByText('Plato')).toBeInTheDocument();
-    expect(getByText('Aristotle')).toBeInTheDocument();
+    render(<SearchPage {...mockProps} />);
+    expect(screen.getByText('Plato')).toBeInTheDocument();
+    expect(screen.getByText('Aristotle')).toBeInTheDocument();
   });
 
   test('renders components', () => {
-    const { getByTestId } = render(<SearchPage {...mockProps} />);
-    expect(getByTestId('search-input')).toBeInTheDocument();
-    expect(getByTestId('limitation')).toBeInTheDocument();
-    expect(getByTestId('search-list')).toBeInTheDocument();
-    expect(getByTestId('pagination')).toBeInTheDocument();
-    expect(getByTestId('error-boundary-button')).toBeInTheDocument();
+    render(<SearchPage {...mockProps} />);
+    expect(screen.getByTestId('search-input')).toBeInTheDocument();
+    expect(screen.getByTestId('limitation')).toBeInTheDocument();
+    expect(screen.getByTestId('search-list')).toBeInTheDocument();
+    expect(screen.getByTestId('pagination')).toBeInTheDocument();
+    expect(screen.getByTestId('error-boundary-button')).toBeInTheDocument();
   });
 
+  test('renders SearchPage with different props', () => {
+    const differentProps = {
+      total: 20,
+      results: [
+        { id: 3, name: 'Socrates', birth_year: 469, death_year: 399, famous_work: 'Socratic dialogues', idea: 'Socratic method' },
+      ],
+      limit: 10,
+      page: 2,
+    };
+
+    render(<SearchPage {...differentProps} />);
+    expect(screen.getByText('Socrates')).toBeInTheDocument();
+    expect(screen.getByText('10 per page')).toBeInTheDocument();
+  });
+
+  test('renders SearchPage with no results', () => {
+    const noResultsProps = {
+      total: 0,
+      results: [],
+      limit: 10,
+      page: 1,
+    };
+
+    render(<SearchPage {...noResultsProps} />);
+    expect(screen.getByText('10 per page')).toBeInTheDocument();
+    expect(screen.queryByText('Socrates')).not.toBeInTheDocument();
+  });
+
+  test('responds correctly when the user interacts with the SearchInput component', () => {
+    render(<SearchPage {...mockProps} />);
+    fireEvent.change(screen.getByTestId('input'), { target: { value: 'test' } });
+    expect(screen.getByTestId('input')).toHaveValue('test');
+  });
+
+  test('fetches data correctly', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify({ total: 10, results: [], limit: 10, page: 1 }));
+
+    const context = {
+      params: { page: '1' },
+      query: { limit: '10' },
+    };
+    const response = await getServerSideProps(context as any);
+    expect(response).toEqual({
+      props: {
+        total: 10,
+        results: [],
+        limit: 10,
+        page: 1,
+      },
+    });
+  });
 });

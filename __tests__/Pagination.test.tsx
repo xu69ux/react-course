@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { Pagination } from '@components/index';
 import { useRouter } from 'next/router';
 
@@ -18,7 +18,7 @@ describe('Pagination component', () => {
     });
 
     const { getByText } = render(<Pagination totalPages={10} />);
-    fireEvent.click(getByText('>'));
+    fireEvent.click(screen.getByText('>'));
     expect(pushMock).toHaveBeenCalledWith({
       pathname: '/',
       query: { page: '2' },
@@ -36,7 +36,7 @@ describe('Pagination component', () => {
     });
 
     const { getByText } = render(<Pagination totalPages={20} />);
-    fireEvent.click(getByText('>'));
+    fireEvent.click(screen.getByText('>'));
     expect(pushMock).toHaveBeenCalledWith({
       pathname: '/',
       query: { page: '2', limit: '10' },

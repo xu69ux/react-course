@@ -1,10 +1,9 @@
 import React from 'react';
 import { GetServerSidePropsContext } from 'next'
 import { APIResponse, Philosopher } from '@/types/types';
-import { SearchInput, SearchList, Pagination, Limitation } from '@components/index';
+import { SearchInput, SearchList, Pagination, Limitation, ErrorBoundaryButton } from '@components/index';
 
 import styles from '@styles/SearchPage.module.css';
-import { ErrorBoundaryButton } from '@components/index';
 
 export default function SearchPage({ total, results, limit, page }: { total: number, results: Philosopher[], limit: number, page: number}) {
   const totalPages = Math.ceil(total / limit);

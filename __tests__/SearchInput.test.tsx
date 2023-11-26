@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { SearchInput } from '@components/index';
 import { useRouter } from 'next/router';
 
@@ -20,16 +20,16 @@ describe('SearchInput component', () => {
 
   test('saves the entered value to the local storage when the Search button is clicked', () => {
     const { getByText, getByPlaceholderText } = render(<SearchInput />);
-    const input = getByPlaceholderText('enter a philosophical name');
+    const input = screen.getByPlaceholderText('enter a philosophical name');
     fireEvent.change(input, { target: { value: 'Plato' } });
-    fireEvent.click(getByText('search'));
+    fireEvent.click(screen.getByText('search'));
     expect(localStorage.getItem('savedInputValue')).toBe('Plato');
   });
 
   test('retrieves the value from the local storage upon mounting', () => {
     localStorage.setItem('savedInputValue', 'Aristotle');
     const { getByPlaceholderText } = render(<SearchInput />);
-    const input = getByPlaceholderText('enter a philosophical name');
+    const input = screen.getByPlaceholderText('enter a philosophical name');
     expect((input as HTMLInputElement).value).toBe('Aristotle');
   });
 });

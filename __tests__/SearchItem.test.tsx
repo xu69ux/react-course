@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { SearchItem } from '@components/index';
 
 const mockResult = {
@@ -21,15 +21,15 @@ jest.mock('next/router', () => ({
 
 describe("SearchItem component", () => {
   test("renders the relevant item data", () => {
-    const { getByText } = render(
+    render(
       <SearchItem philosopher={mockResult} page={1} />
     );
 
     expect(
-      getByText(new RegExp(`${mockResult.id}`, "i")),
+      screen.getByText(new RegExp(`${mockResult.id}`, "i")),
     ).toBeInTheDocument();
     expect(
-      getByText(new RegExp(`${mockResult.name}`, "i")),
+      screen.getByText(new RegExp(`${mockResult.name}`, "i")),
     ).toBeInTheDocument();
   });
 });
