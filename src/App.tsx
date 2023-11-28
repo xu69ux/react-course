@@ -1,34 +1,29 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import UncontrolledForm from './components/UncontrolledForm';
+import HookForm from './components/HookForm';
+import MainPage from './components/MainPage';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
+    <Router>
       <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/uncontrolled-form">Uncontrolled Form</Link>
+            </li>
+            <li>
+              <Link to="/hook-form">Hook Form</Link>
+            </li>
+          </ul>
+        </nav>
+        <Routes>
+          <Route path="/uncontrolled-form" element={<UncontrolledForm />} />
+          <Route path="/hook-form" element={<HookForm />} />
+          <Route path="/" element={<MainPage />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </Router>
   );
 }
 
