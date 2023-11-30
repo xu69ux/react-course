@@ -15,5 +15,6 @@ export interface RootState {
     uncontrolledFormData: FormData;
     hookFormData: FormData;
     countries: string[];
+    lastUpdatedForm: string | null;
   };
 }

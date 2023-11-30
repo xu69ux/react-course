@@ -2,7 +2,7 @@ import React, { FormEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUncontrolledFormData } from '../redux/formSlice';
-import { RootState } from '../types';
+import { RootState, FormData } from '../types';
 import { SCHEMA } from '../constants';
 import * as yup from 'yup';
 
@@ -26,22 +26,22 @@ export default function UncontrolledForm() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    const data = {
-      name: nameRef.current?.value,
-      age: ageRef.current?.value,
-      email: emailRef.current?.value,
-      password: passwordRef.current?.value,
-      confirmPassword: confirmPasswordRef.current?.value,
-      gender: genderRef.current?.value,
-      country: countryRef.current?.value,
-      terms: termsRef.current?.checked,
+    const data: FormData = {
+      name: nameRef.current?.value ?? '',
+      age: Number(ageRef.current?.value) ?? 0,
+      email: emailRef.current?.value ?? '',
+      password: passwordRef.current?.value ?? '',
+      confirmPassword: confirmPasswordRef.current?.value ?? '',
+      gender: genderRef.current?.value ?? '',
+      country: countryRef.current?.value ?? '',
+      terms: termsRef.current?.checked ?? false,
       submitTime: new Date().toISOString(),
     };
 
     try {
       SCHEMA.validateSync(data, { abortEarly: false });
       setErrors({});
-      dispatch(setUncontrolledFormData(data));
+      dispatch(setUncontrolledFormData({ data, formName: 'uncontrolled' }));
       navigate('/');
     } catch (err) {
       if (err instanceof yup.ValidationError) {

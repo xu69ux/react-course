@@ -29,3 +29,16 @@ td {
   padding: 1rem;
   text-align: left;
 }
+
+.new-data {
+  animation: highlight 2s;
+}
+
+@keyframes highlight {
+  from {
+    background-color: #fff;
+  }
+  to {
+    background-color: #5b5b5b;
+  }
+}

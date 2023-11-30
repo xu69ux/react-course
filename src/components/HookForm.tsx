@@ -23,7 +23,7 @@ function HookForm() {
 
   const onSubmit = (data: FormData) => {
     data.submitTime = new Date().toISOString();
-    dispatch(setHookFormData(data));
+    dispatch(setHookFormData({ data, formName: 'hook' }));
     navigate('/');
   };
 

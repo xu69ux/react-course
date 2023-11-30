@@ -4,7 +4,15 @@ import { RootState } from '../types';
 import './MainPage.css';
 
 function MainPage() {
-  const data = useSelector((state: RootState) => state.form);
+  const uncontrolledFormData = useSelector(
+    (state: RootState) => state.form.uncontrolledFormData
+  );
+  const hookFormData = useSelector(
+    (state: RootState) => state.form.hookFormData
+  );
+  const lastUpdatedForm = useSelector(
+    (state: RootState) => state.form.lastUpdatedForm
+  );
 
   function formatDate(time: string | undefined | null | Date): string {
     if (!time) {
@@ -21,46 +29,47 @@ function MainPage() {
   }
 
   const renderHookFormData = () => {
+    const tableClass = lastUpdatedForm === 'hook' ? 'new-data' : '';
     return (
       <div className="hook-form-data">
         <h2>Hook Form Data</h2>
-        <table>
+        <table className={tableClass}>
           <tbody>
             <tr>
               <td>Submission Time:</td>
-              <td>{formatDate(data.hookFormData.submitTime)}</td>
+              <td>{formatDate(hookFormData.submitTime)}</td>
             </tr>
             <tr>
               <td>Name:</td>
-              <td>{data.hookFormData.name}</td>
+              <td>{hookFormData.name}</td>
             </tr>
             <tr>
               <td>Age:</td>
-              <td>{data.hookFormData.age}</td>
+              <td>{hookFormData.age}</td>
             </tr>
             <tr>
               <td>Email:</td>
-              <td>{data.hookFormData.email}</td>
+              <td>{hookFormData.email}</td>
             </tr>
             <tr>
               <td>Password:</td>
-              <td>{data.hookFormData.password}</td>
+              <td>{hookFormData.password}</td>
             </tr>
             <tr>
               <td>Confirm Password:</td>
-              <td>{data.hookFormData.confirmPassword}</td>
+              <td>{hookFormData.confirmPassword}</td>
             </tr>
             <tr>
               <td>Country:</td>
-              <td>{data.hookFormData.country}</td>
+              <td>{hookFormData.country}</td>
             </tr>
             <tr>
               <td>Sex:</td>
-              <td>{data.hookFormData.gender}</td>
+              <td>{hookFormData.gender}</td>
             </tr>
             <tr>
               <td>Terms:</td>
-              <td>{data.hookFormData.terms ? 'true' : ''}</td>
+              <td>{hookFormData.terms ? 'true' : ''}</td>
             </tr>
           </tbody>
         </table>
@@ -69,46 +78,48 @@ function MainPage() {
   };
 
   const renderUncontrolledFormData = () => {
+    const tableClass = lastUpdatedForm === 'uncontrolled' ? 'new-data' : '';
+
     return (
       <div className="uncontrolled-form-data">
         <h2>Uncontrolled Form Data</h2>
-        <table>
+        <table className={tableClass}>
           <tbody>
             <tr>
               <td>Submission Time:</td>
-              <td>{formatDate(data.uncontrolledFormData.submitTime)}</td>
+              <td>{formatDate(uncontrolledFormData.submitTime)}</td>
             </tr>
             <tr>
               <td>Name:</td>
-              <td>{data.uncontrolledFormData.name}</td>
+              <td>{uncontrolledFormData.name}</td>
             </tr>
             <tr>
               <td>Age:</td>
-              <td>{data.uncontrolledFormData.age}</td>
+              <td>{uncontrolledFormData.age}</td>
             </tr>
             <tr>
               <td>Email:</td>
-              <td>{data.uncontrolledFormData.email}</td>
+              <td>{uncontrolledFormData.email}</td>
             </tr>
             <tr>
               <td>Password:</td>
-              <td>{data.uncontrolledFormData.password}</td>
+              <td>{uncontrolledFormData.password}</td>
             </tr>
             <tr>
               <td>Confirm Password:</td>
-              <td>{data.uncontrolledFormData.confirmPassword}</td>
+              <td>{uncontrolledFormData.confirmPassword}</td>
             </tr>
             <tr>
               <td>Country:</td>
-              <td>{data.uncontrolledFormData.country}</td>
+              <td>{uncontrolledFormData.country}</td>
             </tr>
             <tr>
               <td>Sex:</td>
-              <td>{data.uncontrolledFormData.gender}</td>
+              <td>{uncontrolledFormData.gender}</td>
             </tr>
             <tr>
               <td>Terms:</td>
-              <td>{data.uncontrolledFormData.terms ? 'true' : ''}</td>
+              <td>{uncontrolledFormData.terms ? 'true' : ''}</td>
             </tr>
           </tbody>
         </table>
@@ -119,8 +130,8 @@ function MainPage() {
   return (
     <div>
       <h1>React Forms Data</h1>
-      {data.hookFormData ? renderHookFormData() : null}
-      {data.uncontrolledFormData ? renderUncontrolledFormData() : null}
+      {hookFormData ? renderHookFormData() : null}
+      {uncontrolledFormData ? renderUncontrolledFormData() : null}
     </div>
   );
 }
