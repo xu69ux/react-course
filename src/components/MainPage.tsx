@@ -43,7 +43,34 @@ function MainPage() {
             </tr>
             <tr>
               <td>Terms:</td>
-              <td>{data.hookFormData.terms ? 'true' : 'false'}</td>
+              <td>{data.hookFormData.terms ? 'true' : ''}</td>
+            </tr>
+          </table>
+        </div>
+      )}
+      {data.uncontrolledFormData && (
+        <div className="uncontrolled-form-data">
+          <h2>Uncontrolled Form Data</h2>
+          <table>
+            <tr>
+              <td>Name:</td>
+              <td>{data.uncontrolledFormData.name}</td>
+            </tr>
+            <tr>
+              <td>Age:</td>
+              <td>{data.uncontrolledFormData.age}</td>
+            </tr>
+            <tr>
+              <td>Email:</td>
+              <td>{data.uncontrolledFormData.email}</td>
+            </tr>
+            <tr>
+              <td>Password:</td>
+              <td>{data.uncontrolledFormData.password}</td>
+            </tr>
+            <tr>
+              <td>Confirm Password:</td>
+              <td>{data.uncontrolledFormData.confirmPassword}</td>
             </tr>
           </table>
         </div>

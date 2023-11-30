@@ -48,8 +48,9 @@ function HookForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm({
     resolver: yupResolver(schema),
+    mode: 'onChange',
   });
 
   const dispatch = useDispatch();
@@ -61,9 +62,13 @@ function HookForm() {
   const countries = useSelector((state: RootState) => state.form.countries);
 
   return (
-    <div className="container">
+    <div className="container-form">
       <h1>Hook Form</h1>
-      <form className="hook-form" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="hook-form"
+        id="hook-form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <label htmlFor="name">name</label>
         <input type="text" {...register('name')} />
         <div
@@ -128,15 +133,17 @@ function HookForm() {
         ></div>
 
         <div className="terms">
-          <label htmlFor="terms">accept terms & conditions</label>
           <input type="checkbox" {...register('terms')} />
+          <label htmlFor="terms">accept terms and conditions</label>
         </div>
         <div
           className="error"
           data-error={errors.terms ? errors.terms.message : ''}
         ></div>
 
-        <button type="submit">submit</button>
+        <button className="submit" type="submit" form="ho">
+          submit
+        </button>
       </form>
     </div>
   );

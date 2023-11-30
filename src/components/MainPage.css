@@ -3,12 +3,13 @@ h1 {
   margin: 0 auto;
 }
 
-.hook-form-data {
+.hook-form-data,
+.uncontrolled-form-data {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 2rem;
+  margin: 2rem 0;
 }
 
 table {
