@@ -7,6 +7,7 @@ type FormState = {
   hookFormData: FormData;
   countries: string[];
   lastUpdatedForm: string | null;
+  submitTime?: string;
 };
 
 const formSlice = createSlice({

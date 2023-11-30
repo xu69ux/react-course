@@ -21,13 +21,24 @@ function HookForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (data: FormData) => {
-    data.submitTime = new Date().toISOString();
-    dispatch(setHookFormData({ data, formName: 'hook' }));
-    navigate('/');
-  };
-
   const countries = useSelector((state: RootState) => state.form.countries);
+
+  const onSubmit = (data: FormData) => {
+    if (data.picture) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const updatedData = {
+          ...data,
+          picture: reader.result as string,
+          submitTime: new Date().toISOString(),
+        };
+
+        dispatch(setHookFormData({ data: updatedData, formName: 'hook' }));
+        navigate('/');
+      };
+      reader.readAsDataURL(data.picture[0] as unknown as File);
+    }
+  };
 
   return (
     <div className="container-form">
@@ -35,7 +46,7 @@ function HookForm() {
       <form
         className="hook-form"
         id="hook-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((data) => onSubmit(data as FormData))}
       >
         <label htmlFor="name">name</label>
         <input type="text" {...register('name')} />
@@ -98,6 +109,15 @@ function HookForm() {
         <div
           className="error"
           data-error={errors.gender ? errors.gender.message : ''}
+        ></div>
+
+        <div>
+          <label htmlFor="picture">picture:</label>
+          <input type="file" {...register('picture')} />
+        </div>
+        <div
+          className="error"
+          data-error={errors.picture ? errors.picture.message : ''}
         ></div>
 
         <div className="terms">

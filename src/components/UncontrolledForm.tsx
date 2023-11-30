@@ -17,42 +17,54 @@ export default function UncontrolledForm() {
   const genderRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
   const termsRef = useRef<HTMLInputElement>(null);
+  const pictureRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const countries = useSelector((state: RootState) => state.form.countries);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
 
-    const data: FormData = {
-      name: nameRef.current?.value ?? '',
-      age: Number(ageRef.current?.value) ?? 0,
-      email: emailRef.current?.value ?? '',
-      password: passwordRef.current?.value ?? '',
-      confirmPassword: confirmPasswordRef.current?.value ?? '',
-      gender: genderRef.current?.value ?? '',
-      country: countryRef.current?.value ?? '',
-      terms: termsRef.current?.checked ?? false,
+    const tempData: FormData = {
+      name: nameRef.current?.value || '',
+      age: Number(ageRef.current?.value) || 0,
+      email: emailRef.current?.value || '',
+      password: passwordRef.current?.value || '',
+      confirmPassword: confirmPasswordRef.current?.value || '',
+      gender: genderRef.current?.value || '',
+      country: countryRef.current?.value || '',
+      terms: termsRef.current?.checked || false,
+      picture: null,
       submitTime: new Date().toISOString(),
     };
 
-    try {
-      SCHEMA.validateSync(data, { abortEarly: false });
-      setErrors({});
-      dispatch(setUncontrolledFormData({ data, formName: 'uncontrolled' }));
-      navigate('/');
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        const validationErrors = err.inner.reduce((errors, error) => {
-          if (typeof error.path === 'string') {
-            return { ...errors, [error.path]: error.message };
+    if (pictureRef.current?.files?.length) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        tempData.picture = reader.result as string;
+        try {
+          SCHEMA.validate(tempData, { abortEarly: false });
+          setErrors({});
+          dispatch(
+            setUncontrolledFormData({
+              data: tempData,
+              formName: 'uncontrolled',
+            })
+          );
+          navigate('/');
+        } catch (err) {
+          if (err instanceof yup.ValidationError) {
+            const validationErrors = err.inner.reduce((errors, error) => {
+              return { ...errors, [error.path as string]: error.message };
+            }, {});
+            setErrors(validationErrors);
           }
-          return errors;
-        }, {});
-        setErrors(validationErrors);
-      }
+        }
+      };
+      reader.readAsDataURL(pictureRef.current.files[0]);
     }
   };
 
@@ -103,6 +115,12 @@ export default function UncontrolledForm() {
           <input type="radio" value="female" ref={genderRef} />
         </div>
         <div className="error" data-error={errors.gender || ''}></div>
+
+        <div className="picture">
+          <label htmlFor="picture">picture:</label>
+          <input type="file" ref={pictureRef} />
+        </div>
+        <div className="error" data-error={errors.picture || ''}></div>
 
         <div className="terms">
           <input type="checkbox" ref={termsRef} />

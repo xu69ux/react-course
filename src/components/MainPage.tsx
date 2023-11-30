@@ -19,12 +19,13 @@ function MainPage() {
       return '';
     }
     const date = new Date(time);
-    const hours = date.getHours();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
     return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
   }
 
@@ -68,6 +69,16 @@ function MainPage() {
               <td>{hookFormData.gender}</td>
             </tr>
             <tr>
+              <td>Picture:</td>
+              <td>
+                {hookFormData.picture ? (
+                  <img src={hookFormData.picture} alt="Uploaded" />
+                ) : (
+                  ''
+                )}
+              </td>
+            </tr>
+            <tr>
               <td>Terms:</td>
               <td>{hookFormData.terms ? 'true' : ''}</td>
             </tr>
@@ -79,7 +90,6 @@ function MainPage() {
 
   const renderUncontrolledFormData = () => {
     const tableClass = lastUpdatedForm === 'uncontrolled' ? 'new-data' : '';
-
     return (
       <div className="uncontrolled-form-data">
         <h2>Uncontrolled Form Data</h2>
@@ -116,6 +126,14 @@ function MainPage() {
             <tr>
               <td>Sex:</td>
               <td>{uncontrolledFormData.gender}</td>
+            </tr>
+            <tr>
+              <td>Picture:</td>
+              {uncontrolledFormData.picture ? (
+                <img src={uncontrolledFormData.picture} alt="Uploaded" />
+              ) : (
+                ''
+              )}
             </tr>
             <tr>
               <td>Terms:</td>

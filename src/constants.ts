@@ -87,4 +87,20 @@ export const SCHEMA = yup.object().shape({
     .bool()
     .oneOf([true], '⚠️ You must accept the terms and conditions')
     .required(),
+  picture: yup
+    .mixed()
+    .test('File presence', 'Image is required', (value) =>
+      (value as FileList)[0] ? true : false
+    )
+    .test('fileSize', 'File size must be less than 1MB', (value) => {
+      const file = (value as FileList)[0];
+      return file ? file.size < 1024 * 1024 : false;
+    })
+    .test('fileType', 'Unsupported File Format', (value) => {
+      const file = (value as FileList)[0];
+      const extension = file
+        ? file.name.slice(file.name.lastIndexOf('.')).toLowerCase()
+        : '';
+      return ['.jpeg', '.jpg', '.png'].includes(extension);
+    }),
 });

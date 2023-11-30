@@ -34,6 +34,12 @@ td {
   animation: highlight 2s;
 }
 
+img {
+  width: 10rem;
+  height: auto;
+  padding: 0.3rem;
+}
+
 @keyframes highlight {
   from {
     background-color: #fff;

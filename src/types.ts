@@ -7,6 +7,7 @@ export interface FormData {
   gender: string;
   country: string;
   terms: boolean;
+  picture: string | null;
   submitTime?: string;
 }
 
