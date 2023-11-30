@@ -1,47 +1,12 @@
-import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
-import { setHookFormData, setSubmissionTime } from '../redux/formSlice';
-import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHookFormData } from '../redux/formSlice';
 import { FormData, RootState } from '../types';
+import { SCHEMA } from '../constants';
 
 import './HookForm.css';
-
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .matches(/^[A-Z].*$/, '⚠️ First letter should be uppercase')
-    .required('⚠️ Name is required'),
-  age: yup
-    .number()
-    .transform((value) => {
-      return isNaN(value) ? undefined : Number(value);
-    })
-    .positive('⚠️ Age should be a positive number')
-    .required('⚠️ Age is required'),
-  email: yup
-    .string()
-    .email('⚠️ Invalid email')
-    .required('⚠️ Email is required'),
-  password: yup
-    .string()
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      '⚠️ Password should contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-    )
-    .required('⚠️ Password is required'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), undefined], '⚠️ Passwords must match')
-    .required('⚠️ Confirm Password is required'),
-  gender: yup.string().required('⚠️ Gender is required'),
-  country: yup.string().required('⚠️ Country is required'),
-  terms: yup
-    .bool()
-    .oneOf([true], '⚠️ You must accept the terms and conditions')
-    .required(),
-});
 
 function HookForm() {
   const {
@@ -49,14 +14,17 @@ function HookForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(SCHEMA),
     mode: 'onChange',
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const onSubmit = (data: FormData) => {
-    dispatch(setSubmissionTime(new Date().toISOString()));
+    data.submitTime = new Date().toISOString();
     dispatch(setHookFormData(data));
+    navigate('/');
   };
 
   const countries = useSelector((state: RootState) => state.form.countries);
@@ -141,7 +109,7 @@ function HookForm() {
           data-error={errors.terms ? errors.terms.message : ''}
         ></div>
 
-        <button className="submit" type="submit" form="ho">
+        <button className="submit" type="submit" form="hook-form">
           submit
         </button>
       </form>

@@ -7,6 +7,7 @@ export interface FormData {
   gender: string;
   country: string;
   terms: boolean;
+  submitTime?: string;
 }
 
 export interface RootState {
@@ -14,6 +15,5 @@ export interface RootState {
     uncontrolledFormData: FormData;
     hookFormData: FormData;
     countries: string[];
-    submissionTime: Date | null;
   };
 }

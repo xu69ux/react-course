@@ -7,7 +7,6 @@ const formSlice = createSlice({
     uncontrolledFormData: {},
     hookFormData: {},
     countries: [...COUNTRIES],
-    submissionTime: null,
   },
   reducers: {
     setUncontrolledFormData: (state, action) => {
@@ -19,17 +18,10 @@ const formSlice = createSlice({
     setCountries: (state, action) => {
       state.countries = action.payload;
     },
-    setSubmissionTime: (state, action) => {
-      state.submissionTime = action.payload;
-    },
   },
 });
 
-export const {
-  setUncontrolledFormData,
-  setHookFormData,
-  setCountries,
-  setSubmissionTime,
-} = formSlice.actions;
+export const { setUncontrolledFormData, setHookFormData, setCountries } =
+  formSlice.actions;
 
 export default formSlice.reducer;

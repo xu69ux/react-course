@@ -1,3 +1,5 @@
+import * as yup from 'yup';
+
 export const COUNTRIES = [
   'Afghanistan',
   'Albania',
@@ -51,3 +53,38 @@ export const COUNTRIES = [
   'Egypt',
   'El Salvador',
 ];
+
+export const SCHEMA = yup.object().shape({
+  name: yup
+    .string()
+    .matches(/^[A-Z].*$/, '⚠️ First letter should be uppercase')
+    .required('⚠️ Name is required'),
+  age: yup
+    .number()
+    .transform((value) => {
+      return isNaN(value) ? undefined : Number(value);
+    })
+    .positive('⚠️ Age should be a positive number')
+    .required('⚠️ Age is required'),
+  email: yup
+    .string()
+    .email('⚠️ Invalid email')
+    .required('⚠️ Email is required'),
+  password: yup
+    .string()
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      '⚠️ Password should contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+    )
+    .required('⚠️ Password is required'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), undefined], '⚠️ Passwords must match')
+    .required('⚠️ Confirm Password is required'),
+  gender: yup.string().required('⚠️ Gender is required'),
+  country: yup.string().required('⚠️ Country is required'),
+  terms: yup
+    .bool()
+    .oneOf([true], '⚠️ You must accept the terms and conditions')
+    .required(),
+});
