@@ -13,6 +13,9 @@ function App() {
           <nav>
             <ul>
               <li>
+                <Link to="/">Main Page</Link>
+              </li>
+              <li>
                 <Link to="/uncontrolled-form">Uncontrolled Form</Link>
               </li>
               <li>
