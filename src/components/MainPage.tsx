@@ -129,11 +129,13 @@ function MainPage() {
             </tr>
             <tr>
               <td>Picture:</td>
-              {uncontrolledFormData.picture ? (
-                <img src={uncontrolledFormData.picture} alt="Uploaded" />
-              ) : (
-                ''
-              )}
+              <td>
+                {uncontrolledFormData.picture ? (
+                  <img src={uncontrolledFormData.picture} alt="Uploaded" />
+                ) : (
+                  ''
+                )}
+              </td>
             </tr>
             <tr>
               <td>Terms:</td>

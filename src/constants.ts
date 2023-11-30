@@ -98,9 +98,10 @@ export const SCHEMA = yup.object().shape({
     })
     .test('fileType', 'Unsupported File Format', (value) => {
       const file = (value as FileList)[0];
-      const extension = file
-        ? file.name.slice(file.name.lastIndexOf('.')).toLowerCase()
-        : '';
-      return ['.jpeg', '.jpg', '.png'].includes(extension);
+      const extension =
+        file && file.name
+          ? file.name.slice(file.name.lastIndexOf('.')).toLowerCase()
+          : '';
+      return file ? ['.jpeg', '.jpg', '.png'].includes(extension) : false;
     }),
 });

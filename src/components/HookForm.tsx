@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setHookFormData } from '../redux/formSlice';
 import { FormData, RootState } from '../types';
 import { SCHEMA } from '../constants';
+import * as yup from 'yup';
 
 import './HookForm.css';
 
@@ -24,20 +25,28 @@ function HookForm() {
   const countries = useSelector((state: RootState) => state.form.countries);
 
   const onSubmit = (data: FormData) => {
-    if (data.picture) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const updatedData = {
-          ...data,
-          picture: reader.result as string,
-          submitTime: new Date().toISOString(),
-        };
+    SCHEMA.validate(data, { abortEarly: false })
+      .then(() => {
+        if (data.picture) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const updatedData = {
+              ...data,
+              picture: reader.result as string,
+              submitTime: new Date().toISOString(),
+            };
 
-        dispatch(setHookFormData({ data: updatedData, formName: 'hook' }));
-        navigate('/');
-      };
-      reader.readAsDataURL(data.picture[0] as unknown as File);
-    }
+            dispatch(setHookFormData({ data: updatedData, formName: 'hook' }));
+            navigate('/');
+          };
+          reader.readAsDataURL(data.picture[0] as unknown as File);
+        }
+      })
+      .catch((err) => {
+        if (err instanceof yup.ValidationError) {
+          console.log(err.errors);
+        }
+      });
   };
 
   return (
