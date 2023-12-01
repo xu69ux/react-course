@@ -50,8 +50,7 @@ export default function UncontrolledForm() {
           return { ...errors, [error.path as string]: error.message };
         }, {});
         setErrors(validationErrors);
-        console.log(validationErrors);
-        return; // If validation fails, stop execution
+        return;
       }
     }
 

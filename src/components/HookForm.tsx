@@ -44,7 +44,6 @@ function HookForm() {
       })
       .catch((err) => {
         if (err instanceof yup.ValidationError) {
-          console.log(err.errors);
         }
       });
   };
