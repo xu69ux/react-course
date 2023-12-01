@@ -1,12 +1,16 @@
 import React, { FormEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setUncontrolledFormData } from '../redux/formSlice';
+import { setToHistory, setUncontrolledFormData } from '../redux/formSlice';
 import { RootState, FormData } from '../types';
 import { SCHEMA } from '../constants';
 import * as yup from 'yup';
 
 import './UncontrolledForm.css';
+
+type FormDataWithFileList = Omit<FormData, 'picture'> & {
+  picture: FileList | string | null;
+};
 
 export default function UncontrolledForm() {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -28,7 +32,7 @@ export default function UncontrolledForm() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const tempData: FormData = {
+    const tempData: FormDataWithFileList = {
       name: nameRef.current?.value || '',
       age: Number(ageRef.current?.value) || 0,
       email: emailRef.current?.value || '',
@@ -37,10 +41,9 @@ export default function UncontrolledForm() {
       gender: genderRef.current?.value || '',
       country: countryRef.current?.value || '',
       terms: termsRef.current?.checked || false,
-      picture: null,
+      picture: pictureRef.current?.files || null,
       submitTime: new Date().toISOString(),
     };
-
     try {
       await SCHEMA.validate(tempData, { abortEarly: false });
       setErrors({});
@@ -53,21 +56,31 @@ export default function UncontrolledForm() {
         return;
       }
     }
-
-    if (pictureRef.current?.files?.length) {
+    if (tempData.picture?.length) {
+      const file = tempData.picture[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        tempData.picture = reader.result as string;
-        dispatchAndNavigate(tempData);
+        const finalData: FormData = {
+          ...tempData,
+          picture: reader.result as string,
+        };
+        dispatchAndNavigate(finalData);
       };
-      reader.readAsDataURL(pictureRef.current.files[0]);
+      if (file instanceof Blob) {
+        reader.readAsDataURL(file);
+      }
     } else {
-      dispatchAndNavigate(tempData);
+      const finalData: FormData = {
+        ...tempData,
+        picture: null,
+      };
+      dispatchAndNavigate(finalData);
     }
   };
 
   const dispatchAndNavigate = (data: FormData) => {
     dispatch(setUncontrolledFormData({ data: data, formName: 'uncontrolled' }));
+    dispatch(setToHistory(data));
     navigate('/');
   };
 
@@ -111,7 +124,7 @@ export default function UncontrolledForm() {
           <label htmlFor="female">female</label>
           <input type="radio" value="female" ref={genderRef} />
         </div>
-        <div className="error" data-error={errors.gender || ''}></div>;
+        <div className="error" data-error={errors.gender || ''}></div>
         <div className="picture">
           <label htmlFor="picture">picture:</label>
           <input type="file" ref={pictureRef} />

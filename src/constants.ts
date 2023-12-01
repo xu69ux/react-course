@@ -89,6 +89,7 @@ export const SCHEMA = yup.object().shape({
     .required(),
   picture: yup
     .mixed()
+    .required('⚠️ Picture cannot be empty')
     .test('File presence', '⚠️ Image is required', (value) =>
       (value as FileList)[0] ? true : false
     )
@@ -103,7 +104,5 @@ export const SCHEMA = yup.object().shape({
           ? file.name.slice(file.name.lastIndexOf('.')).toLowerCase()
           : '';
       return file ? ['.jpeg', '.jpg', '.png'].includes(extension) : false;
-    })
-    .nullable()
-    .required('⚠️ Picture cannot be empty'),
+    }),
 });

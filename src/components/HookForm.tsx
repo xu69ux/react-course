@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setHookFormData } from '../redux/formSlice';
+import { setHookFormData, setToHistory } from '../redux/formSlice';
 import { FormData, RootState } from '../types';
 import { SCHEMA } from '../constants';
 import * as yup from 'yup';
@@ -35,9 +35,7 @@ function HookForm() {
               picture: reader.result as string,
               submitTime: new Date().toISOString(),
             };
-
-            dispatch(setHookFormData({ data: updatedData, formName: 'hook' }));
-            navigate('/');
+            dispatchAndNavigate(updatedData);
           };
           reader.readAsDataURL(data.picture[0] as unknown as File);
         }
@@ -46,6 +44,12 @@ function HookForm() {
         if (err instanceof yup.ValidationError) {
         }
       });
+
+    const dispatchAndNavigate = (data: FormData) => {
+      dispatch(setHookFormData({ data: data, formName: 'hook' }));
+      dispatch(setToHistory(data));
+      navigate('/');
+    };
   };
 
   return (

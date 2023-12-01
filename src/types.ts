@@ -1,6 +1,6 @@
 export interface FormData {
   name: string;
-  age: number;
+  age: number | null;
   email: string;
   password: string;
   confirmPassword: string;
@@ -17,5 +17,6 @@ export interface RootState {
     hookFormData: FormData;
     countries: string[];
     lastUpdatedForm: string | null;
+    history: FormData[];
   };
 }

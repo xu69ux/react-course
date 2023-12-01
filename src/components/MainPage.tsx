@@ -13,6 +13,7 @@ function MainPage() {
   const lastUpdatedForm = useSelector(
     (state: RootState) => state.form.lastUpdatedForm
   );
+  const history = useSelector((state: RootState) => state.form.history);
 
   function formatDate(time: string | undefined | null | Date): string {
     if (!time) {
@@ -147,11 +148,77 @@ function MainPage() {
     );
   };
 
+  const renderHistory = () => {
+    return (
+      <>
+        <h2 className="title-history">Submission history</h2>
+        <div className="history">
+          {history.map((formData, index) => (
+            <div key={index}>
+              <h3>Submission {index + 1}</h3>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Submission Time:</td>
+                    <td>{formatDate(formData.submitTime)}</td>
+                  </tr>
+                  <tr>
+                    <td>Name:</td>
+                    <td>{formData.name}</td>
+                  </tr>
+                  <tr>
+                    <td>Age:</td>
+                    <td>{formData.age}</td>
+                  </tr>
+                  <tr>
+                    <td>Email:</td>
+                    <td>{formData.email}</td>
+                  </tr>
+                  <tr>
+                    <td>Password:</td>
+                    <td>{formData.password}</td>
+                  </tr>
+                  <tr>
+                    <td>Confirm Password:</td>
+                    <td>{formData.confirmPassword}</td>
+                  </tr>
+                  <tr>
+                    <td>Country:</td>
+                    <td>{formData.country}</td>
+                  </tr>
+                  <tr>
+                    <td>Sex:</td>
+                    <td>{formData.gender}</td>
+                  </tr>
+                  <tr>
+                    <td>Picture:</td>
+                    <td>
+                      {formData.picture ? (
+                        <img src={formData.picture} alt="Uploaded" />
+                      ) : (
+                        ''
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Terms:</td>
+                    <td>{formData.terms ? 'true' : ''}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
   return (
     <div>
       <h1>React Forms Data</h1>
       {hookFormData ? renderHookFormData() : null}
       {uncontrolledFormData ? renderUncontrolledFormData() : null}
+      {history.length ? renderHistory() : null}
     </div>
   );
 }

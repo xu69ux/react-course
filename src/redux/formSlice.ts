@@ -8,15 +8,39 @@ type FormState = {
   countries: string[];
   lastUpdatedForm: string | null;
   submitTime?: string;
+  history: FormData[];
 };
 
 const formSlice = createSlice({
   name: 'form',
   initialState: {
-    uncontrolledFormData: {},
-    hookFormData: {},
+    uncontrolledFormData: {
+      name: '',
+      age: null,
+      email: '',
+      password: '',
+      confirmPassword: '',
+      gender: '',
+      country: '',
+      terms: false,
+      picture: null,
+      submitTime: '',
+    },
+    hookFormData: {
+      name: '',
+      age: null,
+      email: '',
+      password: '',
+      confirmPassword: '',
+      gender: '',
+      country: '',
+      terms: false,
+      picture: null,
+      submitTime: '',
+    },
     countries: [...COUNTRIES],
     lastUpdatedForm: null,
+    history: [],
   } as FormState,
   reducers: {
     setUncontrolledFormData: (
@@ -36,10 +60,17 @@ const formSlice = createSlice({
     setCountries: (state, action: PayloadAction<string[]>) => {
       state.countries = action.payload;
     },
+    setToHistory: (state, action: PayloadAction<FormData>) => {
+      state.history.push(action.payload);
+    },
   },
 });
 
-export const { setUncontrolledFormData, setHookFormData, setCountries } =
-  formSlice.actions;
+export const {
+  setUncontrolledFormData,
+  setHookFormData,
+  setCountries,
+  setToHistory,
+} = formSlice.actions;
 
 export default formSlice.reducer;
