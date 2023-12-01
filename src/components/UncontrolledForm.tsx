@@ -6,8 +6,6 @@ import { RootState, FormData } from '../types';
 import { SCHEMA } from '../constants';
 import * as yup from 'yup';
 
-import './UncontrolledForm.css';
-
 type FormDataWithFileList = Omit<FormData, 'picture'> & {
   picture: FileList | string | null;
 };
@@ -87,11 +85,7 @@ export default function UncontrolledForm() {
   return (
     <div className="container-form">
       <h1>Uncontrolled Form</h1>
-      <form
-        className="uncontrolled-form"
-        id="uncontrolled-form"
-        onSubmit={handleSubmit}
-      >
+      <form className="form" id="uncontrolled-form" onSubmit={handleSubmit}>
         <label htmlFor="name">name</label>
         <input type="text" ref={nameRef} />
         <div className="error" data-error={errors.name || ''}></div>

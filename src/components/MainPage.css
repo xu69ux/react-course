@@ -1,6 +1,7 @@
-h1 {
+h1,
+h2 {
   text-align: center;
-  margin: 0 auto;
+  margin: 2rem auto 1rem;
 }
 
 .hook-form-data,
@@ -11,17 +12,13 @@ h1 {
   justify-content: center;
   margin: 2rem 0;
 }
+
 .history {
-  margin: 2rem auto;
+  margin: 1rem auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 90%;
-}
-
-.title-history {
-  text-align: center;
-  margin-top: 3rem;
 }
 
 table {
@@ -54,7 +51,7 @@ img {
 
 @keyframes highlight {
   from {
-    background-color: #fff;
+    background-color: #646cff;
   }
   to {
     background-color: #5b5b5b;

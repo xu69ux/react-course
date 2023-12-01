@@ -7,8 +7,6 @@ import { FormData, RootState } from '../types';
 import { SCHEMA } from '../constants';
 import * as yup from 'yup';
 
-import './HookForm.css';
-
 function HookForm() {
   const {
     register,
@@ -56,7 +54,7 @@ function HookForm() {
     <div className="container-form">
       <h1>Hook Form</h1>
       <form
-        className="hook-form"
+        className="form"
         id="hook-form"
         onSubmit={handleSubmit((data) => onSubmit(data as FormData))}
       >

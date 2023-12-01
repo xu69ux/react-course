@@ -151,7 +151,7 @@ function MainPage() {
   const renderHistory = () => {
     return (
       <>
-        <h2 className="title-history">Submission history</h2>
+        <h2>Submission History</h2>
         <div className="history">
           {history.map((formData, index) => (
             <div key={index}>
