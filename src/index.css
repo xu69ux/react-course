@@ -74,14 +74,17 @@ button.submit:hover {
   background-color: #646cff;
 }
 
+.error {
+  height: 0.5rem;
+}
+
 .error::before {
   content: attr(data-error);
   color: red;
   font-size: 0.8rem;
-  height: 1rem;
   width: fit-content;
   position: relative;
-  bottom: 0.1rem;
+  bottom: 0.8rem;
 }
 
 @media (prefers-color-scheme: light) {
