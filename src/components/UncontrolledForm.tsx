@@ -41,31 +41,35 @@ export default function UncontrolledForm() {
       submitTime: new Date().toISOString(),
     };
 
+    try {
+      await SCHEMA.validate(tempData, { abortEarly: false });
+      setErrors({});
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        const validationErrors = err.inner.reduce((errors, error) => {
+          return { ...errors, [error.path as string]: error.message };
+        }, {});
+        setErrors(validationErrors);
+        console.log(validationErrors);
+        return; // If validation fails, stop execution
+      }
+    }
+
     if (pictureRef.current?.files?.length) {
       const reader = new FileReader();
       reader.onloadend = () => {
         tempData.picture = reader.result as string;
-        try {
-          SCHEMA.validate(tempData, { abortEarly: false });
-          setErrors({});
-          dispatch(
-            setUncontrolledFormData({
-              data: tempData,
-              formName: 'uncontrolled',
-            })
-          );
-          navigate('/');
-        } catch (err) {
-          if (err instanceof yup.ValidationError) {
-            const validationErrors = err.inner.reduce((errors, error) => {
-              return { ...errors, [error.path as string]: error.message };
-            }, {});
-            setErrors(validationErrors);
-          }
-        }
+        dispatchAndNavigate(tempData);
       };
       reader.readAsDataURL(pictureRef.current.files[0]);
+    } else {
+      dispatchAndNavigate(tempData);
     }
+  };
+
+  const dispatchAndNavigate = (data: FormData) => {
+    dispatch(setUncontrolledFormData({ data: data, formName: 'uncontrolled' }));
+    navigate('/');
   };
 
   return (
@@ -79,23 +83,18 @@ export default function UncontrolledForm() {
         <label htmlFor="name">name</label>
         <input type="text" ref={nameRef} />
         <div className="error" data-error={errors.name || ''}></div>
-
         <label htmlFor="age">age</label>
         <input type="number" ref={ageRef} />
         <div className="error" data-error={errors.age || ''}></div>
-
         <label htmlFor="email">email</label>
         <input type="email" ref={emailRef} />
         <div className="error" data-error={errors.email || ''}></div>
-
         <label htmlFor="password">password</label>
         <input type="password" ref={passwordRef} />
         <div className="error" data-error={errors.password || ''}></div>
-
         <label htmlFor="confirmPassword">confirm password</label>
         <input type="password" ref={confirmPasswordRef} />
         <div className="error" data-error={errors.confirmPassword || ''}></div>
-
         <label htmlFor="country">country</label>
         <input list="countries" ref={countryRef} />
         <datalist id="countries">
@@ -104,7 +103,6 @@ export default function UncontrolledForm() {
           ))}
         </datalist>
         <div className="error" data-error={errors.country || ''}></div>
-
         <div className="sex">
           <label className="sex-label" htmlFor="gender">
             sex:
@@ -114,20 +112,17 @@ export default function UncontrolledForm() {
           <label htmlFor="female">female</label>
           <input type="radio" value="female" ref={genderRef} />
         </div>
-        <div className="error" data-error={errors.gender || ''}></div>
-
+        <div className="error" data-error={errors.gender || ''}></div>;
         <div className="picture">
           <label htmlFor="picture">picture:</label>
           <input type="file" ref={pictureRef} />
         </div>
         <div className="error" data-error={errors.picture || ''}></div>
-
         <div className="terms">
           <input type="checkbox" ref={termsRef} />
           <label htmlFor="terms">accept terms and conditions</label>
         </div>
         <div className="error" data-error={errors.terms || ''}></div>
-
         <button className="submit" type="submit">
           submit
         </button>
