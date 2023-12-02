@@ -121,7 +121,7 @@ export default function UncontrolledForm() {
         <div className="error" data-error={errors.gender || ''}></div>
         <div className="picture">
           <label htmlFor="picture">picture:</label>
-          <input type="file" ref={pictureRef} />
+          <input className="picture-input" type="file" ref={pictureRef} />
         </div>
         <div className="error" data-error={errors.picture || ''}></div>
         <div className="terms">

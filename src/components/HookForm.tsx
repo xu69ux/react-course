@@ -123,7 +123,11 @@ function HookForm() {
 
         <div>
           <label htmlFor="picture">picture:</label>
-          <input type="file" {...register('picture')} />
+          <input
+            className="picture-input"
+            type="file"
+            {...register('picture')}
+          />
         </div>
         <div
           className="error"

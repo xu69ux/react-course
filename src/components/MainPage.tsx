@@ -35,56 +35,58 @@ function MainPage() {
     return (
       <div className="hook-form-data">
         <h2>Hook Form Data</h2>
-        <table className={tableClass}>
-          <tbody>
-            <tr>
-              <td>Submission Time:</td>
-              <td>{formatDate(hookFormData.submitTime)}</td>
-            </tr>
-            <tr>
-              <td>Name:</td>
-              <td>{hookFormData.name}</td>
-            </tr>
-            <tr>
-              <td>Age:</td>
-              <td>{hookFormData.age}</td>
-            </tr>
-            <tr>
-              <td>Email:</td>
-              <td>{hookFormData.email}</td>
-            </tr>
-            <tr>
-              <td>Password:</td>
-              <td>{hookFormData.password}</td>
-            </tr>
-            <tr>
-              <td>Confirm Password:</td>
-              <td>{hookFormData.confirmPassword}</td>
-            </tr>
-            <tr>
-              <td>Country:</td>
-              <td>{hookFormData.country}</td>
-            </tr>
-            <tr>
-              <td>Sex:</td>
-              <td>{hookFormData.gender}</td>
-            </tr>
-            <tr>
-              <td>Picture:</td>
-              <td>
-                {hookFormData.picture ? (
-                  <img src={hookFormData.picture} alt="Uploaded" />
-                ) : (
-                  ''
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td>Terms:</td>
-              <td>{hookFormData.terms ? 'true' : ''}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="table-container">
+          <table className={tableClass}>
+            <tbody>
+              <tr>
+                <td>Submission Time:</td>
+                <td>{formatDate(hookFormData.submitTime)}</td>
+              </tr>
+              <tr>
+                <td>Name:</td>
+                <td>{hookFormData.name}</td>
+              </tr>
+              <tr>
+                <td>Age:</td>
+                <td>{hookFormData.age}</td>
+              </tr>
+              <tr>
+                <td>Email:</td>
+                <td>{hookFormData.email}</td>
+              </tr>
+              <tr>
+                <td>Password:</td>
+                <td>{hookFormData.password}</td>
+              </tr>
+              <tr>
+                <td>Confirm Password:</td>
+                <td>{hookFormData.confirmPassword}</td>
+              </tr>
+              <tr>
+                <td>Country:</td>
+                <td>{hookFormData.country}</td>
+              </tr>
+              <tr>
+                <td>Sex:</td>
+                <td>{hookFormData.gender}</td>
+              </tr>
+              <tr>
+                <td>Picture:</td>
+                <td>
+                  {hookFormData.picture ? (
+                    <img src={hookFormData.picture} alt="Uploaded" />
+                  ) : (
+                    ''
+                  )}
+                </td>
+              </tr>
+              <tr>
+                <td>Terms:</td>
+                <td>{hookFormData.terms ? 'true' : ''}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   };
@@ -94,56 +96,58 @@ function MainPage() {
     return (
       <div className="uncontrolled-form-data">
         <h2>Uncontrolled Form Data</h2>
-        <table className={tableClass}>
-          <tbody>
-            <tr>
-              <td>Submission Time:</td>
-              <td>{formatDate(uncontrolledFormData.submitTime)}</td>
-            </tr>
-            <tr>
-              <td>Name:</td>
-              <td>{uncontrolledFormData.name}</td>
-            </tr>
-            <tr>
-              <td>Age:</td>
-              <td>{uncontrolledFormData.age}</td>
-            </tr>
-            <tr>
-              <td>Email:</td>
-              <td>{uncontrolledFormData.email}</td>
-            </tr>
-            <tr>
-              <td>Password:</td>
-              <td>{uncontrolledFormData.password}</td>
-            </tr>
-            <tr>
-              <td>Confirm Password:</td>
-              <td>{uncontrolledFormData.confirmPassword}</td>
-            </tr>
-            <tr>
-              <td>Country:</td>
-              <td>{uncontrolledFormData.country}</td>
-            </tr>
-            <tr>
-              <td>Sex:</td>
-              <td>{uncontrolledFormData.gender}</td>
-            </tr>
-            <tr>
-              <td>Picture:</td>
-              <td>
-                {uncontrolledFormData.picture ? (
-                  <img src={uncontrolledFormData.picture} alt="Uploaded" />
-                ) : (
-                  ''
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td>Terms:</td>
-              <td>{uncontrolledFormData.terms ? 'true' : ''}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="table-container">
+          <table className={tableClass}>
+            <tbody>
+              <tr>
+                <td>Submission Time:</td>
+                <td>{formatDate(uncontrolledFormData.submitTime)}</td>
+              </tr>
+              <tr>
+                <td>Name:</td>
+                <td>{uncontrolledFormData.name}</td>
+              </tr>
+              <tr>
+                <td>Age:</td>
+                <td>{uncontrolledFormData.age}</td>
+              </tr>
+              <tr>
+                <td>Email:</td>
+                <td>{uncontrolledFormData.email}</td>
+              </tr>
+              <tr>
+                <td>Password:</td>
+                <td>{uncontrolledFormData.password}</td>
+              </tr>
+              <tr>
+                <td>Confirm Password:</td>
+                <td>{uncontrolledFormData.confirmPassword}</td>
+              </tr>
+              <tr>
+                <td>Country:</td>
+                <td>{uncontrolledFormData.country}</td>
+              </tr>
+              <tr>
+                <td>Sex:</td>
+                <td>{uncontrolledFormData.gender}</td>
+              </tr>
+              <tr>
+                <td>Picture:</td>
+                <td>
+                  {uncontrolledFormData.picture ? (
+                    <img src={uncontrolledFormData.picture} alt="Uploaded" />
+                  ) : (
+                    ''
+                  )}
+                </td>
+              </tr>
+              <tr>
+                <td>Terms:</td>
+                <td>{uncontrolledFormData.terms ? 'true' : ''}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   };
@@ -156,56 +160,58 @@ function MainPage() {
           {history.map((formData, index) => (
             <div key={index}>
               <h3>Submission {index + 1}</h3>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>Submission Time:</td>
-                    <td>{formatDate(formData.submitTime)}</td>
-                  </tr>
-                  <tr>
-                    <td>Name:</td>
-                    <td>{formData.name}</td>
-                  </tr>
-                  <tr>
-                    <td>Age:</td>
-                    <td>{formData.age}</td>
-                  </tr>
-                  <tr>
-                    <td>Email:</td>
-                    <td>{formData.email}</td>
-                  </tr>
-                  <tr>
-                    <td>Password:</td>
-                    <td>{formData.password}</td>
-                  </tr>
-                  <tr>
-                    <td>Confirm Password:</td>
-                    <td>{formData.confirmPassword}</td>
-                  </tr>
-                  <tr>
-                    <td>Country:</td>
-                    <td>{formData.country}</td>
-                  </tr>
-                  <tr>
-                    <td>Sex:</td>
-                    <td>{formData.gender}</td>
-                  </tr>
-                  <tr>
-                    <td>Picture:</td>
-                    <td>
-                      {formData.picture ? (
-                        <img src={formData.picture} alt="Uploaded" />
-                      ) : (
-                        ''
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Terms:</td>
-                    <td>{formData.terms ? 'true' : ''}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="table-container-history">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>Submission Time:</td>
+                      <td>{formatDate(formData.submitTime)}</td>
+                    </tr>
+                    <tr>
+                      <td>Name:</td>
+                      <td>{formData.name}</td>
+                    </tr>
+                    <tr>
+                      <td>Age:</td>
+                      <td>{formData.age}</td>
+                    </tr>
+                    <tr>
+                      <td>Email:</td>
+                      <td>{formData.email}</td>
+                    </tr>
+                    <tr>
+                      <td>Password:</td>
+                      <td>{formData.password}</td>
+                    </tr>
+                    <tr>
+                      <td>Confirm Password:</td>
+                      <td>{formData.confirmPassword}</td>
+                    </tr>
+                    <tr>
+                      <td>Country:</td>
+                      <td>{formData.country}</td>
+                    </tr>
+                    <tr>
+                      <td>Sex:</td>
+                      <td>{formData.gender}</td>
+                    </tr>
+                    <tr>
+                      <td>Picture:</td>
+                      <td className="history-img">
+                        {formData.picture ? (
+                          <img src={formData.picture} alt="Uploaded" />
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Terms:</td>
+                      <td>{formData.terms ? 'true' : ''}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           ))}
         </div>
