@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setHookFormData, setToHistory } from '../redux/formSlice';
 import { FormData, RootState } from '../types';
 import { SCHEMA } from '../constants';
-import * as yup from 'yup';
 
 function HookForm() {
   const {
@@ -23,31 +22,26 @@ function HookForm() {
   const countries = useSelector((state: RootState) => state.form.countries);
 
   const onSubmit = (data: FormData) => {
-    SCHEMA.validate(data, { abortEarly: false })
-      .then(() => {
-        if (data.picture) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const updatedData = {
-              ...data,
-              picture: reader.result as string,
-              submitTime: new Date().toISOString(),
-            };
-            dispatchAndNavigate(updatedData);
-          };
-          reader.readAsDataURL(data.picture[0] as unknown as File);
-        }
-      })
-      .catch((err) => {
-        if (err instanceof yup.ValidationError) {
-        }
-      });
+    if (data.picture) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const updatedData = {
+          ...data,
+          picture: reader.result as string,
+          submitTime: new Date().toISOString(),
+        };
+        dispatchAndNavigate(updatedData);
+      };
+      reader.readAsDataURL(data.picture[0] as unknown as File);
+    } else {
+      dispatchAndNavigate(data);
+    }
+  };
 
-    const dispatchAndNavigate = (data: FormData) => {
-      dispatch(setHookFormData({ data: data, formName: 'hook' }));
-      dispatch(setToHistory(data));
-      navigate('/');
-    };
+  const dispatchAndNavigate = (data: FormData) => {
+    dispatch(setHookFormData({ data: data, formName: 'hook' }));
+    dispatch(setToHistory(data));
+    navigate('/');
   };
 
   return (
